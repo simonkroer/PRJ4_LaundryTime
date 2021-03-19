@@ -1,18 +1,16 @@
 ﻿@model LaundryTimeWebAppWithIdentity.Models.DatePickerModel
 @{
-    ViewData["Title"] = "Calender";
+    ViewBag.Title = "Index";
 }
 
-<h1>@ViewData["Title"]</h1>
 <h2>Select Date</h2>
 
 @using (Html.BeginForm())
 {
-    @Html.EditorFor(model => model.Datedata, new {htmlAttributes = new {@class = "datepicker", @Type = "date" }})
-    
+    @Html.EditorFor(model => model.Datedata, new { htmlAttributes = new { @class = "DatePicker" } })
 }
 
-<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet"/>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 @section Scripts
 {
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
