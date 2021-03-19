@@ -13,10 +13,6 @@ namespace LaundryTimeWebAppWithIdentity.Controllers
 {
     public class CalenderController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
         public IActionResult Calender()
         {
             //SeedDatabase temp = new SeedDatabase();
