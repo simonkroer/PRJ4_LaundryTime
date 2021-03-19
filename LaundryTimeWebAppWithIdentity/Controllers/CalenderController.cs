@@ -11,6 +11,7 @@ namespace LaundryTimeWebAppWithIdentity.Controllers
         public IActionResult Index()
         {
             return View();
+            //Palle
         }
         public IActionResult Calender()
         {
