@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using LaundryTimeWebAppWithIdentity.Models;
 
 namespace LaundryTimeWebAppWithIdentity.Data
 {
@@ -20,6 +21,8 @@ namespace LaundryTimeWebAppWithIdentity.Data
         {
 
         }
+
+        public DbSet<UserAdmin> _UserAdmins { get; set; }
     }
 }
     
