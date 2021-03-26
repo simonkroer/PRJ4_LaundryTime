@@ -22,7 +22,10 @@ namespace LaundryTimeWebAppWithIdentity.Controllers
         {
             return View();
         }
-        
+        public IActionResult UserAdminHomePage()
+        {
+            return View();
+        }
         public IActionResult Contact()
         {
             return View();
