@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LaundryTimeWebAppWithIdentity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaundryTimeWebAppWithIdentity.Controllers
 { public class UserAdminController : Controller
@@ -15,10 +16,10 @@ namespace LaundryTimeWebAppWithIdentity.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> MyUsers()
-        {
-            return View(await _context._UserAdmins.ToListAsync());
-        }
+        //public async Task<IActionResult> UserAdminHomePage()
+        //{
+        //    return View(await _context._UserAdmins.ToListAsync());
+        //}
 
     }
 }
