@@ -1,5 +1,83 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model System.Collections.Generic.List<LaundryTimeWebAppWithIdentity.Models.UserAdmin>
+
 @{
+    ViewBag.Title = "UserAdminHomePage";
+    Layout = "_Layout";
 }
+
+<head>
+
+</head>
+
+<body>
+    <h1>My users test view</h1>
+
+    <div>
+        <br />
+        <h4> This is were you can see all of your users:</h4>
+        <br />
+
+        <div>
+            <button class="btn-primary"> Add user</button>
+            <button class="btn-primary"> Delete user</button>
+
+        </div>
+        <br /><br />
+
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>
+                            First name
+                        </td>
+                        <td>
+                            Last name
+                        </td>
+                        <td>
+                            Phone
+                        </td>
+                        <td>
+                            Address
+                        </td>
+                        <td>
+                            E-mail
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <aside>
+        <figure>
+            <img src="/Images/Laundry-time.jpg" style="float: right; width: 250px; height: 250px" alt="Laundry time logo">
+        </figure>
+
+    </aside>
+</body>
+
