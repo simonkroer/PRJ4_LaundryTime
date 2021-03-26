@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LaundryTimeWebAppWithIdentity.Controllers
@@ -11,11 +12,15 @@ namespace LaundryTimeWebAppWithIdentity.Controllers
         public IActionResult Index()
         {
             return View();
-            //Palle
         }
         public IActionResult Calender()
         {
             return View();
         }
     }
+
+    //public class Clock
+    //{
+    //    Timer t = new Timer();
+    //}
 }
