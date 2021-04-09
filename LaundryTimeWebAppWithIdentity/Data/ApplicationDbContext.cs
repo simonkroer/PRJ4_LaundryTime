@@ -14,7 +14,14 @@ namespace LaundryTimeWebAppWithIdentity.Data
             optionsBuilder.UseSqlServer(
                 "Data Source=localhost;Initial Catalog=Laundrytime;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
+            mb.Entity<ReservedBookingListModel>().HasKey(rblm=>rblm.Id);
 
+            mb.Entity<DateModel>().HasKey(dm => dm.Id);
+            mb.Entity<DateModel>()
+                .HasMany<BookingListModel>(dm => dm.BookingListModels)
+                .WithOne(blm => blm.DateModel)
+                .HasForeignKey(dm => dm.Id);
+        }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
