@@ -23,6 +23,12 @@ namespace LaundryTimeWebAppWithIdentity.Data
         //    //    .WithOne(blm => blm.DateModel)
         //    //    .HasForeignKey(dm => dm.Id);
         //}
+            mb.Entity<DateModel>().HasKey(dm => dm.Id);
+            mb.Entity<DateModel>()
+                .HasMany<BookingListModel>(dm => dm.BookingListModels)
+                .WithOne(blm => blm.DateModel)
+                .HasForeignKey(dm => dm.Id);
+        }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

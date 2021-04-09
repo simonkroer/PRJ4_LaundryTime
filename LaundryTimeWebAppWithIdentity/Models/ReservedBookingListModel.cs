@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LaundryTimeWebAppWithIdentity.Models
 {
-    public class BookingListModel : IdentityDbContext
+    public class ReservedBookingListModel : IdentityDbContext
     {
-        public int Id { get; set; } 
-        public string Status { get; set; }
+        public int Id { get; set; }
         public string Time { get; set; }
         public string Machine { get; set; }
-
-        public DateModel DateModel { get; set; }
+        public DateTime Date { get; set; }
+        public string UserFirstName { get; set; }
+        public User User { get; set; }
     }
 }
