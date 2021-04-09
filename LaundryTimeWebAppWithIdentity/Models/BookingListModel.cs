@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LaundryTimeWebAppWithIdentity.Models
 {
-    public class BookingListModel : IdentityDbContext
+    public class BookingListModel
     {
         public int Id { get; set; } 
         public string Status { get; set; }
