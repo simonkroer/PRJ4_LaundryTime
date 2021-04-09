@@ -12,5 +12,7 @@ namespace LaundryTimeWebAppWithIdentity.Models
         public string MachineType { get; set; }
 
         public DateTime InstallationDateTime { get; set; }
+
+        public UserAdmin owner { get; set; }
     }
 }
