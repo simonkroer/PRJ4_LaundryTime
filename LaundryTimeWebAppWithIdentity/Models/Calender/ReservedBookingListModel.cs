@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace LaundryTimeWebAppWithIdentity.Models
+namespace LaundryTimeWebAppWithIdentity.Models.Calender
 {
     public class ReservedBookingListModel
     {
@@ -14,6 +9,6 @@ namespace LaundryTimeWebAppWithIdentity.Models
         public string Machine { get; set; }
         public DateTime Date { get; set; }
         public string UserFirstName { get; set; }
-        public User User { get; set; }
+        public UserModel User { get; set; }
     }
 }
