@@ -21,20 +21,19 @@ namespace LaundryTimeWebAppWithIdentity.Data
         public DbSet<DateModel> DateModels { get; set; }    
         protected override void OnModelCreating(ModelBuilder mb)
         {
-            mb.Entity<User>()
-                .HasKey(u => new {u.FirstName, u.LastName});
-            mb.Entity<User>()
-                .HasMany<ReservedBookingListModel>(u => u.reservedBooking)
-                .WithOne(rblm => rblm.User)
-                .HasForeignKey(u => u.Id);
+            //mb.Entity<User>().HasNoKey();
+            //mb.Entity<User>()
+            //    .HasMany<ReservedBookingListModel>(u => u.reservedBooking)
+            //    .WithOne(rblm => rblm.User)
+            //    .HasForeignKey(u => u.Id);
 
-            mb.Entity<ReservedBookingListModel>().HasKey(rblm=>rblm.Id);
+            //mb.Entity<ReservedBookingListModel>().HasKey(rblm=>rblm.Id);
 
-            mb.Entity<DateModel>().HasKey(dm => dm.Id);
-            mb.Entity<DateModel>()
-                .HasMany<BookingListModel>(dm => dm.BookingListModels)
-                .WithOne(blm => blm.DateModel)
-                .HasForeignKey(dm => dm.Id);
+            //mb.Entity<DateModel>().HasKey(dm => dm.Id);
+            //mb.Entity<DateModel>()
+            //    .HasMany<BookingListModel>(dm => dm.BookingListModels)
+            //    .WithOne(blm => blm.DateModel)
+            //    .HasForeignKey(dm => dm.Id);
         }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
