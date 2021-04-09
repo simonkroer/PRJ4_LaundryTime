@@ -41,5 +41,9 @@ namespace LaundryTimeWebAppWithIdentity.Data
         {
 
         }
+
+        public DbSet<UserAdmin> _UserAdmins { get; set; }
+        public DbSet<Machine> _Machines { get; set; }
     }
 }
+    
