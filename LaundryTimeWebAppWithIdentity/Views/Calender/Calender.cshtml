@@ -1,4 +1,4 @@
-﻿@model LaundryTimeWebAppWithIdentity.Models.DatePickerModel
+﻿@model LaundryTimeWebAppWithIdentity.Models.Calender.DatePickerModel
 @{
     ViewData["Title"] = "Calender";
 }
@@ -7,21 +7,26 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 </head>
 
 <body>
     <h1>@ViewData["Title"]</h1>
-    <h2>Select Date</h2>
 
-    @using (Html.BeginForm())
-    {
-        @Html.EditorFor(model => model.Datedata, new { htmlAttributes = new { @class = "datepicker", @Type = "date" } })
+    <div>
+        <br />
+        <h4>Select a date</h4>
+        @using (Html.BeginForm())
+        {
+            @Html.EditorFor(model => model.Datedata, new { htmlAttributes = new { @class = "datepicker", @Type = "date" } })
 
-    }
+        }
+        <br />
+    </div>
 
-    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    
     @section Scripts
-{
+    {
         <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
         <script>
             $(document).ready(function () {

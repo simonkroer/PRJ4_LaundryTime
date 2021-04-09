@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LaundryTimeWebAppWithIdentity.Models;
+using LaundryTimeWebAppWithIdentity.Models.Calender;
 
 namespace LaundryTimeWebAppWithIdentity.Data
 {
@@ -16,12 +17,12 @@ namespace LaundryTimeWebAppWithIdentity.Data
         }
             mb.Entity<ReservedBookingListModel>().HasKey(rblm=>rblm.Id);
 
-            //mb.Entity<DateModel>().HasKey(dm => dm.Id);
-            //mb.Entity<DateModel>()
-            //    .HasMany<BookingListModel>(dm => dm.BookingListModels)
-            //    .WithOne(blm => blm.DateModel)
-            //    .HasForeignKey(dm => dm.Id);
-        }
+        //    //mb.Entity<DateModel>().HasKey(dm => dm.Id);
+        //    //mb.Entity<DateModel>()
+        //    //    .HasMany<BookingListModel>(dm => dm.BookingListModels)
+        //    //    .WithOne(blm => blm.DateModel)
+        //    //    .HasForeignKey(dm => dm.Id);
+        //}
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
