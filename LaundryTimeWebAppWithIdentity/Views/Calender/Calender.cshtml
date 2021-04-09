@@ -1,46 +1,45 @@
-﻿@model LaundryTimeWebAppWithIdentity.Models.DatePickerModel
+﻿@model LaundryTimeWebAppWithIdentity.Models.Calender.DatePickerModel
 @{
     ViewData["Title"] = "Calender";
 }
+<head>
+    @* Calender date picker *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+</head>
 
-<h1>@ViewData["Title"]</h1>
-<h2>Select Date</h2>
+<body>
+    <h1>@ViewData["Title"]</h1>
 
-@using (Html.BeginForm())
-{
-    @Html.EditorFor(model => model.Datedata, new {htmlAttributes = new {@class = "datepicker", @Type = "date" }})
-    
-}
+    <div>
+        <br />
+        <h4>Select a date</h4>
+        @using (Html.BeginForm())
+        {
+            @Html.EditorFor(model => model.Datedata, new { htmlAttributes = new { @class = "datepicker", @Type = "date" } })
 
-<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet"/>
-@section Scripts
-{
-    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $(".datepicker").datepicker({
-                dateFormat: "dd-mm-yy",
-                changemonth: true,
-                changeyear: true
-            });
-        });
-    </script>
-}
-<p>This is a Calender for Landry Time.</p>
-
-
-<p>Choose your landry time:</p>
-<div class="listbox-area">
-    <div class="left-area">
-        <span id="ss_elem">Available washing times:</span>
-        <ul id="ss_elem_list"
-            tabindex="0"
-            role="listbox"
-            aria-labelledby="ss_elem">
-            <li id="ss_elem_first"
-                role="option">
-                First time
-            </li>
-        </ul>
+        }
+        <br />
     </div>
-</div>
+
+    
+    @section Scripts
+    {
+        <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(".datepicker").datepicker({
+                    dateFormat: "dd-mm-yy",
+                    changemonth: true,
+                    changeyear: true
+                });
+            });
+        </script>
+    }
+    <p>This is a Calender for Landry Time.</p>
+
+
+    
+</body>

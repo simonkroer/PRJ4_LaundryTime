@@ -3,9 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LaundryTimeWebAppWithIdentity</title>
+    <title>@ViewData["Title"] - LaundryTime</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="~/favicon.ico" type="text/javascript"/>
 </head>
 <body>
     <header>
@@ -25,7 +27,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Calender" asp-action="Calender">Calender</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserAdminHomePage">User Admin Homepage</a> <!--Temporary-->
                         </li>
 
                     </ul>
@@ -42,14 +50,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - LaundryTimeWebAppWithIdentity - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - LaundryTime - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="js/listbox.js"></script>
-    <script src="js/listbox-scrollable.js"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
