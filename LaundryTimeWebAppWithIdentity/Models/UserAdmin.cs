@@ -10,8 +10,6 @@ namespace LaundryTimeWebAppWithIdentity.Models
 {
     public class UserAdmin : IdentityUser
     {
-        [Key]
-        public int UserAdminId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
