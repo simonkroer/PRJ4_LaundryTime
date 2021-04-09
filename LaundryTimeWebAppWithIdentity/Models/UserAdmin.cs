@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ namespace LaundryTimeWebAppWithIdentity.Models
 {
     public class UserAdmin : IdentityUser
     {
+        [Key]
         public int UserAdminId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
