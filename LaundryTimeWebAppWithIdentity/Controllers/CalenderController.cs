@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using LaundryTimeWebAppWithIdentity.Models;
 using System.Text;
@@ -17,4 +18,9 @@ namespace LaundryTimeWebAppWithIdentity.Controllers
         }
 
     }
+
+    //public class Clock
+    //{
+    //    Timer t = new Timer();
+    //}
 }
