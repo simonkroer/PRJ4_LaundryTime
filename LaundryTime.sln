@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaundryTimeWebApp", "LaundryTimeWebApp\LaundryTimeWebApp.csproj", "{9B63BE7D-6EA0-4C54-9B02-4743C485984A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt4", "Projekt4\Projekt4.csproj", "{0B768698-EC91-4C42-9898-FB9C11F28C18}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaundryTime.Test.Unit", "LaundryTime.Test.Unit\LaundryTime.Test.Unit.csproj", "{5B30A723-5807-4F30-B407-0F02BB025784}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt4.DataAccess", "Projekt4.DataAccess\Projekt4.DataAccess.csproj", "{59680A32-7443-4260-8AFD-BB5B455B86EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaundryTimeWebAppWithIdentity", "LaundryTimeWebAppWithIdentity\LaundryTimeWebAppWithIdentity.csproj", "{FBD1B6C5-B7DB-4982-8F69-4B93999D66B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt4.Models", "Projekt4.Models\Projekt4.Models.csproj", "{8ED43089-6537-40DF-AE2B-F20FEB50A61E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt4.Utility", "Projekt4.Utility\Projekt4.Utility.csproj", "{9C31AC3F-EFC5-4A8B-A2A3-F33B2EB38783}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9B63BE7D-6EA0-4C54-9B02-4743C485984A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B63BE7D-6EA0-4C54-9B02-4743C485984A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B63BE7D-6EA0-4C54-9B02-4743C485984A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B63BE7D-6EA0-4C54-9B02-4743C485984A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B30A723-5807-4F30-B407-0F02BB025784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B30A723-5807-4F30-B407-0F02BB025784}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B30A723-5807-4F30-B407-0F02BB025784}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B30A723-5807-4F30-B407-0F02BB025784}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FBD1B6C5-B7DB-4982-8F69-4B93999D66B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FBD1B6C5-B7DB-4982-8F69-4B93999D66B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FBD1B6C5-B7DB-4982-8F69-4B93999D66B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FBD1B6C5-B7DB-4982-8F69-4B93999D66B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B768698-EC91-4C42-9898-FB9C11F28C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B768698-EC91-4C42-9898-FB9C11F28C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B768698-EC91-4C42-9898-FB9C11F28C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B768698-EC91-4C42-9898-FB9C11F28C18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59680A32-7443-4260-8AFD-BB5B455B86EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59680A32-7443-4260-8AFD-BB5B455B86EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59680A32-7443-4260-8AFD-BB5B455B86EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59680A32-7443-4260-8AFD-BB5B455B86EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ED43089-6537-40DF-AE2B-F20FEB50A61E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ED43089-6537-40DF-AE2B-F20FEB50A61E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ED43089-6537-40DF-AE2B-F20FEB50A61E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ED43089-6537-40DF-AE2B-F20FEB50A61E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C31AC3F-EFC5-4A8B-A2A3-F33B2EB38783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C31AC3F-EFC5-4A8B-A2A3-F33B2EB38783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C31AC3F-EFC5-4A8B-A2A3-F33B2EB38783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C31AC3F-EFC5-4A8B-A2A3-F33B2EB38783}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
