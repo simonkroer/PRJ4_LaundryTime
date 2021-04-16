@@ -31,10 +31,16 @@ namespace LaundryTime
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("ThomasConnection")));
+                    Configuration.GetConnectionString("EmilConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
+            services.AddDefaultIdentity<LaundryUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentityCore<SystemAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding SystemAdmin User type
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentityCore<UserAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding UserAdmin User type
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
@@ -123,68 +129,68 @@ namespace LaundryTime
 
             }
 
-            ////=================== Creating UserAdmin user ==========================
+            //=================== Creating UserAdmin user ==========================
 
-            //const string userAdminEmail = "UserAdmin@UserAdmin.com";
-            //const string userAdminPassword = "Sommer25!";
-            //const string userAdminCell = "20212223";
-            //const string userAdminName = "Knud Knudsen";
-            //const string userAdminPayment = "MobilePay";
+            const string userAdminEmail = "UserAdmin@UserAdmin.com";
+            const string userAdminPassword = "Sommer25!";
+            const string userAdminCell = "20212223";
+            const string userAdminName = "Knud Knudsen";
+            const string userAdminPayment = "MobilePay";
 
-            //if (userManager2.FindByNameAsync(userAdminEmail).Result == null)
-            //{
-            //    var user2 = new UserAdmin();
-            //    user2.UserName = userAdminEmail;
-            //    user2.Email = userAdminEmail;
-            //    user2.EmailConfirmed = emailConfirmed;
-            //    user2.PhoneNumber = userAdminCell;
-            //    user2.Name = userAdminName;
-            //    user2.PaymentMethod = userAdminPayment;
+            if (userManager2.FindByNameAsync(userAdminEmail).Result == null)
+            {
+                var user2 = new UserAdmin();
+                user2.UserName = userAdminEmail;
+                user2.Email = userAdminEmail;
+                user2.EmailConfirmed = emailConfirmed;
+                user2.PhoneNumber = userAdminCell;
+                user2.Name = userAdminName;
+                user2.PaymentMethod = userAdminPayment;
 
-            //    IdentityResult result = userManager2.CreateAsync(user2, userAdminPassword).Result;
+                IdentityResult result = userManager2.CreateAsync(user2, userAdminPassword).Result;
 
-            //    if (result.Succeeded) //Add claim to user
-            //    {
-            //        userManager2.AddClaimAsync(user2, new Claim("UserAdmin", "IsUserAdmin")).Wait();
-            //    }
+                if (result.Succeeded) //Add claim to user
+                {
+                    userManager2.AddClaimAsync(user2, new Claim("UserAdmin", "IsUserAdmin")).Wait();
+                }
 
-            //    //Adding user to UserAdmin:
-            //    var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
-            //    useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
-            //    context.SaveChanges();
+                //Adding user to UserAdmin:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
+                context.SaveChanges();
 
-            //}
+            }
 
 
-            ////==================== Creating System Admin user =======================
+            //==================== Creating System Admin user =======================
 
-            //const string systemAdminEmail = "SystemAdmin@LaundryTime.com";
-            //const string systemAdminPassword = "Sommer25!";
-            //const string systemAdminCell = "20212223";
-            //const string systemAdminName = "Kvart Palle";
+            const string systemAdminEmail = "SystemAdmin@LaundryTime.com";
+            const string systemAdminPassword = "Sommer25!";
+            const string systemAdminCell = "20212223";
+            const string systemAdminName = "Kvart Palle";
 
-            //if (userManager3.FindByNameAsync(systemAdminEmail).Result == null)
-            //{
-            //    var user1 = new SystemAdmin();
-            //    user1.UserName = systemAdminEmail;
-            //    user1.Email = systemAdminEmail;
-            //    user1.EmailConfirmed = emailConfirmed;
-            //    user1.PhoneNumber = systemAdminCell;
-            //    user1.Name = systemAdminName;
+            if (userManager3.FindByNameAsync(systemAdminEmail).Result == null)
+            {
+                var user1 = new SystemAdmin();
+                user1.UserName = systemAdminEmail;
+                user1.Email = systemAdminEmail;
+                user1.EmailConfirmed = emailConfirmed;
+                user1.PhoneNumber = systemAdminCell;
+                user1.Name = systemAdminName;
 
-            //    IdentityResult result = userManager3.CreateAsync(user1, systemAdminPassword).Result;
+                IdentityResult result = userManager3.CreateAsync(user1, systemAdminPassword).Result;
 
-            //    if (result.Succeeded) //Add claim to user
-            //    {
-            //        userManager3.AddClaimAsync(user1, new Claim("SystemAdmin", "IsSystemAdmin")).Wait();
-            //    }
+                if (result.Succeeded) //Add claim to user
+                {
+                    userManager3.AddClaimAsync(user1, new Claim("SystemAdmin", "IsSystemAdmin")).Wait();
+                }
 
-            //    //Adding users to SystemAdmin:
-            //    var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin(systemAdminEmail);
-            //    systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
-            //    systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail));
-            //    context.SaveChanges();
-            //}
+                //Adding users to SystemAdmin:
+                var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin(systemAdminEmail);
+                systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
+                systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail));
+                context.SaveChanges();
+            }
         }
     }
 }
