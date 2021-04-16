@@ -50,6 +50,23 @@
     font-size: 30px;
 }
 
-.removeBar {
+html {
+    overflow: scroll;
+    overflow-y: hidden;
+}
 
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; 
+}
+
+table {
+    text-align: left;
+    position: relative;
+}
+
+.tableclass th {
+    background: grey;
+    position: sticky;
+    top: 0;
 }
