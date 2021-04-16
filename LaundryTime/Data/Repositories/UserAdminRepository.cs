@@ -16,6 +16,20 @@ namespace LaundryTime.Data.Repositories
         }
         public UserAdminRepository(ApplicationDbContext context) : base(context) { }
 
+        public bool UserExists(string email)
+        {
+            var userAdmin = context.UserAdmins.SingleOrDefault(e => e.Email == email);
+
+            if (userAdmin == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public List<UserAdmin> GetAllUserAdmins()
         {
             return context.UserAdmins
