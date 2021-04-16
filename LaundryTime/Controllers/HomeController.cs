@@ -24,11 +24,6 @@ namespace LaundryTime.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult CheckClaim()
-        {
             if (User.HasClaim("LaundryUser", "IsLaundryUser"))
             {
                 return RedirectToAction(nameof(Index), "LaundryUser");
@@ -50,5 +45,6 @@ namespace LaundryTime.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+
     }
 }
