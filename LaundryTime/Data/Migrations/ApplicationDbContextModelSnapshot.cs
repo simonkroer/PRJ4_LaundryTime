@@ -16,61 +16,8 @@ namespace LaundryTime.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("LaundryTime.Data.Models.Address", b =>
-                {
-                    b.Property<int>("AddressId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StreetAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Zipcode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AddressId");
-
-                    b.ToTable("Addresses");
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
-                {
-                    b.Property<string>("LogId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("LogDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LogInfo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("LogId");
-
-                    b.ToTable("LaundryLog");
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>
-                {
-                    b.Property<string>("MachineId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("InstallationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("MachineId");
-
-                    b.ToTable("Machines");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -135,10 +82,6 @@ namespace LaundryTime.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -190,8 +133,6 @@ namespace LaundryTime.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -278,115 +219,6 @@ namespace LaundryTime.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LaundryTime.Data.Models.LaundryUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<bool>("ActiveUser")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int")
-                        .HasColumnName("LaundryUser_AddressId");
-
-                    b.Property<string>("AdministratorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("FinancialBalance")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("LaundryUser_FinancialBalance");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("LaundryUser_Name");
-
-                    b.Property<DateTime>("PaymentDueDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LaundryUser_PaymentDueDate");
-
-                    b.Property<string>("PaymentMethod")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("LaundryUser_PaymentMethod");
-
-                    b.Property<string>("SystemAdminId")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("LaundryUser_SystemAdminId");
-
-                    b.Property<string>("UserAdminId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("AdministratorId");
-
-                    b.HasIndex("SystemAdminId");
-
-                    b.HasIndex("UserAdminId");
-
-                    b.HasDiscriminator().HasValue("LaundryUser");
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.SystemAdmin", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("SystemAdmin_Name");
-
-                    b.HasDiscriminator().HasValue("SystemAdmin");
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.UserAdmin", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("FinancialBalance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PaymentDueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PaymentMethod")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SystemAdminId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("SystemAdminId");
-
-                    b.HasDiscriminator().HasValue("UserAdmin");
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
-                {
-                    b.HasOne("LaundryTime.Data.Models.LaundryUser", null)
-                        .WithMany("LaundryHistory")
-                        .HasForeignKey("LogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>
-                {
-                    b.HasOne("LaundryTime.Data.Models.UserAdmin", null)
-                        .WithMany("Machines")
-                        .HasForeignKey("MachineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -436,61 +268,6 @@ namespace LaundryTime.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.LaundryUser", b =>
-                {
-                    b.HasOne("LaundryTime.Data.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.HasOne("LaundryTime.Data.Models.UserAdmin", "Administrator")
-                        .WithMany()
-                        .HasForeignKey("AdministratorId");
-
-                    b.HasOne("LaundryTime.Data.Models.SystemAdmin", null)
-                        .WithMany("LaundryUsers")
-                        .HasForeignKey("SystemAdminId");
-
-                    b.HasOne("LaundryTime.Data.Models.UserAdmin", null)
-                        .WithMany("Users")
-                        .HasForeignKey("UserAdminId");
-
-                    b.Navigation("Address");
-
-                    b.Navigation("Administrator");
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.UserAdmin", b =>
-                {
-                    b.HasOne("LaundryTime.Data.Models.Address", "WorkAddress")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.HasOne("LaundryTime.Data.Models.SystemAdmin", null)
-                        .WithMany("UserAdmins")
-                        .HasForeignKey("SystemAdminId");
-
-                    b.Navigation("WorkAddress");
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.LaundryUser", b =>
-                {
-                    b.Navigation("LaundryHistory");
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.SystemAdmin", b =>
-                {
-                    b.Navigation("LaundryUsers");
-
-                    b.Navigation("UserAdmins");
-                });
-
-            modelBuilder.Entity("LaundryTime.Data.Models.UserAdmin", b =>
-                {
-                    b.Navigation("Machines");
-
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
