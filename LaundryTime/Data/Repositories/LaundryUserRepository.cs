@@ -21,12 +21,12 @@ namespace LaundryTime.Data.Repositories
             return context.LaundryUsers.ToList();
         }
 
-        public LaundryUser GetSingleLaundryUser(string id)
+        public LaundryUser GetSingleLaundryUser(string username)
         {
             return context.LaundryUsers
                 .Include(p => p.Administrator)
                 .Include(t => t.LaundryHistory)
-                .SingleOrDefault(i => i.Id == id);
+                .SingleOrDefault(i => i.UserName == username);
         }
 
         public void AddLaundryUser(LaundryUser laundryUser)
