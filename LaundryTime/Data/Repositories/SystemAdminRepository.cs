@@ -20,15 +20,23 @@ namespace LaundryTime.Data.Repositories
         {
             return context.SystemAdmins
                 .Include(p => p.UserAdmins)
+                .ThenInclude(d=>d.Machines)
+                .Include(p => p.UserAdmins)
+                .ThenInclude(d => d.Users)
                 .Include(l => l.LaundryUsers)
+                .ThenInclude(a=>a.LaundryHistory)
                 .ToList();
         }
 
         public SystemAdmin GetSingleSystemAdmin(string id)
         {
             return context.SystemAdmins
-                .Include(g=>g.LaundryUsers)
-                .Include(s=>s.UserAdmins)
+                .Include(p => p.UserAdmins)
+                .ThenInclude(d => d.Machines)
+                .Include(p => p.UserAdmins)
+                .ThenInclude(d => d.Users)
+                .Include(l => l.LaundryUsers)
+                .ThenInclude(a => a.LaundryHistory)
                 .SingleOrDefault(p => p.Id == id);
         }
 
