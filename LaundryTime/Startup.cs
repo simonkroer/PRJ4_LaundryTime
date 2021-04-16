@@ -31,7 +31,7 @@ namespace LaundryTime
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("CamillaConnection")));
+                    Configuration.GetConnectionString("EmilConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<LaundryUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
