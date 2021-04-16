@@ -20,12 +20,14 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
 
         public Address GetSingleAddress(int id)
         {
-            throw new NotImplementedException();
+            return Context.Addresses
+                .SingleOrDefault(a => a.AddressId == id);
         }
 
         public List<Address> GetAllAdresses()
         {
-            throw new NotImplementedException();
+            return new List<Address>(Context.Addresses
+                .ToList());
         }
     }
 }

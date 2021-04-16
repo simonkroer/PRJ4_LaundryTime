@@ -15,6 +15,7 @@ namespace LaundryTime.Data
         public IUserAdminRespository UserAdmins { get; }
 
         public ISystemAdminRepository SystemAdmin { get; }
+        IAddressRepository Addresses { get; }
 
         int Complete();
     }

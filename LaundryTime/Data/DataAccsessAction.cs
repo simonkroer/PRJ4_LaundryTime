@@ -12,7 +12,7 @@ namespace LaundryTime.Data
         private readonly ApplicationDbContext _context;
         public IMachineRepository Machines { get; private set; }
 
-        public IAddressRepository Address { get; private set; }
+        public IAddressRepository Addresses { get; private set; }
 
         public ILaundryUserRepository LaundryUsers { get; private set; }
 
