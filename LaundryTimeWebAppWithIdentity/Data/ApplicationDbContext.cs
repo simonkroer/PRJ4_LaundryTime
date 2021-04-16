@@ -30,11 +30,11 @@ namespace LaundryTimeWebAppWithIdentity.Data
                 .HasForeignKey(dm => dm.Id);
         }
 
-        //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        //    : base(options)
-        //{
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
 
-        //}
+        }
 
         public DbSet<UserAdmin> _UserAdmins { get; set; }
         public DbSet<Machine> _Machines { get; set; }
