@@ -14,6 +14,6 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
 
         void AddLaundryUser(LaundryUser laundryUser);
 
-        bool LaudryUserExists(string email);
+        bool LaundryUserExists(string email);
     }
 }

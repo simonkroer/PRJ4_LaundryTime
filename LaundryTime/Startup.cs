@@ -31,7 +31,7 @@ namespace LaundryTime
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("CamillaConnection")));
+                    Configuration.GetConnectionString("EmilConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
@@ -102,7 +102,7 @@ namespace LaundryTime
             const string laundryUserPayment = "MobilePay";
             const bool active = true;
 
-            if (_context.LaundryUsers.)
+            if (!dataAcces.LaundryUsers.LaundryUserExists(laundryUserEmail))
             {
                 var user3 = new LaundryUser();
                 user3.UserName = laundryUserEmail;

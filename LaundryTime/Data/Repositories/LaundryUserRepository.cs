@@ -34,9 +34,9 @@ namespace LaundryTime.Data.Repositories
             context.LaundryUsers.Add(laundryUser);
         }
 
-        public bool LaudryUserExists(string email)
+        public bool LaundryUserExists(string email)
         {
-            return context.LaundryUsers.Any(e => e.Email == email);
+            return context.LaundryUsers.Any(e => e.UserName == email);
         }
     }
 }
