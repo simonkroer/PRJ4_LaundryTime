@@ -4,31 +4,27 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using LaundryTime.Data.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace LaundryTime.Data.Models
 {
-    public class UserAdmin: IdentityUser
+    public class LaundryUser: IdentityUser
     {
         [Required]
         public string Name { get; set; }
 
         public string PaymentMethod { get; set; }
 
-        [ForeignKey("AddressId")]
-        public Address WorkAddress { get; set; }
-
         [ForeignKey("Id")]
-        public List<IdentityUser> Users { get; set; }
+        public UserAdmin Administrator { get; set; }
 
-        [ForeignKey("MachineId")]
-        public List<Machine> Machines { get; set; }
+        [ForeignKey("LogId")]
+        public List<LaundryLog> LayndryHistory { get; set; }
+
+        public bool ActiveUser { get; set; }
 
         public decimal FinancialBalance { get; set; }
 
         public DateTime PaymentDueDate { get; set; }
-
     }
 }

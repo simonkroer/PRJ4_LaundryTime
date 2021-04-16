@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LaundryTime.Data.Models;
 
 namespace LaundryTime
 {
@@ -28,13 +29,35 @@ namespace LaundryTime
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("EmilConnection")));
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<SystemAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding SystemAdmin User type
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddDefaultIdentity<UserAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding UserAdmin User type
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddDefaultIdentity<LaundryUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsLaundryUser",
+                    policyBuilder => policyBuilder
+                        .RequireClaim("LaundryUser"));
+
+                options.AddPolicy("IsAdminUser",
+                    policyBuilder => policyBuilder
+                        .RequireClaim("AdminUser"));
+
+                options.AddPolicy("IsSystemAdmin",
+                    policyBuilder => policyBuilder
+                        .RequireClaim("SystemAdmin"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
