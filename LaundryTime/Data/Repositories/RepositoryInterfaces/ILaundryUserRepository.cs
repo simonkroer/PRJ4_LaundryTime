@@ -10,7 +10,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
     {
         List<LaundryUser> GetAllLaundryUsers();
 
-        LaundryUser GetSingleLaundryUser();
+        LaundryUser GetSingleLaundryUser(string id);
 
         void AddLaundryUser(LaundryUser laundryUser);
     }
