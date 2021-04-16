@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LaundryTime.Controllers
 {
-    public class UserController : Controller
+    public class LaundryUserController : Controller
     {
         public IActionResult Index()
         {

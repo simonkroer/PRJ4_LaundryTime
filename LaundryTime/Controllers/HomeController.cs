@@ -31,7 +31,7 @@ namespace LaundryTime.Controllers
         {
             if (User.HasClaim("LaundryUser", "IsLaundryUser"))
             {
-                return RedirectToAction(nameof(Index), "User");
+                return RedirectToAction(nameof(Index), "LaundryUser");
             }
 
             if (User.HasClaim("UserAdmin", "IsUserAdmin"))
