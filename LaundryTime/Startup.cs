@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 
@@ -121,6 +122,11 @@ namespace LaundryTime
 
                 IdentityResult result = userManager1.CreateAsync(user3, laundryUserPassword).Result;
 
+                if (result.Succeeded) //Add claim to user
+                {
+                    userManager1.AddClaimAsync(user3, new Claim("LaundryUser", "IsLaundryUser")).Wait();
+                }
+
             }
 
             //=================== Creating UserAdmin user ==========================
@@ -142,6 +148,11 @@ namespace LaundryTime
                 user2.PaymentMethod = userAdminPayment;
 
                 IdentityResult result = userManager2.CreateAsync(user2, userAdminPassword).Result;
+
+                if (result.Succeeded) //Add claim to user
+                {
+                    userManager2.AddClaimAsync(user2, new Claim("UserAdmin", "IsUserAdmin")).Wait();
+                }
 
                 //Adding user to UserAdmin:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin("1");
@@ -168,6 +179,11 @@ namespace LaundryTime
                 user1.Name = systemAdminName;
 
                 IdentityResult result = userManager3.CreateAsync(user1, systemAdminPassword).Result;
+
+                if (result.Succeeded) //Add claim to user
+                {
+                    userManager3.AddClaimAsync(user1, new Claim("SystemAdmin", "IsSystemAdmin")).Wait();
+                }
 
                 //Adding users to SystemAdmin:
                 var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin("1");
