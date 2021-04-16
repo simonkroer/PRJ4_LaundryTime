@@ -25,6 +25,10 @@ namespace LaundryTime.Data
         {
             _context = context;
             Machines = new MachineRepository(_context);
+            Addresses = new AddressRepository(_context);
+            LaundryUsers = new LaundryUserRepository(_context);
+            UserAdmins = new UserAdminRepository(_context);
+            SystemAdmins = new SystemAdminRepository(_context);
         }
         public int Complete()
         {

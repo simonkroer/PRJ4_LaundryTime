@@ -9,7 +9,7 @@ namespace LaundryTime.Data.Models
     public class Machine
     {
         [Key] 
-        public  int MachineId { get; set; }
+        public string MachineId { get; set; }
 
         public string Type { get; set; }
 
