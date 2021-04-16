@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LaundryTimeWebAppWithIdentity.Models;
 using System.Text;
+using LaundryTimeWebAppWithIdentity.Models.Calender;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LaundryTimeWebAppWithIdentity.Controllers
@@ -14,6 +15,8 @@ namespace LaundryTimeWebAppWithIdentity.Controllers
     {
         public IActionResult Calender()
         {
+            //SeedDatabase temp = new SeedDatabase();
+            //temp.SeedData();
             return View();
         }
 
