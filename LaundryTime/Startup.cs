@@ -163,10 +163,12 @@ namespace LaundryTime
 
                 IdentityResult result = userManager3.CreateAsync(user1, systemAdminPassword).Result;
 
+                //Adding users to SystemAdmin:
+                var SystemAdmin = dataAcces.SystemUsers.GetSingleAdminUser(1);
+                SystemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(1));
+                SystemAdmin.UserAdmins.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(1));
+                context.SaveChanges();
             }
-
-
-            //Add useradmin + user
         }
     }
 }
