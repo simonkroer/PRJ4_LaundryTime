@@ -138,8 +138,8 @@ namespace LaundryTime
                 IdentityResult result = userManager2.CreateAsync(user2, userAdminPassword).Result;
 
                 //Adding user to UserAdmin:
-                var Useradmin = dataAcces.UserAdmins.GetSingleAdminUser(1);
-                Useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(1));
+                var Useradmin = dataAcces.UserAdmins.GetSingleUserAdmin("1");
+                Useradmin.Users.Add();
                 context.SaveChanges();
 
             }
