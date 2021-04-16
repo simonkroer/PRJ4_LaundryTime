@@ -13,6 +13,6 @@ namespace LaundryTime.Data.Models
 
         public string Type { get; set; }
 
-
+        public DateTime InstallationDate { get; set; }
     }
 }
