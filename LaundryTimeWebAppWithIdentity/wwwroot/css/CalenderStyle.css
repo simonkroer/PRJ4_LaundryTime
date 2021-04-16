@@ -60,13 +60,35 @@ html {
     background: transparent;
 }
 
-table {
+
+.fixTable {
+    height: 200px;
+    overflow: auto;
+}
+
+.fixTable thead, .fixTable th {
+    color: white;
+    background: gray;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.fixTable table {
+    width: 100%;
+    border-collapse: collapse;
     text-align: left;
     position: relative;
 }
 
-.tableclass th {
-    background: grey;
-    position: sticky;
-    top: 0;
+.fixTable th, .fixTable td {
+    padding: 8px 16px;
+}
+
+.fixTable, .fixTable td {
+    box-shadow: inset 1px -1px #000;
+}
+
+.fixTable th {
+    box-shadow: inset 1px 1px #000, 0 1px #000;
 }
