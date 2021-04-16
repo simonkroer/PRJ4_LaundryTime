@@ -13,21 +13,21 @@ namespace LaundryTimeWebAppWithIdentity.Models.Calender
         
         public void SeedData()
         {
-            using (var context = new ApplicationDbContext())
-            {
-                IUnitOfWork unitOfWork = new UnitOfWork(context);
+            //using (var context = new ApplicationDbContext())
+            //{
+            //    IUnitOfWork unitOfWork = new UnitOfWork(context);
 
-                UserModel Alexander = new UserModel()
-                {
-                    FirstName = "Alexander",
-                    LastName = "Wodstrup",
-                    reservedBooking = CreateNewReservedBookingList(),
-                };
-                unitOfWork.Users.Add(Alexander);
-                CreateDateModel(unitOfWork);
-                CreateNewBookList(unitOfWork,1); // 1 er tmp
-                unitOfWork.Complete();
-            }
+            //    UserModel Alexander = new UserModel()
+            //    {
+            //        FirstName = "Alexander",
+            //        LastName = "Wodstrup",
+            //        reservedBooking = CreateNewReservedBookingList(),
+            //    };
+            //    unitOfWork.Users.Add(Alexander);
+            //    CreateDateModel(unitOfWork);
+            //    CreateNewBookList(unitOfWork,1); // 1 er tmp
+            //    unitOfWork.Complete();
+            //}
             
         }
 
