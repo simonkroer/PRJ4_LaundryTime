@@ -3,7 +3,6 @@
     float: left;
     width: 44%;
     padding: 10px;
-    height: 300px; /* Should be removed. Only for demonstration */
 }
 
 .left {
@@ -50,6 +49,37 @@
     font-size: 30px;
 }
 
-.removeBar {
+.example {
+    background-color: #eee;
+    width: 200px;
+    height: 100px;
+    border: 1px dotted black;
+    overflow-y: scroll; /* Add the ability to scroll */
+}
 
+.tableClass tbody {
+    display: block;
+    width: 100%
+}
+
+.tableClass thead {
+    display: block;
+    color: white;
+    background-color: grey;
+    width: 100%;
+}
+
+.tableClass tbody {
+    overflow-y: scroll;
+    height: 150px;
+}
+
+.tableClass {
+    width: 100%;
+    border: 3px solid black;
+    border-collapse: collapse
+}
+
+.tableClass th {
+    width: 40%;
 }
