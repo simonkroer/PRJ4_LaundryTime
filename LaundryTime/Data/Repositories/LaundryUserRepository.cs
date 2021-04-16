@@ -36,7 +36,7 @@ namespace LaundryTime.Data.Repositories
 
         public bool LaudryUserExists(string email)
         {
-            return context.LaundryUsers.Any(e => e.Email == email);
+            return context.ApplicationUsers.Any(e => e.Email == email);
         }
     }
 }
