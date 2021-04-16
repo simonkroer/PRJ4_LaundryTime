@@ -105,6 +105,8 @@ namespace LaundryTime
             const string laundryUserPassword = "Sommer25!";
             const string laundryUserCell = "20212223";
             const string laundryUserName = "Jesper Henrik";
+            const string laundryUserPayment = "MobilePay";
+            const bool active = true;
 
             if (userManager1.FindByNameAsync(laundryUserEmail).Result == null)
             {
@@ -114,6 +116,8 @@ namespace LaundryTime
                 user3.EmailConfirmed = emailConfirmed;
                 user3.PhoneNumber = laundryUserCell;
                 user3.Name = laundryUserName;
+                user3.PaymentMethod = laundryUserPayment;
+                user3.ActiveUser = active;
 
                 IdentityResult result = userManager1.CreateAsync(user3, laundryUserPassword).Result;
 
@@ -125,6 +129,7 @@ namespace LaundryTime
             const string userAdminPassword = "Sommer25!";
             const string userAdminCell = "20212223";
             const string userAdminName = "Knud Knudsen";
+            const string userAdminPayment = "MobilePay";
 
             if (userManager2.FindByNameAsync(userAdminEmail).Result == null)
             {
@@ -134,12 +139,13 @@ namespace LaundryTime
                 user2.EmailConfirmed = emailConfirmed;
                 user2.PhoneNumber = userAdminCell;
                 user2.Name = userAdminName;
+                user2.PaymentMethod = userAdminPayment;
 
                 IdentityResult result = userManager2.CreateAsync(user2, userAdminPassword).Result;
 
                 //Adding user to UserAdmin:
-                var Useradmin = dataAcces.UserAdmins.GetSingleUserAdmin("1");
-                Useradmin.Users.Add();
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin("1");
+                useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(1));
                 context.SaveChanges();
 
             }
@@ -164,9 +170,9 @@ namespace LaundryTime
                 IdentityResult result = userManager3.CreateAsync(user1, systemAdminPassword).Result;
 
                 //Adding users to SystemAdmin:
-                var systemAdmin = dataAcces.SystemAdmins.GetSingleAdminUser(1);
-                systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(1));
-                systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleLaundryUser(1));
+                var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin("1");
+                systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser("1"));
+                systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin("1"));
                 context.SaveChanges();
             }
         }
