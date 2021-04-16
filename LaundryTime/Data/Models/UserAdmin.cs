@@ -21,7 +21,7 @@ namespace LaundryTime.Data.Models
         public Address WorkAddress { get; set; }
 
         [ForeignKey("Id")]
-        public List<IdentityUser> Users { get; set; }
+        public List<LaundryUser> Users { get; set; }
 
         [ForeignKey("MachineId")]
         public List<Machine> Machines { get; set; }

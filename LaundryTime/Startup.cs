@@ -61,7 +61,7 @@ namespace LaundryTime
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<LaundryUser> userManager1, UserManager<UserAdmin> userManager2, UserManager<SystemAdmin> userManager3, ApplicationDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -80,6 +80,7 @@ namespace LaundryTime
             app.UseRouting();
 
             app.UseAuthentication();
+            SeedUsers(userManager1,userManager2,userManager3,context); //Seeding users
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -89,6 +90,79 @@ namespace LaundryTime
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+        }
+
+        public static void SeedUsers(UserManager<LaundryUser> userManager1, UserManager<UserAdmin> userManager2,
+            UserManager<SystemAdmin> userManager3, ApplicationDbContext context)
+        {
+            ApplicationDbContext _context = context;
+            IDataAccessAction dataAcces = new IDataAccessAction(_context);
+            const bool emailConfirmed = true;
+
+            //=================== Creating LaundryUser ==========================
+
+            const string laundryUserEmail = "laundryUser@laundryUser.com";
+            const string laundryUserPassword = "Sommer25!";
+            const string laundryUserCell = "20212223";
+            const string laundryUserName = "Jesper Henrik";
+
+            if (userManager1.FindByNameAsync(laundryUserEmail).Result == null)
+            {
+                var user3 = new LaundryUser();
+                user3.UserName = laundryUserEmail;
+                user3.Email = laundryUserEmail;
+                user3.EmailConfirmed = emailConfirmed;
+                user3.PhoneNumber = laundryUserCell;
+                user3.Name = laundryUserName;
+
+                IdentityResult result = userManager1.CreateAsync(user3, laundryUserPassword).Result;
+
+            }
+
+            //=================== Creating UserAdmin user ==========================
+
+            const string userAdminEmail = "UserAdmin@UserAdmin.com";
+            const string userAdminPassword = "Sommer25!";
+            const string userAdminCell = "20212223";
+            const string userAdminName = "Knud Knudsen";
+
+            if (userManager2.FindByNameAsync(userAdminEmail).Result == null)
+            {
+                var user2 = new UserAdmin();
+                user2.UserName = userAdminEmail;
+                user2.Email = userAdminEmail;
+                user2.EmailConfirmed = emailConfirmed;
+                user2.PhoneNumber = userAdminCell;
+                user2.Name = userAdminName;
+
+                IdentityResult result = userManager2.CreateAsync(user2, userAdminPassword).Result;
+
+            }
+
+            // Add user
+
+            //==================== Creating System Admin user =======================
+
+            const string systemAdminEmail = "SystemAdmin@LaundryTime.com";
+            const string systemAdminPassword = "Sommer25!";
+            const string systemAdminCell = "20212223";
+            const string systemAdminName = "Kvart Palle";
+
+            if (userManager3.FindByNameAsync(systemAdminEmail).Result == null)
+            {
+                var user1 = new SystemAdmin();
+                user1.UserName = systemAdminEmail;
+                user1.Email = systemAdminEmail;
+                user1.EmailConfirmed = emailConfirmed;
+                user1.PhoneNumber = systemAdminCell;
+                user1.Name = systemAdminName;
+
+                IdentityResult result = userManager3.CreateAsync(user1, systemAdminPassword).Result;
+
+            }
+
+
+            //Add useradmin + user
         }
     }
 }
