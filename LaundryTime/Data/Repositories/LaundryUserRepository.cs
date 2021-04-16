@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 using LaundryTime.Data.Repositories.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaundryTime.Data.Repositories
 {
@@ -17,17 +18,20 @@ namespace LaundryTime.Data.Repositories
 
         public List<LaundryUser> GetAllLaundryUsers()
         {
-            throw new NotImplementedException();
+            return context.LaundryUsers.ToList();
         }
 
-        public LaundryUser GetSingleLaundryUser()
+        public LaundryUser GetSingleLaundryUser(string id)
         {
-            throw new NotImplementedException();
+            return context.LaundryUsers
+                .Include(p => p.Administrator)
+                .Include(t => t.LaundryHistory)
+                .SingleOrDefault(i => i.Id == id);
         }
 
         public void AddLaundryUser(LaundryUser laundryUser)
         {
-            throw new NotImplementedException();
+            context.LaundryUsers.Add(laundryUser);
         }
     }
 }
