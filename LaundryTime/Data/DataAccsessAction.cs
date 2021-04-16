@@ -18,7 +18,7 @@ namespace LaundryTime.Data
 
         public IUserAdminRespository UserAdmins { get; private set; }
 
-        public ISystemAdminRepository SystemAdmin { get; private set; }
+        public ISystemAdminRepository SystemAdmins { get; private set; }
 
 
         public DataAccsessAction(ApplicationDbContext context)
