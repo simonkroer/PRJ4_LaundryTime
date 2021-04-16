@@ -17,17 +17,17 @@ namespace LaundryTime.Data.Repositories
 
         public List<UserAdmin> GetAllUserAdmins()
         {
-            return Context.UserAdmins.ToList();
+            return context.UserAdmins.ToList();
         }
 
         public UserAdmin GetSingleUserAdmin(string id)
         {
-            return Context.UserAdmins.SingleOrDefault(u => u.Id == id);
+            return context.UserAdmins.SingleOrDefault(u => u.Id == id);
         }
 
         public void AddUserAdmin(UserAdmin userAdmin)
         {
-            Context.UserAdmins.Add(userAdmin);
+            context.UserAdmins.Add(userAdmin);
         }
     }
 }
