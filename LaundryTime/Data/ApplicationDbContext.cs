@@ -19,5 +19,6 @@ namespace LaundryTime.Data
         public DbSet<LaundryUser> LaundryUsers { get; set; }
         public DbSet<SystemAdmin> SystemAdmins { get; set; }
         public DbSet<Machine> Machines { get; set; }
+        public DbSet<Address> Addresses { get; set; }
     }
 }
