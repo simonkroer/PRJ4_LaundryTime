@@ -96,7 +96,7 @@ namespace LaundryTime
             UserManager<SystemAdmin> userManager3, ApplicationDbContext context)
         {
             ApplicationDbContext _context = context;
-            IDataAccessAction dataAcces = new IDataAccessAction(_context);
+            IDataAccessAction dataAcces = new DataAccsessAction(_context);
             const bool emailConfirmed = true;
 
             //=================== Creating LaundryUser ==========================
@@ -137,9 +137,13 @@ namespace LaundryTime
 
                 IdentityResult result = userManager2.CreateAsync(user2, userAdminPassword).Result;
 
+                //Adding user to UserAdmin:
+                var Useradmin = dataAcces.AdminUsers.GetSingleAdminUser(1);
+                Useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(1));
+                context.SaveChanges();
+
             }
 
-            // Add user
 
             //==================== Creating System Admin user =======================
 
@@ -159,10 +163,12 @@ namespace LaundryTime
 
                 IdentityResult result = userManager3.CreateAsync(user1, systemAdminPassword).Result;
 
+                //Adding users to SystemAdmin:
+                var SystemAdmin = dataAcces.SystemUsers.GetSingleAdminUser(1);
+                SystemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(1));
+                SystemAdmin.UserAdmins.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(1));
+                context.SaveChanges();
             }
-
-
-            //Add useradmin + user
         }
     }
 }
