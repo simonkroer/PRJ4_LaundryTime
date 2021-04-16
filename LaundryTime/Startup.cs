@@ -34,13 +34,13 @@ namespace LaundryTime
                     Configuration.GetConnectionString("EmilConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<SystemAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding SystemAdmin User type
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddDefaultIdentity<UserAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding UserAdmin User type
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
             services.AddDefaultIdentity<LaundryUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentityCore<SystemAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding SystemAdmin User type
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentityCore<UserAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding UserAdmin User type
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
@@ -155,8 +155,8 @@ namespace LaundryTime
                 }
 
                 //Adding user to UserAdmin:
-                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin("1");
-                useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(1));
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
                 context.SaveChanges();
 
             }
@@ -186,9 +186,9 @@ namespace LaundryTime
                 }
 
                 //Adding users to SystemAdmin:
-                var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin("1");
-                systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser("1"));
-                systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin("1"));
+                var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin(systemAdminEmail);
+                systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
+                systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail));
                 context.SaveChanges();
             }
         }

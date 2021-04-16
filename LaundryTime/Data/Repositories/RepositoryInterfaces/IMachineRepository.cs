@@ -9,7 +9,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
     public interface IMachineRepository : IRepository<Machine>
     {
         List<Machine> GetAllMachines();
-        Machine GetSingleMachine(int id);
+        Machine GetSingleMachine(string id);
         void AddMachine(Machine machine);
         int GetNumberOfMachines();
 

@@ -28,7 +28,7 @@ namespace LaundryTime.Data.Repositories
                 .ToList();
         }
 
-        public SystemAdmin GetSingleSystemAdmin(string id)
+        public SystemAdmin GetSingleSystemAdmin(string username)
         {
             return context.SystemAdmins
                 .Include(p => p.UserAdmins)
@@ -37,7 +37,7 @@ namespace LaundryTime.Data.Repositories
                 .ThenInclude(d => d.Users)
                 .Include(l => l.LaundryUsers)
                 .ThenInclude(a => a.LaundryHistory)
-                .SingleOrDefault(p => p.Id == id);
+                .SingleOrDefault(p => p.UserName == username);
         }
 
         public void AddSystemAdmin(SystemAdmin systemAdmin)

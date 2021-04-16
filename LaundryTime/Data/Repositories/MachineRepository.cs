@@ -21,7 +21,7 @@ namespace LaundryTime.Data.Repositories
             return Context.Machines.ToList();
         }
 
-        public Machine GetSingleMachine(int id)
+        public Machine GetSingleMachine(string id)
         {
             //Igen, noget med tider?
             return Context.Machines
