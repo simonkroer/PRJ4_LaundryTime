@@ -18,18 +18,7 @@ namespace LaundryTime.Data.Repositories
 
         public bool UserExists(string email)
         {
-            context
-
-            var userAdmin = context.UserAdmins.SingleOrDefault(e => e.Email == email);
-
-            if (userAdmin == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return context.UserAdmins.Any(e => e.Email == email);
         }
 
         public List<UserAdmin> GetAllUserAdmins()
