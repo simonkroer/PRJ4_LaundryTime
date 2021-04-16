@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace LaundryTime.Controllers
 {
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<LoginController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public LoginController(ILogger<LoginController> logger)
         {
             _logger = logger;
         }
@@ -23,9 +23,9 @@ namespace LaundryTime.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult CheckClaim()
         {
-            return View();
+            if (
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
