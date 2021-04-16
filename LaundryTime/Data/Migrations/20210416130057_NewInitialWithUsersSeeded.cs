@@ -38,42 +38,6 @@ namespace LaundryTime.Data.Migrations
                 type: "decimal(18,2)",
                 nullable: true);
 
-            migrationBuilder.AddColumn<int>(
-                name: "LaundryUser_AddressId",
-                table: "AspNetUsers",
-                type: "int",
-                nullable: true);
-
-            migrationBuilder.AddColumn<decimal>(
-                name: "LaundryUser_FinancialBalance",
-                table: "AspNetUsers",
-                type: "decimal(18,2)",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "LaundryUser_Name",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: true);
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "LaundryUser_PaymentDueDate",
-                table: "AspNetUsers",
-                type: "datetime2",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "LaundryUser_PaymentMethod",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "LaundryUser_SystemAdminId",
-                table: "AspNetUsers",
-                type: "nvarchar(450)",
-                nullable: true);
-
             migrationBuilder.AddColumn<string>(
                 name: "Name",
                 table: "AspNetUsers",
@@ -106,6 +70,42 @@ namespace LaundryTime.Data.Migrations
 
             migrationBuilder.AddColumn<string>(
                 name: "UserAdminId",
+                table: "AspNetUsers",
+                type: "nvarchar(450)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "UserAdmin_AddressId",
+                table: "AspNetUsers",
+                type: "int",
+                nullable: true);
+
+            migrationBuilder.AddColumn<decimal>(
+                name: "UserAdmin_FinancialBalance",
+                table: "AspNetUsers",
+                type: "decimal(18,2)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "UserAdmin_Name",
+                table: "AspNetUsers",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "UserAdmin_PaymentDueDate",
+                table: "AspNetUsers",
+                type: "datetime2",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "UserAdmin_PaymentMethod",
+                table: "AspNetUsers",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "UserAdmin_SystemAdminId",
                 table: "AspNetUsers",
                 type: "nvarchar(450)",
                 nullable: true);
@@ -174,19 +174,19 @@ namespace LaundryTime.Data.Migrations
                 column: "AdministratorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_LaundryUser_AddressId",
-                table: "AspNetUsers",
-                column: "LaundryUser_AddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_LaundryUser_SystemAdminId",
-                table: "AspNetUsers",
-                column: "LaundryUser_SystemAdminId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_SystemAdminId",
                 table: "AspNetUsers",
                 column: "SystemAdminId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UserAdmin_AddressId",
+                table: "AspNetUsers",
+                column: "UserAdmin_AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UserAdmin_SystemAdminId",
+                table: "AspNetUsers",
+                column: "UserAdmin_SystemAdminId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_UserAdminId",
@@ -202,9 +202,9 @@ namespace LaundryTime.Data.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_Addresses_LaundryUser_AddressId",
+                name: "FK_AspNetUsers_Addresses_UserAdmin_AddressId",
                 table: "AspNetUsers",
-                column: "LaundryUser_AddressId",
+                column: "UserAdmin_AddressId",
                 principalTable: "Addresses",
                 principalColumn: "AddressId",
                 onDelete: ReferentialAction.Restrict);
@@ -218,17 +218,17 @@ namespace LaundryTime.Data.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_AspNetUsers_LaundryUser_SystemAdminId",
+                name: "FK_AspNetUsers_AspNetUsers_SystemAdminId",
                 table: "AspNetUsers",
-                column: "LaundryUser_SystemAdminId",
+                column: "SystemAdminId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_AspNetUsers_SystemAdminId",
+                name: "FK_AspNetUsers_AspNetUsers_UserAdmin_SystemAdminId",
                 table: "AspNetUsers",
-                column: "SystemAdminId",
+                column: "UserAdmin_SystemAdminId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -249,7 +249,7 @@ namespace LaundryTime.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_Addresses_LaundryUser_AddressId",
+                name: "FK_AspNetUsers_Addresses_UserAdmin_AddressId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropForeignKey(
@@ -257,11 +257,11 @@ namespace LaundryTime.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_AspNetUsers_LaundryUser_SystemAdminId",
+                name: "FK_AspNetUsers_AspNetUsers_SystemAdminId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_AspNetUsers_SystemAdminId",
+                name: "FK_AspNetUsers_AspNetUsers_UserAdmin_SystemAdminId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropForeignKey(
@@ -286,15 +286,15 @@ namespace LaundryTime.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropIndex(
-                name: "IX_AspNetUsers_LaundryUser_AddressId",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropIndex(
-                name: "IX_AspNetUsers_LaundryUser_SystemAdminId",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropIndex(
                 name: "IX_AspNetUsers_SystemAdminId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropIndex(
+                name: "IX_AspNetUsers_UserAdmin_AddressId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropIndex(
+                name: "IX_AspNetUsers_UserAdmin_SystemAdminId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropIndex(
@@ -322,30 +322,6 @@ namespace LaundryTime.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
-                name: "LaundryUser_AddressId",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "LaundryUser_FinancialBalance",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "LaundryUser_Name",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "LaundryUser_PaymentDueDate",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "LaundryUser_PaymentMethod",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "LaundryUser_SystemAdminId",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
                 name: "Name",
                 table: "AspNetUsers");
 
@@ -367,6 +343,30 @@ namespace LaundryTime.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "UserAdminId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "UserAdmin_AddressId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "UserAdmin_FinancialBalance",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "UserAdmin_Name",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "UserAdmin_PaymentDueDate",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "UserAdmin_PaymentMethod",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "UserAdmin_SystemAdminId",
                 table: "AspNetUsers");
         }
     }

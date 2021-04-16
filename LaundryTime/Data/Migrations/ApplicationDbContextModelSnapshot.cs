@@ -278,40 +278,41 @@ namespace LaundryTime.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LaundryTime.Data.Models.LaundryUser", b =>
+            modelBuilder.Entity("LaundryTime.Data.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("LaundryTime.Data.Models.LaundryUser", b =>
+                {
+                    b.HasBaseType("LaundryTime.Data.Models.ApplicationUser");
 
                     b.Property<bool>("ActiveUser")
                         .HasColumnType("bit");
 
                     b.Property<int?>("AddressId")
-                        .HasColumnType("int")
-                        .HasColumnName("LaundryUser_AddressId");
+                        .HasColumnType("int");
 
                     b.Property<string>("AdministratorId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("FinancialBalance")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("LaundryUser_FinancialBalance");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("LaundryUser_Name");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PaymentDueDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LaundryUser_PaymentDueDate");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentMethod")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("LaundryUser_PaymentMethod");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemAdminId")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("LaundryUser_SystemAdminId");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserAdminId")
                         .HasColumnType("nvarchar(450)");
@@ -329,7 +330,7 @@ namespace LaundryTime.Data.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.SystemAdmin", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+                    b.HasBaseType("LaundryTime.Data.Models.ApplicationUser");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -341,26 +342,32 @@ namespace LaundryTime.Data.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.UserAdmin", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+                    b.HasBaseType("LaundryTime.Data.Models.ApplicationUser");
 
                     b.Property<int?>("AddressId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("UserAdmin_AddressId");
 
                     b.Property<decimal>("FinancialBalance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("UserAdmin_FinancialBalance");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("UserAdmin_Name");
 
                     b.Property<DateTime>("PaymentDueDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UserAdmin_PaymentDueDate");
 
                     b.Property<string>("PaymentMethod")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("UserAdmin_PaymentMethod");
 
                     b.Property<string>("SystemAdminId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("UserAdmin_SystemAdminId");
 
                     b.HasIndex("AddressId");
 
