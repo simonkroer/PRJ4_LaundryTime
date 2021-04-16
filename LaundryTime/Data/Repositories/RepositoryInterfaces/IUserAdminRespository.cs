@@ -8,6 +8,8 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
 {
     public interface IUserAdminRespository
     {
+        bool UserExists(string email);
+
         List<UserAdmin> GetAllUserAdmins();
 
         UserAdmin GetSingleUserAdmin(string username);
