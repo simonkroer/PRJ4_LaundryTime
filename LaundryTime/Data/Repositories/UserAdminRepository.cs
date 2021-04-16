@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 using LaundryTime.Data.Repositories.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaundryTime.Data.Repositories
 {
@@ -17,7 +18,10 @@ namespace LaundryTime.Data.Repositories
 
         public List<UserAdmin> GetAllUserAdmins()
         {
-            return context.UserAdmins.ToList();
+            return context.UserAdmins
+                .Include(m => m.Machines)
+                .Include(u => u.Users)
+                .ToList();
         }
 
         public UserAdmin GetSingleUserAdmin(string id)
