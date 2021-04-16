@@ -13,5 +13,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
         SystemAdmin GetSingleSystemAdmin(string username);
 
         void AddSystemAdmin(SystemAdmin systemAdmin);
+
+        bool UserExists(string email);
     }
 }
