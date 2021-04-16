@@ -17,7 +17,6 @@ namespace LaundryTime.Data.Repositories
 
         public List<SystemAdmin> GetAllSystemAdmins()
         {
-            
         }
 
         public SystemAdmin GetSingleSystemAdmin()

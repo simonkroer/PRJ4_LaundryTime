@@ -20,14 +20,14 @@ namespace LaundryTime.Data.Repositories
             return Context.UserAdmins.ToList();
         }
 
-        public UserAdmin GetSingleUserAdmin()
+        public UserAdmin GetSingleUserAdmin(string id)
         {
-            throw new NotImplementedException();
+            return Context.UserAdmins.SingleOrDefault(u => u.Id == id);
         }
 
         public void AddUserAdmin(UserAdmin userAdmin)
         {
-            throw new NotImplementedException();
+            Context.UserAdmins.Add(userAdmin);
         }
     }
 }
