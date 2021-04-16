@@ -24,7 +24,7 @@ namespace LaundryTime.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToPage("/Account/Login");
+            return View();
         }
 
         public IActionResult CheckClaim()
