@@ -34,13 +34,7 @@ namespace LaundryTime
                     Configuration.GetConnectionString("EmilConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<LaundryUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddIdentityCore<SystemAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding SystemAdmin User type
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddIdentityCore<UserAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding UserAdmin User type
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
@@ -62,7 +56,7 @@ namespace LaundryTime
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<LaundryUser> userManager1, UserManager<UserAdmin> userManager2, UserManager<SystemAdmin> userManager3, ApplicationDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -81,7 +75,7 @@ namespace LaundryTime
             app.UseRouting();
 
             app.UseAuthentication();
-            SeedUsers(userManager1,userManager2,userManager3,context); //Seeding users
+            SeedUsers(userManager, context); //Seeding users
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -93,8 +87,7 @@ namespace LaundryTime
             });
         }
 
-        public static void SeedUsers(UserManager<LaundryUser> userManager1, UserManager<UserAdmin> userManager2,
-            UserManager<SystemAdmin> userManager3, ApplicationDbContext context)
+        public static void SeedUsers(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             ApplicationDbContext _context = context;
             IDataAccessAction dataAcces = new DataAccsessAction(_context);
@@ -109,7 +102,7 @@ namespace LaundryTime
             const string laundryUserPayment = "MobilePay";
             const bool active = true;
 
-            if (userManager1.FindByNameAsync(laundryUserEmail).Result == null)
+            if (userManager.FindByNameAsync(laundryUserEmail).Result == null)
             {
                 var user3 = new LaundryUser();
                 user3.UserName = laundryUserEmail;
@@ -120,11 +113,11 @@ namespace LaundryTime
                 user3.PaymentMethod = laundryUserPayment;
                 user3.ActiveUser = active;
 
-                IdentityResult result = userManager1.CreateAsync(user3, laundryUserPassword).Result;
+                IdentityResult result = userManager.CreateAsync(user3, laundryUserPassword).Result;
 
                 if (result.Succeeded) //Add claim to user
                 {
-                    userManager1.AddClaimAsync(user3, new Claim("LaundryUser", "IsLaundryUser")).Wait();
+                    userManager.AddClaimAsync(user3, new Claim("LaundryUser", "IsLaundryUser")).Wait();
                 }
 
             }
@@ -137,7 +130,7 @@ namespace LaundryTime
             const string userAdminName = "Knud Knudsen";
             const string userAdminPayment = "MobilePay";
 
-            if (userManager2.FindByNameAsync(userAdminEmail).Result == null)
+            if (userManager.FindByNameAsync(userAdminEmail).Result == null)
             {
                 var user2 = new UserAdmin();
                 user2.UserName = userAdminEmail;
@@ -147,11 +140,11 @@ namespace LaundryTime
                 user2.Name = userAdminName;
                 user2.PaymentMethod = userAdminPayment;
 
-                IdentityResult result = userManager2.CreateAsync(user2, userAdminPassword).Result;
+                IdentityResult result = userManager.CreateAsync(user2, userAdminPassword).Result;
 
                 if (result.Succeeded) //Add claim to user
                 {
-                    userManager2.AddClaimAsync(user2, new Claim("UserAdmin", "IsUserAdmin")).Wait();
+                    userManager.AddClaimAsync(user2, new Claim("UserAdmin", "IsUserAdmin")).Wait();
                 }
 
                 //Adding user to UserAdmin:
@@ -169,7 +162,7 @@ namespace LaundryTime
             const string systemAdminCell = "20212223";
             const string systemAdminName = "Kvart Palle";
 
-            if (userManager3.FindByNameAsync(systemAdminEmail).Result == null)
+            if (userManager.FindByNameAsync(systemAdminEmail).Result == null)
             {
                 var user1 = new SystemAdmin();
                 user1.UserName = systemAdminEmail;
@@ -178,11 +171,11 @@ namespace LaundryTime
                 user1.PhoneNumber = systemAdminCell;
                 user1.Name = systemAdminName;
 
-                IdentityResult result = userManager3.CreateAsync(user1, systemAdminPassword).Result;
+                IdentityResult result = userManager.CreateAsync(user1, systemAdminPassword).Result;
 
                 if (result.Succeeded) //Add claim to user
                 {
-                    userManager3.AddClaimAsync(user1, new Claim("SystemAdmin", "IsSystemAdmin")).Wait();
+                    userManager.AddClaimAsync(user1, new Claim("SystemAdmin", "IsSystemAdmin")).Wait();
                 }
 
                 //Adding users to SystemAdmin:

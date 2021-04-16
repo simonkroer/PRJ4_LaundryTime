@@ -18,28 +18,17 @@ namespace LaundryTime.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<LaundryUser> _userManagerlaundryuser;
-        private readonly UserManager<UserAdmin> _userManageruseradmin;
-        private readonly UserManager<SystemAdmin> _userManagersystemadmin;
-        private readonly SignInManager<LaundryUser> _signInManagerlaundryuser;
-        private readonly SignInManager<UserAdmin> _signInManageruseradmin;
-        private readonly SignInManager<SystemAdmin> _signInManagersystemadmin;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<LaundryUser> signInManagerlaundryuser,
-            SignInManager<UserAdmin> signInManageruseradmin,
-            SignInManager<SystemAdmin> signInManagersystemadmin,
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<LaundryUser> userManagerlaundryuser,
-                UserManager<UserAdmin> userManageruseradmin,
-            UserManager<SystemAdmin> userManagersystemadmin)
+            UserManager<ApplicationUser> userManager)
         {
-         _userManagerlaundryuser = userManagerlaundryuser;
-        _userManageruseradmin = userManageruseradmin;
-        _userManagersystemadmin = userManagersystemadmin;
-        _signInManagerlaundryuser = signInManagerlaundryuser;
-        _signInManageruseradmin = signInManageruseradmin;
-        _signInManagersystemadmin = signInManagersystemadmin;
+         _userManager = userManager;
+        _signInManager = signInManager;
         _logger = logger;
         }
 
@@ -79,21 +68,8 @@ namespace LaundryTime.Areas.Identity.Pages.Account
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
-            {
-                ExternalLogins = (await _signInManagerlaundryuser.GetExternalAuthenticationSchemesAsync()).ToList(); 
-            }
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
-            {
-
-                ExternalLogins = (await _signInManageruseradmin.GetExternalAuthenticationSchemesAsync()).ToList();
-            }
-            if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
-            {
-
-                ExternalLogins = (await _signInManagersystemadmin.GetExternalAuthenticationSchemesAsync()).ToList();
-            }
-
+           
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList(); 
 
             ReturnUrl = returnUrl;
         }
@@ -103,15 +79,13 @@ namespace LaundryTime.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             
 
-            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
-            {
-                ExternalLogins = (await _signInManagerlaundryuser.GetExternalAuthenticationSchemesAsync()).ToList();
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
                 if (ModelState.IsValid)
                 {
                     // This doesn't count login failures towards account lockout
                     // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                    var result = await _signInManagerlaundryuser.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User logged in.");
@@ -132,71 +106,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                         return Page();
                     }
                 }
-            }
-
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
-            {
-                ExternalLogins = (await _signInManageruseradmin.GetExternalAuthenticationSchemesAsync()).ToList();
-
-                if (ModelState.IsValid)
-                {
-                    // This doesn't count login failures towards account lockout
-                    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                    var result = await _signInManageruseradmin.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    if (result.Succeeded)
-                    {
-                        _logger.LogInformation("User logged in.");
-                        return LocalRedirect(returnUrl);
-                    }
-                    if (result.RequiresTwoFactor)
-                    {
-                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                    }
-                    if (result.IsLockedOut)
-                    {
-                        _logger.LogWarning("User account locked out.");
-                        return RedirectToPage("./Lockout");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
-                    }
-                }
-
-            }
-
-            if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
-            {
-                ExternalLogins = (await _signInManagersystemadmin.GetExternalAuthenticationSchemesAsync()).ToList();
-
-                if (ModelState.IsValid)
-                {
-                    // This doesn't count login failures towards account lockout
-                    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                    var result = await _signInManagersystemadmin.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    if (result.Succeeded)
-                    {
-                        _logger.LogInformation("User logged in.");
-                        return LocalRedirect(returnUrl);
-                    }
-                    if (result.RequiresTwoFactor)
-                    {
-                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                    }
-                    if (result.IsLockedOut)
-                    {
-                        _logger.LogWarning("User account locked out.");
-                        return RedirectToPage("./Lockout");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
-                    }
-                }
-
-            }
+                
 
             
 
