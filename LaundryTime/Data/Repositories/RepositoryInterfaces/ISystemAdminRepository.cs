@@ -10,7 +10,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
     {
         List<SystemAdmin> GetAllSystemAdmins();
 
-        SystemAdmin GetSingleSystemAdmin();
+        SystemAdmin GetSingleSystemAdmin(string id);
 
         void AddSystemAdmin(SystemAdmin systemAdmin);
     }
