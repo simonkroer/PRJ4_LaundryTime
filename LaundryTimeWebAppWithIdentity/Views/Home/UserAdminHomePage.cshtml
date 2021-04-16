@@ -10,11 +10,11 @@
 </head>
 
 <body>
-    <h1>My users test view</h1>
+    <h1>UserAdmin Homepage</h1>
 
     <div>
         <br />
-        <h4> This is were you can see all of your users:</h4>
+        <h4> All my users:</h4>
         <br />
 
         <div>
@@ -27,26 +27,26 @@
         <div>
             <table class="table">
                 <thead>
-                    <tr>
-                        <td>
-                            First name
-                        </td>
-                        <td>
-                            Last name
-                        </td>
-                        <td>
-                            Phone
-                        </td>
-                        <td>
-                            Address
-                        </td>
-                        <td>
-                            E-mail
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        First name
+                    </td>
+                    <td>
+                        Last name
+                    </td>
+                    <td>
+                        Phone
+                    </td>
+                    <td>
+                        Address
+                    </td>
+                    <td>
+                        E-mail
+                    </td>
+                </tr>
                 </thead>
                 <tbody>
-                    @*@foreach (var item in Model)
+                @*@foreach (var item in Model)
                     {
                         <tr>
                             <td>
@@ -70,12 +70,57 @@
                 </tbody>
             </table>
         </div>
+        
+        <br />
+        <h4> All my Machinery:</h4>
+        <br />
+
+        <div>
+            <button class="btn-primary"> Add Machinery</button>
+            <button class="btn-primary"> Delete Machinery</button>
+
+        </div>
+        <br /><br />
+
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>
+                        Machine ID
+                    </td>
+                    <td>
+                        Machine type
+                    </td>
+                    <td>
+                        InstallationDateTime
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                    @*@foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MachineId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MachineType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InstallationDateTime)
+                </td>
+            </tr>
+        }*@
+                </tbody>
+            </table>
+        </div>
 
     </div>
 
     <aside>
         <figure>
-            <img src="/Images/Laundry-time.jpg" style="float: right; width: 250px; height: 250px" alt="Laundry time logo">
+            <img src="/Images/logo.jfif" style="float: right; width: 225px; height: 225px" alt="Laundry time logo">
         </figure>
 
     </aside>

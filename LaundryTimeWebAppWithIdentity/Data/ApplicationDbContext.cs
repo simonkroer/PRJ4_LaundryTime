@@ -12,7 +12,7 @@ namespace LaundryTimeWebAppWithIdentity.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
-                "Data Source=laundrytime.database.windows.net;Initial Catalog=LaundryTimeSQLDb;User ID=laundrytime;Password=prj4_gruppe1;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                "Data Source=localhost;Initial Catalog=Laundrytime;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
 
 
@@ -23,6 +23,7 @@ namespace LaundryTimeWebAppWithIdentity.Data
         }
 
         public DbSet<UserAdmin> _UserAdmins { get; set; }
+        public DbSet<Machine> _Machines { get; set; }
     }
 }
     

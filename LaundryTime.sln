@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaundryTimeWebApp", "Laundr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaundryTime.Test.Unit", "LaundryTime.Test.Unit\LaundryTime.Test.Unit.csproj", "{5B30A723-5807-4F30-B407-0F02BB025784}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaundryTimeWebAppWithIdentity", "LaundryTimeWebAppWithIdentity\LaundryTimeWebAppWithIdentity.csproj", "{FBD1B6C5-B7DB-4982-8F69-4B93999D66B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaundryTimeWebAppWithIdentity", "LaundryTimeWebAppWithIdentity\LaundryTimeWebAppWithIdentity.csproj", "{FBD1B6C5-B7DB-4982-8F69-4B93999D66B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaundryTime", "LaundryTime\LaundryTime.csproj", "{8B434052-7E3D-4F17-9D8C-EC10D6DEEB6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{FBD1B6C5-B7DB-4982-8F69-4B93999D66B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD1B6C5-B7DB-4982-8F69-4B93999D66B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD1B6C5-B7DB-4982-8F69-4B93999D66B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B434052-7E3D-4F17-9D8C-EC10D6DEEB6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B434052-7E3D-4F17-9D8C-EC10D6DEEB6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B434052-7E3D-4F17-9D8C-EC10D6DEEB6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B434052-7E3D-4F17-9D8C-EC10D6DEEB6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
