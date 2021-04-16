@@ -10,6 +10,6 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
     {
         List<Address> GetAllAdresses();
         Address GetAdress(int id);
-        //void AddAdre
+        void AddAddress();
     }
 }
