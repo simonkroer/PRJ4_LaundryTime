@@ -9,5 +9,6 @@ namespace LaundryTimeWebAppWithIdentity.Repositorys
     public interface IUserRepository : IRepository<UserModel>
     {
         public IEnumerable<UserModel> GetUsersReservedBookings();
+
     }
 }
