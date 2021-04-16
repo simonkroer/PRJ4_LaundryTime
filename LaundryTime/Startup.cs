@@ -29,8 +29,8 @@ namespace LaundryTime
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("EmilConnection")));
-
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("ThomasConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<SystemAdmin>(options => options.SignIn.RequireConfirmedAccount = true) //Adding SystemAdmin User type
