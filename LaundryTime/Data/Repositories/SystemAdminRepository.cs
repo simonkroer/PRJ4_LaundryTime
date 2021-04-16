@@ -47,16 +47,8 @@ namespace LaundryTime.Data.Repositories
 
         public bool UserExists(string email)
         {
-            var exists = context.SystemAdmins.SingleOrDefault(d => d.Email == email);
-
-            if (exists == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return context.SystemAdmins.Any(d => d.Email == email);
+            
         }
     }
 }
