@@ -14,6 +14,13 @@ namespace LaundryTime.Data
 
         public IAddressRepository Address { get; private set; }
 
+        public ILaundryUserRepository LaundryUsers { get; private set; }
+
+        public IUserAdminRespository UserAdmins { get; private set; }
+
+        public ISystemAdminRepository SystemAdmin { get; private set; }
+
+
         public DataAccsessAction(ApplicationDbContext context)
         {
             _context = context;
