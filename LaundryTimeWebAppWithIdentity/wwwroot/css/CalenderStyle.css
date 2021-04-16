@@ -1,0 +1,55 @@
+﻿/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 44%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+}
+
+.left {
+    margin-right: 10%;
+    margin-left: 1%;
+}
+
+.right {
+    margin-right: 1%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .column {
+        width: 100%;
+    }
+}
+
+.headerCSS {
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.boxColumns {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+    background-color: #2196F3;
+    padding: 10px;
+}
+
+.grid-container > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+}
+
+.removeBar {
+
+}
