@@ -10,6 +10,11 @@ namespace LaundryTime.Data
     {
         IMachineRepository Machines { get; }
         IAddressRepository Address { get; }
+        public ILaundryUserRepository LaundryUsers { get; }
+
+        public IUserAdminRespository UserAdmins { get; }
+
+        public ISystemAdminRepository SystemAdmin { get; }
 
         int Complete();
     }
