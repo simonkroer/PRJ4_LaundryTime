@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LaundryTime.Data.Models
 {
-    public class LaundryUser: ApplicationUser
+    public class LaundryUser: IdentityUser
     {
         [Required]
         public string Name { get; set; }
