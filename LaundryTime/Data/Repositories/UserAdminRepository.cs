@@ -14,9 +14,10 @@ namespace LaundryTime.Data.Repositories
             get { return Context as ApplicationDbContext; }
         }
         public UserAdminRepository(ApplicationDbContext context) : base(context) { }
+
         public List<UserAdmin> GetAllUserAdmins()
         {
-            throw new NotImplementedException();
+            return Context.UserAdmins.ToList();
         }
 
         public UserAdmin GetSingleUserAdmin()

@@ -18,8 +18,7 @@ namespace LaundryTime.Data.Repositories
         public List<Machine> GetAllMachines()
         {
             //skal der ikke være noget med hvilke tider der er på maskinerne? Fremmednøgle til de bookede tider?
-            return new List<Machine>(Context.Machines
-                .ToList());
+            return Context.Machines.ToList();
         }
 
         public Machine GetSingleMachine(int id)
