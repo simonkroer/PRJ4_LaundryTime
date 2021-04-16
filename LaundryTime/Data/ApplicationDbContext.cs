@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using LaundryTime.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,6 @@ namespace LaundryTime.Data
         public DbSet<UserAdmin> UserAdmins { get; set; }
         public DbSet<LaundryUser> LaundryUsers { get; set; }
         public DbSet<SystemAdmin> SystemAdmins { get; set; }
+        public DbSet<Machine> Machines { get; set; }
     }
 }
