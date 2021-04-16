@@ -29,7 +29,7 @@ namespace LaundryTime.Controllers
 
         public IActionResult CheckClaim()
         {
-            if (User.HasClaim("User", "IsUser"))
+            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
             {
                 return RedirectToAction(nameof(Index), "User");
             }
