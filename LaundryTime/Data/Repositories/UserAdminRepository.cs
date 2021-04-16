@@ -18,15 +18,17 @@ namespace LaundryTime.Data.Repositories
 
         public bool UserExists(string email)
         {
+            context
+
             var userAdmin = context.UserAdmins.SingleOrDefault(e => e.Email == email);
 
             if (userAdmin == null)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
 
