@@ -8,8 +8,13 @@ namespace LaundryTime.Data
 {
     public interface IDataAccessAction : IDisposable
     {
-        IMachineRepository Machines { get; }
-        IAddressRepository Addresses { get; }
+        public IMachineRepository Machines { get; }
+        public ILaundryUserRepository LaundryUsers { get; }
+
+        public IUserAdminRespository UserAdmins { get; }
+
+        public ISystemAdminRepository SystemAdmin { get; }
+        public IAddressRepository Addresses { get; }
 
         int Complete();
     }
