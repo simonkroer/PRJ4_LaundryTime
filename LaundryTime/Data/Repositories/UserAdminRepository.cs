@@ -20,13 +20,20 @@ namespace LaundryTime.Data.Repositories
         {
             return context.UserAdmins
                 .Include(m => m.Machines)
+                .Include(a => a.WorkAddress)
                 .Include(u => u.Users)
+                    .ThenInclude(l => l.LaundryHistory)
                 .ToList();
         }
 
         public UserAdmin GetSingleUserAdmin(string id)
         {
-            return context.UserAdmins.SingleOrDefault(u => u.Id == id);
+            return context.UserAdmins
+                .Include(m => m.Machines)
+                .Include(a => a.WorkAddress)
+                .Include(u => u.Users)
+                    .ThenInclude(l => l.LaundryHistory)
+                .SingleOrDefault(i => i.Id == id);
         }
 
         public void AddUserAdmin(UserAdmin userAdmin)
