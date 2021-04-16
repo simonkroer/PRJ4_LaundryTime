@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using LaundryTime.Data.Models;
 
 namespace LaundryTime.Data
 {
@@ -13,6 +14,10 @@ namespace LaundryTime.Data
             : base(options)
         {
         }
+
+        public DbSet<UserAdmin> UserAdmins { get; set; }
+        public DbSet<LaundryUser> LaundryUsers { get; set; }
+        public DbSet<SystemAdmin> SystemAdmins { get; set; }
         public DbSet<Machine> Machines { get; set; }
     }
 }
