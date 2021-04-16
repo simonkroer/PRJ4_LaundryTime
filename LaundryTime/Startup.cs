@@ -130,7 +130,7 @@ namespace LaundryTime
             const string userAdminName = "Knud Knudsen";
             const string userAdminPayment = "MobilePay";
 
-            if (userManager.FindByNameAsync(userAdminEmail).Result == null)
+            if (!dataAcces.UserAdmins.UserExists(userAdminEmail))
             {
                 var user2 = new UserAdmin();
                 user2.UserName = userAdminEmail;
@@ -162,7 +162,7 @@ namespace LaundryTime
             const string systemAdminCell = "20212223";
             const string systemAdminName = "Kvart Palle";
 
-            if (userManager.FindByNameAsync(systemAdminEmail).Result == null)
+            if (!dataAcces.SystemAdmins.UserExists(systemAdminEmail))
             {
                 var user1 = new SystemAdmin();
                 user1.UserName = systemAdminEmail;

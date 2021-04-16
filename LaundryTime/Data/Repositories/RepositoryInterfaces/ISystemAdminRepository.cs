@@ -8,12 +8,12 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
 {
     public interface ISystemAdminRepository
     {
-        List<SystemAdmin> GetAllSystemAdmins();
+        public List<SystemAdmin> GetAllSystemAdmins();
 
-        SystemAdmin GetSingleSystemAdmin(string username);
+        public SystemAdmin GetSingleSystemAdmin(string username);
 
-        void AddSystemAdmin(SystemAdmin systemAdmin);
+        public void AddSystemAdmin(SystemAdmin systemAdmin);
 
-        bool UserExists(string email);
+        public bool UserExists(string email);
     }
 }
