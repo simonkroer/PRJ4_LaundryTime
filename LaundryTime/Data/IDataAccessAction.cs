@@ -9,7 +9,7 @@ namespace LaundryTime.Data
     public interface IDataAccessAction : IDisposable
     {
         IMachineRepository Machines { get; }
-        IAddressRepository Address { get; }
+        IAddressRepository Addresses { get; }
 
         int Complete();
     }
