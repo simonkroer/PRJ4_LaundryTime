@@ -36,13 +36,7 @@ namespace LaundryTime.Data.Repositories
 
         public bool LaudryUserExists(string email)
         {
-            var tjek = context.LaundryUsers.SingleOrDefault(e => e.Email == email);
-            if (tjek == null)
-            {
-                return false;
-            }
-            else
-                return true;
+            return context.LaundryUsers.Any(e => e.Email == email);
         }
     }
 }
