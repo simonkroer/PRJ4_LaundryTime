@@ -26,8 +26,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
 
         public List<Address> GetAllAdresses()
         {
-            return new List<Address>(Context.Addresses
-                .ToList());
+            return Context.Addresses.ToList();
         }
     }
 }
