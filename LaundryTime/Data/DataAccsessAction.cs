@@ -12,6 +12,8 @@ namespace LaundryTime.Data
         private readonly ApplicationDbContext _context;
         public IMachineRepository Machines { get; private set; }
 
+        public IAddressRepository Address { get; private set; }
+
         public DataAccsessAction(ApplicationDbContext context)
         {
             _context = context;

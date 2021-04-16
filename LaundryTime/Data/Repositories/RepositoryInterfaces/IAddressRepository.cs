@@ -9,7 +9,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
     public interface IAddressRepository: IRepository<Address>
     {
         List<Address> GetAllAdresses();
-        Address GetAdress(int id);
-        void AddAddress();
+        Address GetSingleAddress(int id);
+        void AddAddress(Address address);
     }
 }
