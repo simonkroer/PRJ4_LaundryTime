@@ -102,7 +102,7 @@ namespace LaundryTime
             const string laundryUserPayment = "MobilePay";
             const bool active = true;
 
-            if (userManager.FindByNameAsync(laundryUserEmail).Result == null)
+            if (_context.LaundryUsers)
             {
                 var user3 = new LaundryUser();
                 user3.UserName = laundryUserEmail;
