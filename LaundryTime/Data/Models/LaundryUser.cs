@@ -21,7 +21,6 @@ namespace LaundryTime.Data.Models
         [ForeignKey("LogId")]
         public List<LaundryLog> LaundryHistory { get; set; }
 
-        [ForeignKey("AddressId")]
         public Address Address { get; set; }
 
         public bool ActiveUser { get; set; }
