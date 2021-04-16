@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LaundryTime.ViewModels
+namespace LaundryTime.Data.Repositories.RepositoryInterfaces
 {
-    public class UserViewModel
+    public class ISystemAdminRepository
     {
     }
 }
