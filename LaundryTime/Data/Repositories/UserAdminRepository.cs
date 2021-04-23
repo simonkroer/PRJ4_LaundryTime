@@ -46,6 +46,9 @@ namespace LaundryTime.Data.Repositories
             context.UserAdmins.Add(userAdmin);
         }
 
-
+        public void Update(UserAdmin userAdmin)
+        {
+            context.Update(userAdmin);
+        }
     }
 }
