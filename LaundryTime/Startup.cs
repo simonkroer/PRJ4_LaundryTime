@@ -14,6 +14,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
+using LaundryTime.Data.Models.Booking;
 
 namespace LaundryTime
 {
@@ -272,5 +273,38 @@ namespace LaundryTime
                 dataAcces.Complete();
             }
         }
+
+        public static void CreateNewBookList(ApplicationDbContext context, int dateId)
+        {
+            ApplicationDbContext _context = context;
+            IDataAccessAction dataAcces = new DataAccsessAction(_context);
+            BookingListModel[] BooklistM1tmp = new BookingListModel[15];
+            BookingListModel[] BooklistM2tmp = new BookingListModel[15];
+
+            //for (int i = 8; i < 23; i++)
+            //{
+            //    int t = i - 8;
+            //    string time = i.ToString() + "-" + (i + 1).ToString();
+            //    BooklistM1tmp[t] = new BookingListModel()
+            //    {
+            //        DateModel = dataAcces.DateModelLists.Get(dateId),
+            //        Status = "Available",
+            //        Machine = "Washing Machine 1",
+            //        Time = time
+            //    };
+            //    dataAcces.BookingLists.Add(BooklistM1tmp[t]);
+
+            //    BooklistM2tmp[t] = new BookingListModel()
+            //    {
+            //        DateModel = dataAcces.DateModelLists.Get(dateId),
+            //        Status = "Available",
+            //        Machine = "Washing Machine 2",
+            //        Time = time
+            //    };
+            //    dataAcces.BookingLists.Add(BooklistM2tmp[t]);
+            //}
+            dataAcces.Complete();
+        }
+
     }
 }
