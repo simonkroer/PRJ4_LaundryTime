@@ -187,22 +187,74 @@ namespace LaundryTime
 
             //==================== Creating Machines =======================
 
-            if (!dataAcces.SystemAdmins.UserExists(systemAdminEmail))
+            string ModelNumber = "SE-59-574W"; 
+
+            if(!dataAcces.Machines.MachineExist(ModelNumber))
             {
-                var machine1 = new Machine();
-                
+                var machine = new Machine();
+                machine.Type = "Washing";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
 
-                IdentityResult result = userManager.CreateAsync(user1, systemAdminPassword).Result;
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
+                context.SaveChanges();
+            }
 
-                if (result.Succeeded) //Add claim to user
-                {
-                    userManager.AddClaimAsync(user1, new Claim("SystemAdmin", "IsSystemAdmin")).Wait();
-                }
+            ModelNumber = "SE-59-355W";
 
-                //Adding users to SystemAdmin:
-                var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin(systemAdminEmail);
-                systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
-                systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail));
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Washing";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                context.SaveChanges();
+            }
+
+            ModelNumber = "SE-59-238W";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Washing";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                context.SaveChanges();
+            }
+
+            ModelNumber = "SE-33-245D";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Drying";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                context.SaveChanges();
+            }
+
+            ModelNumber = "SE-33-650D";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Drying";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
                 context.SaveChanges();
             }
         }
