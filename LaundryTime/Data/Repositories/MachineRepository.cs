@@ -21,7 +21,7 @@ namespace LaundryTime.Data.Repositories
             return Context.Machines.ToList();
         }
 
-        public Machine GetSingleMachine(string id)
+        public Machine GetSingleMachine(int id)
         {
             //Igen, noget med tider?
             return Context.Machines
@@ -36,6 +36,11 @@ namespace LaundryTime.Data.Repositories
         public int GetNumberOfMachines()
         {
             return Context.Machines.Count();
+        }
+
+        public bool MachineExist(string number)
+        {
+            return context.Machines.Any(i => i.ModelNumber == number);
         }
     }
 }
