@@ -23,7 +23,6 @@ namespace LaundryTime.Data.Models
         [ForeignKey("Id")]
         public List<LaundryUser> Users { get; set; }
 
-        [ForeignKey("MachineId")]
         public List<Machine> Machines { get; set; }
 
         public decimal FinancialBalance { get; set; }

@@ -76,6 +76,7 @@ namespace LaundryTime
 
             app.UseAuthentication();
             SeedUsers(userManager, context); //Seeding users
+            SeedMachines(context); //Seeding Machinces
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -150,6 +151,7 @@ namespace LaundryTime
                 //Adding user to UserAdmin:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
                 useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
+
                 context.SaveChanges();
 
             }
@@ -183,6 +185,91 @@ namespace LaundryTime
                 systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
                 systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail));
                 context.SaveChanges();
+            }
+
+        }
+
+        public static void SeedMachines(ApplicationDbContext context)
+        {
+            ApplicationDbContext _context = context;
+            IDataAccessAction dataAcces = new DataAccsessAction(_context);
+            const string userAdminEmail = "UserAdmin@UserAdmin.com";
+            //==================== Creating Machines =======================
+
+            string ModelNumber = "SE-59-574W";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Washing";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
+                dataAcces.Complete();
+
+            }
+
+            ModelNumber = "SE-59-355W";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Washing";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
+                dataAcces.Complete();
+            }
+
+            ModelNumber = "SE-59-238W";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Washing";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
+                dataAcces.Complete();
+            }
+
+            ModelNumber = "SE-33-245D";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Drying";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
+                dataAcces.Complete();
+            }
+
+            ModelNumber = "SE-33-650D";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Drying";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
+                dataAcces.Complete();
             }
         }
     }
