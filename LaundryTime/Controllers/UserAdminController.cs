@@ -37,7 +37,7 @@ namespace LaundryTime.Controllers
             return View(userAdminViewModel);
         }
 
-        [Authorize("IsUserAdmin")]
+        //[Authorize("IsUserAdmin")]
         public IActionResult IndexMachines()
         {
             var userAdminViewModel = new UserAdminViewModel();
