@@ -21,6 +21,10 @@ a {
     color: white;
 }
 
+.navbar-nav li {
+    padding-right: 1em;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -92,5 +96,9 @@ main {
 .mytable {
     border-style: none;
     font-family: Arial, sans-serif;
-    padding: 2em;
 }
+
+    .mytable th, td{
+        padding: 1em;
+    }
+

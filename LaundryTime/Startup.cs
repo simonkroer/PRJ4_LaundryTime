@@ -193,7 +193,6 @@ namespace LaundryTime
             }
         }
 
-        }
 
         public static void SeedMachines(ApplicationDbContext context)
         {
@@ -279,3 +278,5 @@ namespace LaundryTime
         }
     }
 }
+
+

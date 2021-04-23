@@ -87,44 +87,5 @@ namespace LaundryTime.Controllers
 
             return View(userAdminViewModel);
         }
-
-        public IActionResult DeleteUser()
-        {
-            //Delete the chosen user HERE
-
-            return RedirectToAction(nameof(MyUsers));
-        }
-
-        //[Authorize("IsUserAdmin")]
-        public IActionResult IndexMachines()
-        {
-            var userAdminViewModel = new UserAdminViewModel();
-
-            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
-
-            return View(userAdminViewModel);
-        }
-
-        //[Authorize("IsUserAdmin")]
-        public IActionResult AddMachines()
-        {
-            var userAdminViewModel = new UserAdminViewModel();
-
-            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
-
-            return View(userAdminViewModel);
-        }
-
-        //[Authorize("IsUserAdmin")]
-        public IActionResult DeleteMachines()
-        {
-            var userAdminViewModel = new UserAdminViewModel();
-
-            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
-
-            return View(userAdminViewModel);
-        }
-
-
     }
 }

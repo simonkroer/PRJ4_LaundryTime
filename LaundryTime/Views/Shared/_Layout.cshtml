@@ -20,12 +20,20 @@
                         <li>
                             <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li>
-                            <a asp-area="" asp-controller="UserAdmin" asp-action="MyUsers"> My Users</a>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="UserAdmin" asp-action="IndexMachines">My Machines</a>
-                        </li>
+                        
+                        @{
+                            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+                            {
+                                <li>
+                                    <a asp-area="" asp-controller="UserAdmin" asp-action="MyUsers"> My Users</a>
+                                </li>
+                                <br />
+                                <li>
+                                    <a asp-area="" asp-controller="UserAdmin" asp-action="IndexMachines">My Machines</a>
+                                </li>
+                            }
+                        }
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
