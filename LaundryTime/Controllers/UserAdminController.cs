@@ -67,9 +67,10 @@ namespace LaundryTime.Controllers
                 return NotFound();
             }
 
-            var laundryuser = _dataAccess.LaundryUsers.GetSingleLaundryUser(username);
+            var laundryuser = new UserAdminViewModel();
+            laundryuser.CurrentLaundryUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(username);
 
-            if (laundryuser == null)
+            if (laundryuser.CurrentLaundryUser == null)
             {
                 return NotFound();
             }
@@ -77,9 +78,11 @@ namespace LaundryTime.Controllers
             return View(laundryuser);
         }
 
-        public async Task<IActionResult> EditUser(string username, [Bind("GuestID,FirstName,LastName,IsCheckedIn,HasEatenBreakfast,GuestType,HotelRoom")] LaundryUser user)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUser(string username, [Bind("DATApropertiesforthelaundryuser")] UserAdminViewModel viewmodel)
         {
-            if (username != user.UserName)
+            if (username != viewmodel.CurrentLaundryUser.UserName)
             {
                 return NotFound();
             }
@@ -88,12 +91,12 @@ namespace LaundryTime.Controllers
             {
                 try
                 {
-                    _context.Update(user);
-                    _dataAccess.Complete();
+                     _context.LaundryUsers.Update(viewmodel.CurrentLaundryUser);
+                     _dataAccess.Complete();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_dataAccess.LaundryUsers.LaundryUserExists(user.Email))
+                    if (!_dataAccess.LaundryUsers.LaundryUserExists(viewmodel.CurrentLaundryUser.Email))
                     {
                         return NotFound();
                     }
@@ -106,7 +109,7 @@ namespace LaundryTime.Controllers
                 return RedirectToAction(nameof(MyUsers));
             }
 
-            return View(user);
+            return View(viewmodel);
         }
 
         //[Authorize("IsUserAdmin")]

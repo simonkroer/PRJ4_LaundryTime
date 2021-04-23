@@ -13,5 +13,7 @@ namespace LaundryTime.ViewModels
         public List<Machine> MyMachines { get; set; }
 
         public Machine CurrentMachine { get; set; }
+
+        public LaundryUser CurrentLaundryUser { get; set; }
     }
 }
