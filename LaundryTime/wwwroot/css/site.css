@@ -5,11 +5,20 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+  color: white;
+}
+
+.navbar-light {
+    color: white;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+  color: white;
+}
+
+.nav-link {
+    color: white;
 }
 
 .btn-primary {
@@ -62,7 +71,7 @@ header {
 }
 
 .bg-opacity-blue {
-    background: rgba(33, 43, 180, 0.7);
+    background: rgba(9, 36, 128, 0.7);
 }
 
 body {
@@ -71,9 +80,10 @@ body {
     margin-bottom: 60px;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+    background: rgba(9, 36, 128, 0.7);
 }
