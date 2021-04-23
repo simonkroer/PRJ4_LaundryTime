@@ -15,19 +15,19 @@ namespace LaundryTime.Controllers
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;
 
-        UserAdminController(ApplicationDbContext context)
+        public UserAdminController(ApplicationDbContext context)
         {
             _context = context;
             _dataAccess = new DataAccsessAction(context);
         }
 
-        [Authorize("IsUserAdmin")]
+        //[Authorize("IsUserAdmin")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Authorize("IsUserAdmin")]
+        //[Authorize("IsUserAdmin")]
         public IActionResult MyUsersView()
         {
             var userAdminViewModel = new UserAdminViewModel();
