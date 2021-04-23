@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaundryTime.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210423120540_InitialSchemaCreation")]
-    partial class InitialSchemaCreation
+    [Migration("20210423164750_NewInitialSchemaCreate")]
+    partial class NewInitialSchemaCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,6 +40,84 @@ namespace LaundryTime.Migrations
                     b.HasKey("AddressId");
 
                     b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("LaundryTime.Data.Models.Booking.BookingListModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DateModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MachineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MachineName")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Time")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DateModelId");
+
+                    b.HasIndex("MachineId");
+
+                    b.ToTable("BookingListModels");
+                });
+
+            modelBuilder.Entity("LaundryTime.Data.Models.Booking.DateModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DateModels");
+                });
+
+            modelBuilder.Entity("LaundryTime.Data.Models.Booking.ReservedListModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DateModelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Machine")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Time")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DateModelId");
+
+                    b.ToTable("ReservedListModels");
                 });
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
@@ -389,6 +467,28 @@ namespace LaundryTime.Migrations
                     b.HasDiscriminator().HasValue("UserAdmin");
                 });
 
+            modelBuilder.Entity("LaundryTime.Data.Models.Booking.BookingListModel", b =>
+                {
+                    b.HasOne("LaundryTime.Data.Models.Booking.DateModel", "DateModel")
+                        .WithMany("BookingListModels")
+                        .HasForeignKey("DateModelId");
+
+                    b.HasOne("LaundryTime.Data.Models.Machine", "Machine")
+                        .WithMany()
+                        .HasForeignKey("MachineId");
+
+                    b.Navigation("DateModel");
+
+                    b.Navigation("Machine");
+                });
+
+            modelBuilder.Entity("LaundryTime.Data.Models.Booking.ReservedListModel", b =>
+                {
+                    b.HasOne("LaundryTime.Data.Models.Booking.DateModel", null)
+                        .WithMany("ReservedListModels")
+                        .HasForeignKey("DateModelId");
+                });
+
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
                 {
                     b.HasOne("LaundryTime.Data.Models.LaundryUser", null)
@@ -492,6 +592,13 @@ namespace LaundryTime.Migrations
                         .HasForeignKey("SystemAdminId");
 
                     b.Navigation("WorkAddress");
+                });
+
+            modelBuilder.Entity("LaundryTime.Data.Models.Booking.DateModel", b =>
+                {
+                    b.Navigation("BookingListModels");
+
+                    b.Navigation("ReservedListModels");
                 });
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryUser", b =>
