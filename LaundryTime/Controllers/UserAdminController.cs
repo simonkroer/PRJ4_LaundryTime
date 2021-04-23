@@ -7,6 +7,8 @@ using LaundryTime.Data;
 using LaundryTime.Data.Models;
 using LaundryTime.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace LaundryTime.Controllers
 {
@@ -19,6 +21,10 @@ namespace LaundryTime.Controllers
         {
             _context = context;
             _dataAccess = new DataAccsessAction(context);
+
+            //if (User.Identity != null)
+            //    _currentLoggedInUser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+            
         }
 
         //[Authorize("IsUserAdmin")]
@@ -27,12 +33,17 @@ namespace LaundryTime.Controllers
             return View();
         }
 
-        [Authorize("IsUserAdmin")]
+        //[Authorize("IsUserAdmin")]
         public IActionResult MyUsers()
         {
             var userAdminViewModel = new UserAdminViewModel();
 
-            userAdminViewModel.MyUsers = _dataAccess.UserAdmins.GetAllMyUsers();
+            if (User.Identity != null)
+            {
+                var currentuser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+
+                userAdminViewModel.MyUsers = currentuser.Users;
+            }
 
             return View(userAdminViewModel);
         }
