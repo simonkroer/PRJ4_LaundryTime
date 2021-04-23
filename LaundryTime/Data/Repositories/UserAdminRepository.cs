@@ -45,5 +45,10 @@ namespace LaundryTime.Data.Repositories
         {
             context.UserAdmins.Add(userAdmin);
         }
+
+        public List<LaundryUser> GetAllMyUsers()
+        {
+            return null;
+        }
     }
 }
