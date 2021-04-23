@@ -109,5 +109,10 @@ main {
     border: none;
     background-color: white;
 }
+#UserEditUpdateUserAdmin {
+    color: #1b6ec2;
+    border: none;
+    background-color: white;
+}
 
 

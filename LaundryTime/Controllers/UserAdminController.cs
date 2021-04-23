@@ -79,23 +79,20 @@ namespace LaundryTime.Controllers
             return View(_userAdminViewModel);
         }
 
-        public async Task<IActionResult> UpdateUser(string username, [Bind("Name,Phone,Email,Address,Paymentmethod,GuestType,HotelRoom")] LaundryUser laundryUser)
+        //Virker ikke endnu. Der kommer blot en nyt laundryUser med som er tom. 
+        public async Task<IActionResult> UpdateUser([Bind("CurrentLaundryUser")] UserAdminViewModel viewModel) //[Bind("Name")] Name,Phone,Email,Address.StreetAddress,Address.Zipcode,Paymentmethod,PaymentDueDate,UserName
         {
-            if (username != laundryUser.Email)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _dataAccess.LaundryUsers.Update(laundryUser);
+                    var name = viewModel.CurrentLaundryUser.Name;
+                    _dataAccess.LaundryUsers.Update(viewModel.CurrentLaundryUser);
                     _dataAccess.Complete();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_dataAccess.LaundryUsers.LaundryUserExists(laundryUser.Email))
+                    if (!_dataAccess.LaundryUsers.LaundryUserExists(viewModel.CurrentLaundryUser.Email))
                     {
                         return NotFound();
                     }
@@ -108,7 +105,7 @@ namespace LaundryTime.Controllers
                 return RedirectToAction(nameof(EditUser));
             }
 
-            return RedirectToAction(nameof(EditUser));
+            return RedirectToAction(nameof(MyUsers));
         }
 
         //[Authorize("IsUserAdmin")]

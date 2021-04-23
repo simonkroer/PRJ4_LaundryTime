@@ -26,6 +26,7 @@ namespace LaundryTime.Data.Repositories
             return context.LaundryUsers
                 .Include(p => p.Administrator)
                 .Include(t => t.LaundryHistory)
+                .Include(g=>g.Address)
                 .SingleOrDefault(i => i.UserName == username);
         }
 
