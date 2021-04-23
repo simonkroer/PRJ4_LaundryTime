@@ -1,3 +1,191 @@
-﻿@model LaundryUserViewModel
+﻿@model LaundryTime.Models.Calender.DatePickerModel
+@{
+    ViewData["Title"] = "Booking";
+}
+<head>
+    @* Calender date picker *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/CalenderStyle.css" />
+</head>
 
-<h1>This is a Laundry Time "User" site</h1>
+<body>
+    <h1>@ViewData["Title"]</h1>
+
+    <div>
+        <br />
+        <h4>Select a date</h4>
+        @using (Html.BeginForm())
+        {
+            @Html.EditorFor(model => model.Datedata, new { htmlAttributes = new { @class = "datepicker", @Type = "date" } })
+
+        }
+        <br />
+    </div>
+
+
+    @section Scripts
+    {
+        <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(".datepicker").datepicker({
+                    dateFormat: "dd-mm-yy",
+                    changemonth: true,
+                    changeyear: true
+                });
+            });
+        </script>
+    }
+    <p>This is a Calender for Landry Time.</p>
+
+
+    @* Remove style for final version *@
+
+    <div class="row">
+        <div class="column left" style="background-color: #aaa;">
+            <div class="headerCSS">
+                <p>List of own reserved booking times:</p>
+            </div>
+            <div class="fixTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name:</th>
+                            <th>Time:</th>
+                            <th>Machine:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2>reserved list box</h2>
+        </div>
+
+
+        <div class="column right" style="background-color: #bbb;">
+            <div class="headerCSS">
+                <p>List of all available booking times:</p>
+            </div>
+            <div class="fixTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name:</th>
+                            <th>Time:</th>
+                            <th>Machine:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2>available list box</h2>
+        </div>
+    </div>
+
+
+</body>
