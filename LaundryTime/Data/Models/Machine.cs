@@ -10,9 +10,14 @@ namespace LaundryTime.Data.Models
     public class Machine
     {
         [Key]
+        [Display(Name = "Machine ID")]
         public int MachineId { get; set; }
 
+        [Display(Name = "Type")]
+        public string Type { get; set; }
+
         [Required]
+        [Display(Name = "Model Number")]
         public string ModelNumber { get; set; }
 
         [ForeignKey(name: "UserAdminId")]
@@ -20,8 +25,7 @@ namespace LaundryTime.Data.Models
 
         public UserAdmin UserAdmin { get; set; }
 
-        public string Type { get; set; }
-
+        [Display(Name = "Installation Date")]
         public DateTime InstallationDate { get; set; }
     }
 }

@@ -38,6 +38,17 @@ namespace LaundryTime.Data.Repositories
             return Context.Machines.Count();
         }
 
+        public string GetTypeOfMachine(int id)
+        {
+            var machine = context.Machines.SingleOrDefault(i => i.MachineId == id);
+
+            if (machine != null)
+                return machine.Type;
+            
+            else
+                return "";
+        }
+
         public bool MachineExist(string number)
         {
             return context.Machines.Any(i => i.ModelNumber == number);

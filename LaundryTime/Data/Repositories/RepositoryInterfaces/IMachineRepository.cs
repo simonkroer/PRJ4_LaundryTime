@@ -12,6 +12,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
         Machine GetSingleMachine(int id);
         void AddMachine(Machine machine);
         int GetNumberOfMachines();
+        public string GetTypeOfMachine(int id);
         public bool MachineExist(string number);
     }
 }
