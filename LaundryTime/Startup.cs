@@ -45,7 +45,7 @@ namespace LaundryTime
                     policyBuilder => policyBuilder
                         .RequireClaim("LaundryUser"));
 
-                options.AddPolicy("IsAdminUser",
+                options.AddPolicy("IsUserAdmin",
                     policyBuilder => policyBuilder
                         .RequireClaim("AdminUser"));
 
