@@ -60,15 +60,16 @@ namespace LaundryTime.Controllers
             return RedirectToAction(nameof(MyUsers));
         }
 
-        public async Task<IActionResult> EditUser(string? Email)
+        [HttpGet]
+        public IActionResult EditUser(string email)
         {
-            if (Email == null)
+            if (email == null)
             {
                 return NotFound();
             }
 
             var laundryuser = new UserAdminViewModel();
-            laundryuser.CurrentLaundryUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(Email);
+            laundryuser.CurrentLaundryUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(email);
 
             if (laundryuser.CurrentLaundryUser == null)
             {
@@ -78,9 +79,10 @@ namespace LaundryTime.Controllers
             return View(laundryuser);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(string username, [Bind("CurrentLaundryUser")] UserAdminViewModel viewmodel)
+        public async Task<IActionResult> UpdateUser(string username, UserAdminViewModel viewmodel)
         {
             if (username != viewmodel.CurrentLaundryUser.Email)
             {
@@ -91,7 +93,7 @@ namespace LaundryTime.Controllers
             {
                 try
                 {
-                    _dataAccess.LaundryUsers.Update(viewmodel.CurrentLaundryUser); 
+                    _dataAccess.LaundryUsers.Update(viewmodel.CurrentLaundryUser);
                     _dataAccess.Complete();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -106,14 +108,14 @@ namespace LaundryTime.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(MyUsers));
+                return RedirectToAction(nameof(EditUser));
             }
 
-            return View(viewmodel);
+            return RedirectToAction(nameof(MyUsers));
         }
 
         //[Authorize("IsUserAdmin")]
-            public IActionResult IndexMachines()
+        public IActionResult IndexMachines()
         {
             var userAdminViewModel = new UserAdminViewModel();
 

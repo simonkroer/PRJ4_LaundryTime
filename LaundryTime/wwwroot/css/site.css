@@ -98,14 +98,16 @@ main {
     font-family: Arial, sans-serif;
 }
 
-.mytable td, thead, tbody, tr, th {
+.mytable td, thead, tbody, tr, th, input {
         text-align: center;
         height: auto;
         font-size:medium;
         padding: 1em;
 }
-#AcolorInTables {
+#InputButtonUserAdmin {
     color: #1b6ec2;
+    border: none;
+    background-color: white;
 }
 
 

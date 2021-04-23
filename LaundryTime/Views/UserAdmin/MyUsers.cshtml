@@ -65,8 +65,7 @@
                         @Html.DisplayFor(modelItem => item.PaymentDueDate)
                     </td>
                     <td>
-                        <a asp-action="EditUser" asp-route-id="@item.Email" id="AcolorInTables">Edit</a> |
-                        <a asp-action="DeleteUser" asp-route-id="@item.Email" id="AcolorInTables">Delete</a>
+                        <input type="button" id="InputButtonUserAdmin" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> 
                     </td>
                 </tr>
             }
