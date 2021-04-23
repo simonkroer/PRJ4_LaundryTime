@@ -26,6 +26,11 @@ namespace LaundryTime.Data.Models
         [Display(Name = "Model Number")]
         public string ModelNumber { get; set; }
 
+        [ForeignKey(name: "UserAdminId")]
+        public string UserAdminId { get; set; }
+
+        public UserAdmin UserAdmin { get; set; }
+
         [Display(Name = "Installation Date")]
         public DateTime InstallationDate { get; set; }
     }

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LaundryTime.Data.Migrations
+namespace LaundryTime.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210423100639_AddedColumnModelNumberToMachine")]
-    partial class AddedColumnModelNumberToMachine
+    [Migration("20210423120540_InitialSchemaCreation")]
+    partial class InitialSchemaCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,19 +60,27 @@ namespace LaundryTime.Data.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>
                 {
-                    b.Property<string>("MachineId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("MachineId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("InstallationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModelNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserAdminId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("MachineId");
+
+                    b.HasIndex("UserAdminId");
 
                     b.ToTable("Machines");
                 });
@@ -392,11 +400,11 @@ namespace LaundryTime.Data.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>
                 {
-                    b.HasOne("LaundryTime.Data.Models.UserAdmin", null)
+                    b.HasOne("LaundryTime.Data.Models.UserAdmin", "UserAdmin")
                         .WithMany("Machines")
-                        .HasForeignKey("MachineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserAdminId");
+
+                    b.Navigation("UserAdmin");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

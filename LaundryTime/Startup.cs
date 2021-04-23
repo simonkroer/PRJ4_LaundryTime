@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 
@@ -34,7 +35,9 @@ namespace LaundryTime
                     Configuration.GetConnectionString("AlexConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
+            services
+                .AddDefaultIdentity<ApplicationUser
+                >(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
@@ -56,13 +59,15 @@ namespace LaundryTime
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }
+
             //else
             //{
             //    app.UseExceptionHandler("/Home/Error");
@@ -75,6 +80,7 @@ namespace LaundryTime
             app.UseRouting();
 
             app.UseAuthentication();
+
             SeedUsers(userManager, context); //Seeding users
             SeedMachines(context); //Seeding Machinces
             app.UseAuthorization();
@@ -151,8 +157,7 @@ namespace LaundryTime
                 //Adding user to UserAdmin:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
                 useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
-
-                context.SaveChanges();
+                dataAcces.Complete();
 
             }
 
@@ -184,8 +189,9 @@ namespace LaundryTime
                 var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin(systemAdminEmail);
                 systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
                 systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail));
-                context.SaveChanges();
+                dataAcces.Complete();
             }
+        }
 
         }
 
@@ -208,8 +214,7 @@ namespace LaundryTime
                 //Adding machine to DB:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
                 useradmin.Machines.Add(machine);
-                dataAcces.Complete();
-
+                context.SaveChanges();
             }
 
             ModelNumber = "SE-59-355W";

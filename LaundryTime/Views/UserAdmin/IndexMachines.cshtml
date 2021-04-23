@@ -22,40 +22,42 @@
 
 <table class="mytable">
     <thead>
-        <tr>
-            <th>
-                @Html.Label(Model.CurrentMachine.MachineId)
-            </th>
-            <th>
-                @Html.Label(Model.CurrentMachine.ModelNumber)
-            </th>
-            <th>
-                @Html.Label(Model.CurrentMachine.Type)
-            </th>
-            <th>
-                @Html.Label(Model.CurrentMachine.InstallationDate.ToShortDateString())
-            </th>
-        </tr>
+    <tr>
+        <th>
+            <label>ID</label>
+        </th>
+        <th>
+            <label>Model Number</label>
+        </th>
+        <th>
+            <label>Type></label>
+        </th>
+        <th>
+            <label>Installation Date</label>
+        </th>
+    </tr>
     </thead>
     @foreach (var item in Model.MyMachines)
     {
+        Model.CurrentMachine = item;
+
         <tbody>
-            <tr>
+        <tr>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.MachineId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModelNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InstallationDate)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MachineId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstallationDate)
+            </td>
 
-            </tr>
+        </tr>
         </tbody>
     }
 </table>
