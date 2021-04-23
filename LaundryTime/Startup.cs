@@ -31,7 +31,7 @@ namespace LaundryTime
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("EmilConnection")));
+                    Configuration.GetConnectionString("ThomasConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
@@ -170,6 +170,27 @@ namespace LaundryTime
                 user1.EmailConfirmed = emailConfirmed;
                 user1.PhoneNumber = systemAdminCell;
                 user1.Name = systemAdminName;
+
+                IdentityResult result = userManager.CreateAsync(user1, systemAdminPassword).Result;
+
+                if (result.Succeeded) //Add claim to user
+                {
+                    userManager.AddClaimAsync(user1, new Claim("SystemAdmin", "IsSystemAdmin")).Wait();
+                }
+
+                //Adding users to SystemAdmin:
+                var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin(systemAdminEmail);
+                systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
+                systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail));
+                context.SaveChanges();
+            }
+
+            //==================== Creating Machines =======================
+
+            if (!dataAcces.SystemAdmins.UserExists(systemAdminEmail))
+            {
+                var machine1 = new Machine();
+                
 
                 IdentityResult result = userManager.CreateAsync(user1, systemAdminPassword).Result;
 
