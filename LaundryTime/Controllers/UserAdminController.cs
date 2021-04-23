@@ -91,9 +91,8 @@ namespace LaundryTime.Controllers
             {
                 try
                 {
-                     _context.LaundryUsers.Update(viewmodel.CurrentLaundryUser);
-                     _dataAccess.LaundryUsers
-                     _dataAccess.Complete();
+                    _dataAccess.LaundryUsers.Update(viewmodel.CurrentLaundryUser); 
+                    _dataAccess.Complete();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
