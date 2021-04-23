@@ -10,10 +10,10 @@ namespace LaundryTimeWebAppWithIdentity.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder ob)
         {
-            optionsBuilder.UseSqlServer(
-                "Data Source=localhost;Initial Catalog=Laundrytime;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            ob.UseSqlServer(
+                @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=LaundryTimeUser;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
             mb.Entity<ReservedBookingListModel>().HasKey(rblm=>rblm.Id);
 
