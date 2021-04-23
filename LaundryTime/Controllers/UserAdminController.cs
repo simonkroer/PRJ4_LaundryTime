@@ -9,6 +9,7 @@ using LaundryTime.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaundryTime.Controllers
 {
@@ -16,13 +17,12 @@ namespace LaundryTime.Controllers
     {
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;
-        private UserAdminViewModel userAdminViewModel;
+        
 
         public UserAdminController(ApplicationDbContext context)
         {
             _context = context;
             _dataAccess = new DataAccsessAction(context);
-            userAdminViewModel = new UserAdminViewModel();
         }
 
         //[Authorize("IsUserAdmin")]
@@ -34,6 +34,8 @@ namespace LaundryTime.Controllers
         //[Authorize("IsUserAdmin")]
         public IActionResult MyUsers()
         {
+            var userAdminViewModel = new UserAdminViewModel();
+
             if (User.Identity != null)
             {
                 var currentuser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
@@ -58,8 +60,57 @@ namespace LaundryTime.Controllers
             return RedirectToAction(nameof(MyUsers));
         }
 
+        public async Task<IActionResult> EditUser(string? username)
+        {
+            if (username == null)
+            {
+                return NotFound();
+            }
+
+            var laundryuser = _dataAccess.LaundryUsers.GetSingleLaundryUser(username);
+
+            if (laundryuser == null)
+            {
+                return NotFound();
+            }
+
+            return View(laundryuser);
+        }
+
+        public async Task<IActionResult> EditUser(string username, [Bind("GuestID,FirstName,LastName,IsCheckedIn,HasEatenBreakfast,GuestType,HotelRoom")] LaundryUser user)
+        {
+            if (username != user.UserName)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(user);
+                    _dataAccess.Complete();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_dataAccess.LaundryUsers.LaundryUserExists(user.Email))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction(nameof(MyUsers));
+            }
+
+            return View(user);
+        }
+
         //[Authorize("IsUserAdmin")]
-        public IActionResult IndexMachines()
+            public IActionResult IndexMachines()
         {
             var userAdminViewModel = new UserAdminViewModel();
 
