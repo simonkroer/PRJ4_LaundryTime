@@ -5,11 +5,20 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+  color: white;
+}
+
+.navbar-light {
+    color: white;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+  color: white;
+}
+
+.nav-link {
+    color: white;
 }
 
 .btn-primary {
