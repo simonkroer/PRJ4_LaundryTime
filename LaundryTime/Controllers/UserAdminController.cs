@@ -21,14 +21,14 @@ namespace LaundryTime.Controllers
             _dataAccess = new DataAccsessAction(context);
         }
 
-        [Authorize("IsAdminUser")]
+        [Authorize("IsUserAdmin")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Authorize("IsAdminUser")]
-        public IActionResult MyUsersView()
+        [Authorize("IsUserAdmin")]
+        public IActionResult MyUsers()
         {
             var userAdminViewModel = new UserAdminViewModel();
 
@@ -36,8 +36,18 @@ namespace LaundryTime.Controllers
 
             return View(userAdminViewModel);
         }
-        
 
-        
+        [Authorize("IsUserAdmin")]
+        public IActionResult MyMachines()
+        {
+            var userAdminViewModel = new UserAdminViewModel();
+
+            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
+
+            return View(userAdminViewModel);
+        }
+
+
+
     }
 }
