@@ -21,13 +21,13 @@ namespace LaundryTime.Controllers
             _dataAccess = new DataAccsessAction(context);
         }
 
-        [Authorize("IsAdminUser")]
+        [Authorize("IsUserAdmin")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Authorize("IsAdminUser")]
+        [Authorize("IsUserAdmin")]
         public IActionResult MyUsersView()
         {
             var userAdminViewModel = new UserAdminViewModel();
