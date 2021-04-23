@@ -48,6 +48,18 @@ namespace LaundryTime.Controllers
             return View(userAdminViewModel);
         }
 
+        public IActionResult AddUsers()
+        {
+            return View();
+        }
+
+        public IActionResult DeleteUser()
+        {
+            //Delete the chosen user HERE
+
+            return RedirectToAction(nameof(MyUsers));
+        }
+
         //[Authorize("IsUserAdmin")]
         public IActionResult IndexMachines()
         {

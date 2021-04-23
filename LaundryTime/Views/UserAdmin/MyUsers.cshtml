@@ -10,9 +10,9 @@
     <br />
 
     <div>
-        <button class="btn-primary"> Add new user</button>
-        <button class="btn-primary"> Delete user</button>
-        <button class="btn-primary"> Edit user</button>
+        <input type="button" class="btn btn-primary" value="Add new user" onclick="location.href = '@Url.Action("AddUsers", "UserAdmin")'" />
+        <input type="button" class="btn btn-primary" value="Delete user" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin")'" />
+        <input type="button" class="btn btn-primary" value="Edit user" onclick="location.href = '@Url.Action("EditUser", "UserAdmin")'" />
 
     </div>
     <br /><br />
