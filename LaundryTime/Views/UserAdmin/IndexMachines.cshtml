@@ -1,0 +1,63 @@
+﻿@using Microsoft.Data.SqlClient.DataClassification
+@model UserAdminViewModel
+
+@{
+    ViewData["Title"] = "Machine Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Current Machines - @DateTime.Today.ToString("D")</h4>
+<br />
+<table class="mytable">
+    <tr>
+        <td>
+            <input type="button" class="btn btn-primary" value="Add New Machine" onclick="location.href = '@Url.Action("AddMachines", "UserAdmin")'" />
+        </td>
+        <td>
+            <input type="button" class="btn btn-primary" value="Remove Machine" onclick="location.href = '@Url.Action("DeleteMachines", "UserAdmin")'" />
+        </td>
+    </tr>
+</table>
+<br />
+
+<table class="mytable">
+    <thead>
+    <tr>
+        <th>
+            <label>ID</label>
+        </th>
+        <th>
+            <label>Model Number</label>
+        </th>
+        <th>
+            <label>Type</label>
+        </th>
+        <th>
+            <label>Installation Date</label>
+        </th>
+    </tr>
+    </thead>
+    @foreach (var item in Model.MyMachines)
+    {
+        Model.CurrentMachine = item;
+
+        <tbody>
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.MachineId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstallationDate)
+            </td>
+
+        </tr>
+        </tbody>
+    }
+</table>

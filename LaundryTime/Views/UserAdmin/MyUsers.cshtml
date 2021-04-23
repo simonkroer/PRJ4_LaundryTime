@@ -1,0 +1,62 @@
+﻿@model UserAdminViewModel
+@{
+    ViewBag.Title = "UserAdminMyUsers";
+    Layout = "_Layout";
+}
+
+<div>
+    <br />
+    <h4> All my users:</h4>
+    <br />
+
+    <div>
+        <input type="button" class="btn btn-primary" value="Add new user" onclick="location.href = '@Url.Action("AddUsers", "UserAdmin")'" />
+        <input type="button" class="btn btn-primary" value="Delete user" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin")'" />
+        <input type="button" class="btn btn-primary" value="Edit user" onclick="location.href = '@Url.Action("EditUser", "UserAdmin")'" />
+
+    </div>
+    <br /><br />
+
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>
+                        First name
+                    </td>
+                    <td>
+                        Last name
+                    </td>
+                    <td>
+                        Phone
+                    </td>
+                    <td>
+                        Address
+                    </td>
+                    <td>
+                        E-mail
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.MyUsers)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address.StreetAddress)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

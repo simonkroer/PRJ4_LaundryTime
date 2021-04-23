@@ -45,5 +45,7 @@ namespace LaundryTime.Data.Repositories
         {
             context.UserAdmins.Add(userAdmin);
         }
+
+
     }
 }

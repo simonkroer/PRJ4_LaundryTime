@@ -1,0 +1,27 @@
+﻿@model LaundryTimeWebAppWithIdentity.Models.Calender.DatePickerModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Select Date</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorFor(model => model.Datedata, new { htmlAttributes = new { @class = "DatePicker" } })
+}
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+@section Scripts
+{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".datepicker").datepicker({
+                dateFormat: "dd-mm-yy",
+                changemonth: true,
+                changeyear: true
+            });
+        });
+    </script>
+}
+<p>This is a Calender for Landry Time.</p>

@@ -21,6 +21,10 @@ a {
     color: white;
 }
 
+.navbar-nav li {
+    padding-right: 1em;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -74,7 +78,7 @@ header {
     background: rgba(9, 36, 128, 0.7);
 }
 
-body {
+main {
   /* Margin bottom by footer height */
     margin-top: 80px;
     margin-bottom: 60px;
@@ -84,6 +88,17 @@ body {
     bottom: 0;
     width: 100%;
     white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
+    line-height: 60px;
+    text-align: center;
     background: rgba(9, 36, 128, 0.7);
 }
+
+.mytable {
+    border-style: none;
+    font-family: Arial, sans-serif;
+}
+
+    .mytable th, td{
+        padding: 1em;
+    }
+

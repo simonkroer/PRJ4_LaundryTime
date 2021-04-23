@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 
@@ -31,10 +32,12 @@ namespace LaundryTime
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("EmilConnection")));
+                    Configuration.GetConnectionString("AlexConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
+            services
+                .AddDefaultIdentity<ApplicationUser
+                >(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
@@ -45,7 +48,7 @@ namespace LaundryTime
                     policyBuilder => policyBuilder
                         .RequireClaim("LaundryUser"));
 
-                options.AddPolicy("IsAdminUser",
+                options.AddPolicy("IsUserAdmin",
                     policyBuilder => policyBuilder
                         .RequireClaim("AdminUser"));
 
@@ -56,13 +59,15 @@ namespace LaundryTime
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }
+
             //else
             //{
             //    app.UseExceptionHandler("/Home/Error");
@@ -75,7 +80,9 @@ namespace LaundryTime
             app.UseRouting();
 
             app.UseAuthentication();
+
             SeedUsers(userManager, context); //Seeding users
+            SeedMachines(context); //Seeding Machinces
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -150,7 +157,7 @@ namespace LaundryTime
                 //Adding user to UserAdmin:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
                 useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
-                context.SaveChanges();
+                dataAcces.Complete();
 
             }
 
@@ -182,8 +189,94 @@ namespace LaundryTime
                 var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin(systemAdminEmail);
                 systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
                 systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail));
+                dataAcces.Complete();
+            }
+        }
+
+
+        public static void SeedMachines(ApplicationDbContext context)
+        {
+            ApplicationDbContext _context = context;
+            IDataAccessAction dataAcces = new DataAccsessAction(_context);
+            const string userAdminEmail = "UserAdmin@UserAdmin.com";
+            //==================== Creating Machines =======================
+
+            string ModelNumber = "SE-59-574W";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Washing";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
                 context.SaveChanges();
+            }
+
+            ModelNumber = "SE-59-355W";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Washing";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
+                dataAcces.Complete();
+            }
+
+            ModelNumber = "SE-59-238W";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Washing";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
+                dataAcces.Complete();
+            }
+
+            ModelNumber = "SE-33-245D";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Drying";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
+                dataAcces.Complete();
+            }
+
+            ModelNumber = "SE-33-650D";
+
+            if (!dataAcces.Machines.MachineExist(ModelNumber))
+            {
+                var machine = new Machine();
+                machine.Type = "Drying";
+                machine.InstallationDate = DateTime.Today;
+                machine.ModelNumber = ModelNumber;
+
+                //Adding machine to DB:
+                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+                useradmin.Machines.Add(machine);
+                dataAcces.Complete();
             }
         }
     }
 }
+
+
