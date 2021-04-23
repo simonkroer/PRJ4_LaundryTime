@@ -11,6 +11,9 @@ namespace LaundryTime.Data.Models
         [Key] 
         public string MachineId { get; set; }
 
+        [Required]
+        public string ModelNumber { get; set; }
+
         public string Type { get; set; }
 
         public DateTime InstallationDate { get; set; }
