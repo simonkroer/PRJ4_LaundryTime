@@ -12,5 +12,10 @@ namespace LaundryTime.Controllers
         {
             return View();
         }
+
+        public IActionResult MyUsersView()
+        {
+            return View();
+        }
     }
 }
