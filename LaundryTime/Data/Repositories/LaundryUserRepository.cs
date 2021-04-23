@@ -38,5 +38,6 @@ namespace LaundryTime.Data.Repositories
         {
             return context.LaundryUsers.Any(e => e.UserName == email);
         }
+
     }
 }

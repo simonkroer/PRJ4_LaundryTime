@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LaundryTime.Data;
 using LaundryTime.Data.Models;
+using LaundryTime.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LaundryTime.Controllers
@@ -29,7 +30,14 @@ namespace LaundryTime.Controllers
         [Authorize("IsUserAdmin")]
         public IActionResult MyUsersView()
         {
-            return View();
+            var userAdminViewModel = new UserAdminViewModel();
+
+            userAdminViewModel.MyUsers = _dataAccess.UserAdmins.GetAllMyUsers();
+
+            return View(userAdminViewModel);
         }
+        
+
+        
     }
 }
