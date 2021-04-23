@@ -76,17 +76,21 @@ namespace LaundryTime.Controllers
                 return NotFound();
             }
 
-            return View(_userAdminViewModel);
+            UserAdminViewModel newModel = new UserAdminViewModel();
+            newModel = _userAdminViewModel;
+            newModel.CurrentLaundryUser = _userAdminViewModel.CurrentLaundryUser;
+
+            return View(newModel);
         }
 
         //Virker ikke endnu. Der kommer blot en nyt laundryUser med som er tom. 
-        public async Task<IActionResult> UpdateUser([Bind("CurrentLaundryUser")] UserAdminViewModel viewModel) //[Bind("Name")] Name,Phone,Email,Address.StreetAddress,Address.Zipcode,Paymentmethod,PaymentDueDate,UserName
+        public async Task<IActionResult> UpdateUser([Bind("CurrentLaundryUser")] UserAdminViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var name = viewModel.CurrentLaundryUser.Name;
+                    var name = viewModel.CurrentLaundryUser.Name; //Just for testing
                     _dataAccess.LaundryUsers.Update(viewModel.CurrentLaundryUser);
                     _dataAccess.Complete();
                 }
@@ -107,6 +111,8 @@ namespace LaundryTime.Controllers
 
             return RedirectToAction(nameof(MyUsers));
         }
+
+
 
         //[Authorize("IsUserAdmin")]
         public IActionResult IndexMachines()

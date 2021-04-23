@@ -55,9 +55,18 @@
             </div>
 
         </form>
-        
+
         <div>
-            <input type="submit" class="btn btn-primary" value="Update user" onclick="location.href = '@Url.Action("UpdateUser", "UserAdmin",  new{PropA = this.Model})'" />
+            <input type="submit" class="btn btn-primary" value="Update user" onclick="location.href = '@Url.Action("UpdateUser", "UserAdmin",  new {Model})'" />
+        </div>
+        <div>
+            @using (Html.BeginForm("UpdateUser", "UserAdmin"))
+            {
+                Html.TextBoxFor(p => p.CurrentLaundryUser.Id);
+                Html.TextBoxFor(p => p.CurrentLaundryUser.Name);
+
+                <input type="submit" class="btn btn-primary" value="Update user2" />
+            }
         </div>
     </div>
     <div>
