@@ -20,9 +20,6 @@ namespace LaundryTime.Data.Models
 
         public UserAdmin UserAdmin { get; set; }
 
-        [Required]
-        public string ModelNumber { get; set; }
-
         public string Type { get; set; }
 
         public DateTime InstallationDate { get; set; }
