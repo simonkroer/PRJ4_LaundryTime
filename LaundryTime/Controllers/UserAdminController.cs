@@ -16,15 +16,13 @@ namespace LaundryTime.Controllers
     {
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;
+        private UserAdminViewModel userAdminViewModel;
 
         public UserAdminController(ApplicationDbContext context)
         {
             _context = context;
             _dataAccess = new DataAccsessAction(context);
-
-            //if (User.Identity != null)
-            //    _currentLoggedInUser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
-            
+            userAdminViewModel = new UserAdminViewModel();
         }
 
         //[Authorize("IsUserAdmin")]
@@ -36,8 +34,6 @@ namespace LaundryTime.Controllers
         //[Authorize("IsUserAdmin")]
         public IActionResult MyUsers()
         {
-            var userAdminViewModel = new UserAdminViewModel();
-
             if (User.Identity != null)
             {
                 var currentuser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
@@ -48,9 +44,48 @@ namespace LaundryTime.Controllers
             return View(userAdminViewModel);
         }
 
-        public IActionResult AddUsers()
+        //[Authorize("IsUserAdmin")]
+        public IActionResult AddUsers(UserAdminViewModel userAdminViewModel)
         {
-            return View();
+            return View(userAdminViewModel);
+        }
+
+        //[Authorize("IsUserAdmin")]
+        public IActionResult DeleteUser()
+        {
+            //Delete the chosen user HERE
+
+            return RedirectToAction(nameof(MyUsers));
+        }
+
+        //[Authorize("IsUserAdmin")]
+        public IActionResult IndexMachines()
+        {
+            var userAdminViewModel = new UserAdminViewModel();
+
+            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
+
+            return View(userAdminViewModel);
+        }
+
+        //[Authorize("IsUserAdmin")]
+        public IActionResult AddMachines()
+        {
+            var userAdminViewModel = new UserAdminViewModel();
+
+            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
+
+            return View(userAdminViewModel);
+        }
+
+        //[Authorize("IsUserAdmin")]
+        public IActionResult DeleteMachines()
+        {
+            var userAdminViewModel = new UserAdminViewModel();
+
+            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
+
+            return View(userAdminViewModel);
         }
 
         public IActionResult DeleteUser()

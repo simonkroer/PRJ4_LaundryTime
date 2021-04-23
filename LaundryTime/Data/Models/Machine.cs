@@ -10,16 +10,10 @@ namespace LaundryTime.Data.Models
     public class Machine
     {
         [Key]
+        [Display(Name = "Machine ID")]
         public int MachineId { get; set; }
 
-        [Required]
-        public string ModelNumber { get; set; }
-
-        [ForeignKey(name: "UserAdminId")]
-        public string UserAdminId { get; set; }
-
-        public UserAdmin UserAdmin { get; set; }
-
+        [Display(Name = "Type")]
         public string Type { get; set; }
 
         [Required]
