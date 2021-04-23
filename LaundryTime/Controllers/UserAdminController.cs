@@ -93,7 +93,7 @@ namespace LaundryTime.Controllers
                 {
                     _dataAccess.LaundryUsers.Update(viewmodel.CurrentLaundryUser); 
                     _dataAccess.Complete();
-                }to adminusers
+                }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!_dataAccess.LaundryUsers.LaundryUserExists(viewmodel.CurrentLaundryUser.Email))
