@@ -59,13 +59,14 @@
         <div>
             <input type="submit" class="btn btn-primary" value="Update user" onclick="location.href = '@Url.Action("UpdateUser", "UserAdmin",  new {Model})'" />
         </div>
+        <br/>
         <div>
             @using (Html.BeginForm("UpdateUser", "UserAdmin"))
             {
                 Html.TextBoxFor(p => p.CurrentLaundryUser.Id);
                 Html.TextBoxFor(p => p.CurrentLaundryUser.Name);
 
-                <input type="submit" class="btn btn-primary" value="Update user2" />
+                <input type="submit" class="btn btn-primary" value="Update user 2" />
             }
         </div>
     </div>
