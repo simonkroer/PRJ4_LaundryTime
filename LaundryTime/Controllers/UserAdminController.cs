@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LaundryTime.Data;
 using LaundryTime.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LaundryTime.Controllers
 {
@@ -18,11 +19,14 @@ namespace LaundryTime.Controllers
             _context = context;
             _dataAccess = new DataAccsessAction(context);
         }
+
+        [Authorize("IsUserAdmin")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize("IsUserAdmin")]
         public IActionResult MyUsersView()
         {
             return View();
