@@ -22,6 +22,8 @@ namespace LaundryTime.Data.Models
 
         public string Type { get; set; }
 
+        public string ModelNumber { get; set; }
+
         public DateTime InstallationDate { get; set; }
     }
 }
