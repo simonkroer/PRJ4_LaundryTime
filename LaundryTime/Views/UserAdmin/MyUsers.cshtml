@@ -11,56 +11,72 @@
 
     <div>
         <input type="button" class="btn btn-primary" value="Add new user" onclick="location.href = '@Url.Action("AddUsers", "UserAdmin")'" />
-        <input type="button" class="btn btn-primary" value="Delete user" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin")'" />
-        <input type="button" class="btn btn-primary" value="Edit user" onclick="location.href = '@Url.Action("EditUser", "UserAdmin")'" />
 
     </div>
     <br /><br />
 
     <div>
-        <table class="table">
+        <table class="mytable">
             <thead>
                 <tr>
                     <td>
-                        First name
-                    </td>
-                    <td>
-                        Last name
+                        Name
                     </td>
                     <td>
                         Phone
                     </td>
                     <td>
+                        Email
+                    </td>
+                    <td>
                         Address
                     </td>
                     <td>
-                        E-mail
+                        Paymentmethod
+                    </td>
+                    <td>
+                        Payment due date
+                    </td>
+                    <td>
+                        @Html.Display("Actions")
                     </td>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.MyUsers)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PhoneNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Address.StreetAddress)
-                        </td>
-                        <td>
-                            <a asp-action="EditUser" asp-route-id="@item.UserName">Edit</a> |
-                            <a asp-action="Delete" asp-route-id="@item.UserName">Delete</a>
-                        </td>
-                    </tr>
-                }
+            @foreach (var item in Model.MyUsers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.StreetAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentMethod)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentDueDate)
+                    </td>
+                    <td>
+                        <a asp-action="EditUser" asp-route-id="@item.Email" id="AcolorInTables">Edit</a> |
+                        <a asp-action="DeleteUser" asp-route-id="@item.Email" id="AcolorInTables">Delete</a>
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
     </div>
+    <aside>
+        <figure>
+            <img src="/Images/logo.jfif" style="float: right; width: 225px; height: 225px" alt="Laundry time logo">
+        </figure>
+
+    </aside>
 </div>

@@ -14,7 +14,7 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: white;
+    color: white;
 }
 
 .nav-link {
@@ -98,7 +98,14 @@ main {
     font-family: Arial, sans-serif;
 }
 
-    .mytable th, td{
+.mytable td, thead, tbody, tr, th {
+        text-align: center;
+        height: auto;
+        font-size:medium;
         padding: 1em;
-    }
+}
+#AcolorInTables {
+    color: #1b6ec2;
+}
+
 

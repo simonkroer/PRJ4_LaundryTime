@@ -60,15 +60,15 @@ namespace LaundryTime.Controllers
             return RedirectToAction(nameof(MyUsers));
         }
 
-        public async Task<IActionResult> EditUser(string? username)
+        public async Task<IActionResult> EditUser(string? Email)
         {
-            if (username == null)
+            if (Email == null)
             {
                 return NotFound();
             }
 
             var laundryuser = new UserAdminViewModel();
-            laundryuser.CurrentLaundryUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(username);
+            laundryuser.CurrentLaundryUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(Email);
 
             if (laundryuser.CurrentLaundryUser == null)
             {
@@ -80,9 +80,9 @@ namespace LaundryTime.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(string username, [Bind("DATApropertiesforthelaundryuser")] UserAdminViewModel viewmodel)
+        public async Task<IActionResult> EditUser(string username, [Bind("CurrentLaundryUser")] UserAdminViewModel viewmodel)
         {
-            if (username != viewmodel.CurrentLaundryUser.UserName)
+            if (username != viewmodel.CurrentLaundryUser.Email)
             {
                 return NotFound();
             }
@@ -93,7 +93,7 @@ namespace LaundryTime.Controllers
                 {
                     _dataAccess.LaundryUsers.Update(viewmodel.CurrentLaundryUser); 
                     _dataAccess.Complete();
-                }
+                }to adminusers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!_dataAccess.LaundryUsers.LaundryUserExists(viewmodel.CurrentLaundryUser.Email))
