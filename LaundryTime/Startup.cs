@@ -16,6 +16,7 @@ using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 using LaundryTime.Data.Models.Booking;
+using LaundryTime.Models.Calender;
 
 namespace LaundryTime
 {
@@ -83,6 +84,8 @@ namespace LaundryTime
 
             SeedUsers(userManager, context); //Seeding users
             SeedMachines(context); //Seeding Machinces
+            CreateNewBookList(context, CreateDateModel(context, "22-04-2021"));
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -307,36 +310,48 @@ namespace LaundryTime
             }
         }
 
-        public static void CreateNewBookList(ApplicationDbContext context, int dateId)
+        public static void CreateNewBookList(ApplicationDbContext context, DateModel date)
         {
             ApplicationDbContext _context = context;
             IDataAccessAction dataAcces = new DataAccsessAction(_context);
             BookingListModel[] BooklistM1tmp = new BookingListModel[15];
-            BookingListModel[] BooklistM2tmp = new BookingListModel[15];
 
-            //for (int i = 8; i < 23; i++)
-            //{
-            //    int t = i - 8;
-            //    string time = i.ToString() + "-" + (i + 1).ToString();
-            //    BooklistM1tmp[t] = new BookingListModel()
-            //    {
-            //        DateModel = dataAcces.DateModelLists.Get(dateId),
-            //        Status = "Available",
-            //        Machine = "Washing Machine 1",
-            //        Time = time
-            //    };
-            //    dataAcces.BookingLists.Add(BooklistM1tmp[t]);
-
-            //    BooklistM2tmp[t] = new BookingListModel()
-            //    {
-            //        DateModel = dataAcces.DateModelLists.Get(dateId),
-            //        Status = "Available",
-            //        Machine = "Washing Machine 2",
-            //        Time = time
-            //    };
-            //    dataAcces.BookingLists.Add(BooklistM2tmp[t]);
-            //}
+            var machines = dataAcces.Machines.GetAllMachines();
+            foreach (var machine in machines)
+            {
+                for (int i = 8; i < 23; i++)
+                {
+                    int t = i - 8;
+                    string time = i.ToString() + "-" + (i + 1).ToString();
+                    BooklistM1tmp[t] = new BookingListModel()
+                    {
+                        DateModel = date,
+                        Date = date.DateData,
+                        Status = true,
+                        Machine = machine,
+                        Time = time
+                    };
+                    dataAcces.BookingList.Add(BooklistM1tmp[t]);
+                }
+            }
+            
             dataAcces.Complete();
+        }
+        public DateModel CreateDateModel(ApplicationDbContext context, string dato)
+        {
+            ApplicationDbContext _context = context;
+            IDataAccessAction dataAcces = new DataAccsessAction(_context);
+            //DatePickerModel date = new DatePickerModel();
+            DateTime date = DateTime.Parse(dato);
+            DateModel newDateModel = new DateModel()
+            {
+                DateData = date.Date
+            };
+
+            _context.DateModels.Add(newDateModel);
+            dataAcces.Complete();
+
+            return newDateModel;
         }
 
     }
