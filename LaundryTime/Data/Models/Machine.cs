@@ -23,8 +23,10 @@ namespace LaundryTime.Data.Models
         public string Type { get; set; }
 
         [Required]
+        [Display(Name = "Model Number")]
         public string ModelNumber { get; set; }
 
+        [Display(Name = "Installation Date")]
         public DateTime InstallationDate { get; set; }
     }
 }
