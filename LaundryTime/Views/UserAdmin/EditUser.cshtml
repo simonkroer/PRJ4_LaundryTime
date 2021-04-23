@@ -1,28 +1,29 @@
-﻿@model UserAdminViewModel
+﻿@using LaundryTime.Data.Models
+@using System.Net.Mime
+@model UserAdminViewModel
 @{
     ViewBag.Title = "UserAdminEditUser";
     Layout = "_Layout";
 }
-<div>
-    <h1>Test tekst for EditUser Useradmin</h1>
+<br/>
+<h3> Edit user information</h3>
 
-    <div>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
         <form asp-action="EditUser">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CurrentLaundryUser"/>
-            <div>
-                <label>Name of the user </label>
-                @Html.DisplayFor(model=>model.CurrentLaundryUser.Name)
-                <span asp-validation-for="CurrentLaundryUser" class="text-danger"></span>
+            <input type="hidden" asp-for="CurrentLaundryUser" />
+
+            <div class="form-group">
+                <label class="control-label">Name: </label>
+                <input asp-for="@Model.CurrentLaundryUser.Name" class="form-control" />
+                <span asp-validation-for="@Model.CurrentLaundryUser.Name" class="text-danger"></span>
             </div>
+
         </form>
 
+        <input type="button" id="InputButtonUserAdmin" value="Update user" onclick="location.href = '@Url.Action("UpdateUser", "UserAdmin", new {email = Model.CurrentLaundryUser.Email})'" />
     </div>
 
-    <aside>
-        <figure>
-            <img src="/Images/logo.jfif" style="float: right; width: 225px; height: 225px" alt="Laundry time logo">
-        </figure>
-
-    </aside>
 </div>

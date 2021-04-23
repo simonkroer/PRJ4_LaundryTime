@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LaundryTime.ViewModels
 {
@@ -14,6 +15,7 @@ namespace LaundryTime.ViewModels
 
         public Machine CurrentMachine { get; set; }
 
+        [BindProperty]
         public LaundryUser CurrentLaundryUser { get; set; }
     }
 }

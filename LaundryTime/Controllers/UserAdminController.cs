@@ -17,12 +17,15 @@ namespace LaundryTime.Controllers
     {
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;
-        
+        public UserAdminViewModel _userAdminViewModel;
+
+
 
         public UserAdminController(ApplicationDbContext context)
         {
             _context = context;
             _dataAccess = new DataAccsessAction(context);
+            _userAdminViewModel = new UserAdminViewModel();
         }
 
         //[Authorize("IsUserAdmin")]
@@ -34,22 +37,20 @@ namespace LaundryTime.Controllers
         //[Authorize("IsUserAdmin")]
         public IActionResult MyUsers()
         {
-            var userAdminViewModel = new UserAdminViewModel();
-
             if (User.Identity != null)
             {
                 var currentuser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
 
-                userAdminViewModel.MyUsers = currentuser.Users;
+                _userAdminViewModel.MyUsers = currentuser.Users;
             }
 
-            return View(userAdminViewModel);
+            return View(_userAdminViewModel);
         }
 
         //[Authorize("IsUserAdmin")]
-        public IActionResult AddUsers(UserAdminViewModel userAdminViewModel)
+        public IActionResult AddUsers()
         {
-            return View(userAdminViewModel);
+            return View(_userAdminViewModel);
         }
 
         //[Authorize("IsUserAdmin")]
@@ -68,23 +69,19 @@ namespace LaundryTime.Controllers
                 return NotFound();
             }
 
-            var laundryuser = new UserAdminViewModel();
-            laundryuser.CurrentLaundryUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(email);
+            _userAdminViewModel.CurrentLaundryUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(email);
 
-            if (laundryuser.CurrentLaundryUser == null)
+            if (_userAdminViewModel.CurrentLaundryUser == null)
             {
                 return NotFound();
             }
 
-            return View(laundryuser);
+            return View(_userAdminViewModel);
         }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateUser(string username, UserAdminViewModel viewmodel)
+        public async Task<IActionResult> UpdateUser(string username, [Bind("Name,Phone,Email,Address,Paymentmethod,GuestType,HotelRoom")] LaundryUser laundryUser)
         {
-            if (username != viewmodel.CurrentLaundryUser.Email)
+            if (username != laundryUser.Email)
             {
                 return NotFound();
             }
@@ -93,12 +90,12 @@ namespace LaundryTime.Controllers
             {
                 try
                 {
-                    _dataAccess.LaundryUsers.Update(viewmodel.CurrentLaundryUser);
+                    _dataAccess.LaundryUsers.Update(laundryUser);
                     _dataAccess.Complete();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_dataAccess.LaundryUsers.LaundryUserExists(viewmodel.CurrentLaundryUser.Email))
+                    if (!_dataAccess.LaundryUsers.LaundryUserExists(laundryUser.Email))
                     {
                         return NotFound();
                     }
@@ -111,7 +108,7 @@ namespace LaundryTime.Controllers
                 return RedirectToAction(nameof(EditUser));
             }
 
-            return RedirectToAction(nameof(MyUsers));
+            return RedirectToAction(nameof(EditUser));
         }
 
         //[Authorize("IsUserAdmin")]
