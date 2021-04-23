@@ -8,12 +8,10 @@ namespace LaundryTime.ViewModels
 {
     public class UserAdminViewModel
     {
-        public UserAdminViewModel()
-        {
-
-        }
         public List<LaundryUser> MyUsers { get; set; }
 
+        public List<Machine> MyMachines { get; set; }
 
+        public Machine CurrentMachine { get; set; }
     }
 }
