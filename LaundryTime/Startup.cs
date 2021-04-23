@@ -159,12 +159,6 @@ namespace LaundryTime
                 useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
                 dataAcces.Complete();
 
-                ////Adding useradmin to user.
-                //var laundryuser = dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail);
-                //laundryuser.Administrator = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
-
-                //context.SaveChanges();
-
             }
 
 
