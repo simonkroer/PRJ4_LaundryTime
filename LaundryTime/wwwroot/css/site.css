@@ -24,8 +24,6 @@ a {
   border-color: #1861ac;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
 html {
   font-size: 14px;
 }
@@ -51,16 +49,26 @@ button.accept-policy {
   line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+
 html {
   position: relative;
   min-height: 100%;
 }
 
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.bg-opacity-blue {
+    background: rgba(33, 43, 180, 0.7);
+}
+
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    margin-top: 80px;
+    margin-bottom: 60px;
 }
 .footer {
   position: absolute;
