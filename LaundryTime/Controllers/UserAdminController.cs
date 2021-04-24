@@ -84,7 +84,7 @@ namespace LaundryTime.Controllers
         }
 
         //Virker ikke endnu. Der kommer blot en nyt laundryUser med som er tom. 
-        public async Task<IActionResult> UpdateUser([Bind("CurrentLaundryUser")] UserAdminViewModel viewModel)
+        public async Task<IActionResult> EditUser([Bind("CurrentLaundryUser")] UserAdminViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -111,6 +111,7 @@ namespace LaundryTime.Controllers
 
             return RedirectToAction(nameof(MyUsers));
         }
+
 
 
 

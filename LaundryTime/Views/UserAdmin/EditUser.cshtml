@@ -9,72 +9,68 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditUser">
+        <form asp-controller="UserAdmin" asp-action="EditUser">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CurrentLaundryUser" />
 
             <div class="form-group">
                 <label class="control-label">Name: </label>
-                <input asp-for="@Model.CurrentLaundryUser.Name" class="form-control" />
-                <span asp-validation-for="@Model.CurrentLaundryUser.Name" class="text-danger"></span>
+                <input asp-for="CurrentLaundryUser.Name" type="text" class="form-control" id="Name" onmouseleave="updateUser()"/>
+                <span asp-validation-for="CurrentLaundryUser.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Phone: </label>
-                <input asp-for="@Model.CurrentLaundryUser.PhoneNumber" class="form-control" />
-                <span asp-validation-for="@Model.CurrentLaundryUser.PhoneNumber" class="text-danger"></span>
+                <input asp-for="CurrentLaundryUser.PhoneNumber" class="form-control" />
+                <span asp-validation-for="CurrentLaundryUser.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Email: </label>
-                <input asp-for="@Model.CurrentLaundryUser.Email" class="form-control" />
-                <span asp-validation-for="@Model.CurrentLaundryUser.Email" class="text-danger"></span>
+                <input asp-for="CurrentLaundryUser.Email" class="form-control" />
+                <span asp-validation-for="CurrentLaundryUser.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">StreetAddress: </label>
-                <input asp-for="@Model.CurrentLaundryUser.Address.StreetAddress" class="form-control" />
-                <span asp-validation-for="@Model.CurrentLaundryUser.Address.StreetAddress" class="text-danger"></span>
+                <input asp-for="CurrentLaundryUser.Address.StreetAddress" class="form-control" />
+                <span asp-validation-for="CurrentLaundryUser.Address.StreetAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Zip code: </label>
-                <input asp-for="@Model.CurrentLaundryUser.Address.Zipcode" class="form-control" />
-                <span asp-validation-for="@Model.CurrentLaundryUser.Address.Zipcode" class="text-danger"></span>
+                <input asp-for="CurrentLaundryUser.Address.Zipcode" class="form-control" />
+                <span asp-validation-for="CurrentLaundryUser.Address.Zipcode" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Payment method: </label>
-                <input asp-for="@Model.CurrentLaundryUser.PaymentMethod" class="form-control" />
-                <span asp-validation-for="@Model.CurrentLaundryUser.PaymentMethod" class="text-danger"></span>
+                <input asp-for="CurrentLaundryUser.PaymentMethod" class="form-control" />
+                <span asp-validation-for="CurrentLaundryUser.PaymentMethod" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Payment due date: </label>
-                <input asp-for="@Model.CurrentLaundryUser.PaymentDueDate" class="form-control" />
-                <span asp-validation-for="@Model.CurrentLaundryUser.PaymentDueDate" class="text-danger"></span>
+                <input asp-for="CurrentLaundryUser.PaymentDueDate" class="form-control" />
+                <span asp-validation-for="CurrentLaundryUser.PaymentDueDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">User name: </label>
-                <input asp-for="@Model.CurrentLaundryUser.UserName" class="form-control" />
-                <span asp-validation-for="@Model.CurrentLaundryUser.UserName" class="text-danger"></span>
+                <input asp-for="CurrentLaundryUser.UserName" class="form-control" />
+                <span asp-validation-for="CurrentLaundryUser.UserName" class="text-danger"></span>
             </div>
 
         </form>
 
         <div>
-            <input type="submit" class="btn btn-primary" value="Update user" onclick="location.href = '@Url.Action("UpdateUser", "UserAdmin",  new {Model})'" />
-        </div>
-        <br/>
-        <div>
-            @using (Html.BeginForm("UpdateUser", "UserAdmin"))
-            {
-                Html.TextBoxFor(p => p.CurrentLaundryUser.Id);
-                Html.TextBoxFor(p => p.CurrentLaundryUser.Name);
-
-                <input type="submit" class="btn btn-primary" value="Update user 2" />
-            }
+            <input type="submit" class="btn btn-primary" value="Update user" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {name = Model.CurrentLaundryUser.Name, viewModel = Model})'"/><!--onclick="location.href = '@*Url.Action("UpdateUser", "UserAdmin",  new {Model})'"*@-->
         </div>
     </div>
     <div>
         <a asp-action="MyUsers">Back to my users overview</a>
     </div>
-
 </div>
+
+<script>
+    function updateUser() {
+        @Html.ViewData.Model.CurrentLaundryUser.Name = document.getElementById('Name').value;
+    }
+</script>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
