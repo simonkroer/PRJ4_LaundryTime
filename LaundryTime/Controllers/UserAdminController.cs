@@ -76,15 +76,11 @@ namespace LaundryTime.Controllers
                 return NotFound();
             }
 
-            UserAdminViewModel newModel = new UserAdminViewModel();
-            newModel = _userAdminViewModel;
-            newModel.CurrentLaundryUser = _userAdminViewModel.CurrentLaundryUser;
-
-            return View(newModel);
+            return View(_userAdminViewModel);
         }
 
         //Virker ikke endnu. Der kommer blot en nyt laundryUser med som er tom. 
-        public async Task<IActionResult> EditUser([Bind("CurrentLaundryUser")] UserAdminViewModel viewModel)
+        public IActionResult UpdateUser([Bind(Prefix = nameof(UserAdminViewModel.CurrentLaundryUser))] UserAdminViewModel viewModel)
         {
             if (ModelState.IsValid)
             {

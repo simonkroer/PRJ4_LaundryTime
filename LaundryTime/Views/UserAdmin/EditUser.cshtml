@@ -15,7 +15,7 @@
 
             <div class="form-group">
                 <label class="control-label">Name: </label>
-                <input asp-for="CurrentLaundryUser.Name" type="text" class="form-control" id="Name" onmouseleave="updateUser()"/>
+                <input asp-for="CurrentLaundryUser.Name" type="text" class="form-control" id="Name" value="@Html.ViewData.Model.CurrentLaundryUser.Name" onmouseleave="updateUser()"/> <!--Til at kalde javascript metode = onmouseleave="updateUser()"-->
                 <span asp-validation-for="CurrentLaundryUser.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -57,7 +57,7 @@
         </form>
 
         <div>
-            <input type="submit" class="btn btn-primary" value="Update user" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {name = Model.CurrentLaundryUser.Name, viewModel = Model})'"/><!--onclick="location.href = '@*Url.Action("UpdateUser", "UserAdmin",  new {Model})'"*@-->
+            <input type="submit" class="btn btn-primary" value="Update user" onclick="location.href = '@Url.Action("UpdateUser", "UserAdmin", Model)'"/><!--onclick="location.href = '@*Url.Action("UpdateUser", "UserAdmin",  new {Model})'"*@-->
         </div>
     </div>
     <div>
