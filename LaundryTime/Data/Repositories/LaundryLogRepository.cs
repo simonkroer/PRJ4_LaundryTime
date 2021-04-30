@@ -15,9 +15,14 @@ namespace LaundryTime.Data.Repositories
         }
         public LaundryLogRepository(ApplicationDbContext context) : base(context) { }
 
-        public bool LaundryLogExists( string id)
+        public bool LaundryLogExists(string info)
         {
-            return context.LaundryLogs.Any(e => e.LogId == id);
+            return context.LaundryLogs.Any(e => e.LogInfo == info);
+        }
+
+        public void AddLaundryLog(LaundryLog logEntry)
+        {
+            context.LaundryLogs.Add(logEntry);
         }
     }
 }

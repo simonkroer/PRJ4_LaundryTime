@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LaundryTime.Migrations
 {
-    public partial class NewInitialSchemaCreate : Migration
+    public partial class NewInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -257,22 +257,24 @@ namespace LaundryTime.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LaundryLog",
+                name: "LaundryLogs",
                 columns: table => new
                 {
-                    LogId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LogId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     LogInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LaundryUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LaundryLog", x => x.LogId);
+                    table.PrimaryKey("PK_LaundryLogs", x => x.LogId);
                     table.ForeignKey(
-                        name: "FK_LaundryLog_AspNetUsers_LogId",
-                        column: x => x.LogId,
+                        name: "FK_LaundryLogs_AspNetUsers_LaundryUserId",
+                        column: x => x.LaundryUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -407,6 +409,11 @@ namespace LaundryTime.Migrations
                 column: "MachineId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LaundryLogs_LaundryUserId",
+                table: "LaundryLogs",
+                column: "LaundryUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Machines_UserAdminId",
                 table: "Machines",
                 column: "UserAdminId");
@@ -438,7 +445,7 @@ namespace LaundryTime.Migrations
                 name: "BookingListModels");
 
             migrationBuilder.DropTable(
-                name: "LaundryLog");
+                name: "LaundryLogs");
 
             migrationBuilder.DropTable(
                 name: "ReservedListModels");
