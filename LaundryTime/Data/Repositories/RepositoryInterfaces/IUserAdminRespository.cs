@@ -17,5 +17,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
         void AddUserAdmin(UserAdmin userAdmin);
 
         void Update(UserAdmin userAdmin);
+
+        void DeleteUser(UserAdmin userAdmin);
     }
 }

@@ -54,9 +54,17 @@ namespace LaundryTime.Controllers
         }
 
         //[Authorize("IsUserAdmin")]
-        public IActionResult DeleteUser()
+        public IActionResult DeleteUser(string username)
         {
-            //Delete the chosen user HERE
+            if (username == null)
+            {
+                return NotFound();
+            }
+            
+            var userToDelete = _dataAccess.LaundryUsers.GetSingleLaundryUser(username);
+
+            _dataAccess.LaundryUsers.DeleteUser(userToDelete);
+            _dataAccess.Complete();
 
             return RedirectToAction(nameof(MyUsers));
         }
