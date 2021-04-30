@@ -157,3 +157,7 @@ li {
     text-align: center;
     padding-top: 2em;
 }
+
+#UserLog {
+    display:none;
+}
