@@ -132,3 +132,26 @@ li {
     text-align: center;
     padding-top: 2em;
 }
+
+
+/* carousel */
+
+.carousel-control-next,
+.carousel-control-prev, .carousel-indicators {
+    filter: invert(100%);
+}
+
+.carouseltext {
+    color: black;
+    padding-top: 1em;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: -50px;
+}
+
+.carousel-indicators li {
+    width: 10px;
+    height: 10px;
+}
