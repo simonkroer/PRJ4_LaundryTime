@@ -15,7 +15,7 @@ namespace LaundryTime.Data
 
         public ISystemAdminRepository SystemAdmins { get; }
         public IAddressRepository Addresses { get; }
-        public IBookingListRepository BookingList { get; }
+        public ILaundryLogRepository LaundryLogs { get; }
 
         int Complete();
     }

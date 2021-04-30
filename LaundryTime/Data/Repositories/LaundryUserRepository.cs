@@ -40,9 +40,15 @@ namespace LaundryTime.Data.Repositories
             return context.LaundryUsers.Any(e => e.UserName == email);
         }
 
-        public void Update(LaundryUser laundryUser)
+        public async void Update(LaundryUser laundryUser)
         {
             context.Update(laundryUser);
         }
+
+        public async void DeleteUser(LaundryUser user)
+        {
+            context.LaundryUsers.Remove(user);
+        }
+
     }
 }

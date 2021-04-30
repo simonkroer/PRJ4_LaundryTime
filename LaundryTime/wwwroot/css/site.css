@@ -17,6 +17,11 @@ a {
     color: white;
 }
 
+.UserAdminEditUser a{
+    color: #1861ac;
+    background-color: white;
+}
+
 .nav-link {
     color: white;
 }
@@ -62,10 +67,21 @@ button.accept-policy {
   line-height: inherit;
 }
 
+.collapsible {
+    cursor: pointer;
+    outline: none;
+    color: #1b6ec2;
+    border: none;
+    background-color: white;
+}
+
+.active, .collapsible:hover {
+    background-color: #ccc;
+}
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 header {
@@ -76,6 +92,20 @@ header {
 
 .bg-opacity-blue {
     background: rgba(9, 36, 128, 0.7);
+}
+
+.logContent {
+    padding: 0 18px;
+    max-height: 0;
+    display:none;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+    width:100%;
+    text-align:center;
+}
+
+.logContent.active {
+    display: inline-block;
 }
 
 main {
@@ -115,4 +145,47 @@ main {
     background-color: white;
 }
 
+li {
+    padding-left: 1em;
+}
 
+.addMachineTable {
+    text-align: right;
+}
+
+.content {
+    text-align: center;
+    padding-top: 2em;
+}
+
+
+/* carousel */
+
+.carousel-item {
+    background: white;
+}
+
+.carousel-control-next,
+.carousel-control-prev, .carousel-indicators {
+    filter: invert(100%);
+}
+
+.carouseltext {
+    color: black;
+    padding-top: 1em;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: -50px;
+}
+
+.carousel-indicators li {
+    width: 10px;
+    height: 10px;
+}
+}
+
+#UserLog {
+    display:none;
+}

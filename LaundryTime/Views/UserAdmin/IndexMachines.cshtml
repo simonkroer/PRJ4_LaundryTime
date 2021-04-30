@@ -17,6 +17,16 @@
             <input type="button" class="btn btn-primary" value="Remove Machine" onclick="location.href = '@Url.Action("DeleteMachines", "UserAdmin")'" />
         </td>
     </tr>
+    <tr>
+        <td>
+            @{
+                if ((string) TempData["Success"] == "true")
+                {
+                    <label class="text-danger">Added new machine</label>
+                }
+            }
+        </td>
+    </tr>
 </table>
 <br />
 
@@ -56,7 +66,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.InstallationDate)
             </td>
-
+            <td>
+                <img width="25" src="~/Images/redx.jpg"/>
+            </td>
         </tr>
         </tbody>
     }

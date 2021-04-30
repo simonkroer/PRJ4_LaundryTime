@@ -4,14 +4,16 @@ using LaundryTime.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LaundryTime.Data.Migrations
+namespace LaundryTime.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210430113119_LaundyLogAdded")]
+    partial class LaundyLogAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +55,10 @@ namespace LaundryTime.Data.Migrations
                     b.Property<int?>("DateModelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MachineId")
+                    b.Property<int?>("MachineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MachineName")
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")
@@ -78,7 +83,7 @@ namespace LaundryTime.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateData")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -470,9 +475,7 @@ namespace LaundryTime.Data.Migrations
 
                     b.HasOne("LaundryTime.Data.Models.Machine", "Machine")
                         .WithMany()
-                        .HasForeignKey("MachineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MachineId");
 
                     b.Navigation("DateModel");
 

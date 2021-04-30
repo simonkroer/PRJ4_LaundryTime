@@ -133,6 +133,20 @@ namespace LaundryTime
 
             }
 
+            //=================== Creating LaundryLog ==========================
+            const string idForLog = "logID";
+            const string infoForLog = "This is a damn test";
+            DateTime logTime = DateTime.Now;
+            var user3ForLog = dataAcces.LaundryUsers.GetSingleLaundryUser("laundryUser@laundryUser.com"); 
+            if(!dataAcces.LaundryLogs.LaundryLogExists(idForLog))
+            {
+                var user3Log = new LaundryLog();
+                user3Log.LogDate = logTime;
+                user3Log.LogId = idForLog;
+                user3Log.LogInfo = infoForLog;
+                user3ForLog.LaundryHistory.Add(user3Log);
+            }
+
             //=================== Creating UserAdmin user ==========================
 
             const string userAdminEmail = "UserAdmin@UserAdmin.com";
@@ -158,11 +172,16 @@ namespace LaundryTime
                     userManager.AddClaimAsync(user2, new Claim("UserAdmin", "IsUserAdmin")).Wait();
                 }
 
-                //Adding user to UserAdmin:
-                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
-                useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
-                dataAcces.Complete();
+            }
 
+            var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+
+            if (useradmin!=null)
+            {
+                //Adding user to UserAdmin:
+                if (useradmin.Users != null)
+                    useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
+                dataAcces.Complete();
             }
 
 
