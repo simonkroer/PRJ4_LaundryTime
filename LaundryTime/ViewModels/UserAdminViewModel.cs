@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LaundryTime.ViewModels
 {
-    [Bind(nameof(CurrentLaundryUser))]
+    //[Bind(nameof(CurrentLaundryUser))]
     public class UserAdminViewModel
     {
         public UserAdminViewModel() { }

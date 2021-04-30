@@ -17,6 +17,11 @@ a {
     color: white;
 }
 
+.UserAdminEditUser a{
+    color: #1861ac;
+    background-color: white;
+}
+
 .nav-link {
     color: white;
 }
@@ -140,4 +145,15 @@ main {
     background-color: white;
 }
 
+li {
+    padding-left: 1em;
+}
 
+.addMachineTable {
+    text-align: right;
+}
+
+.content {
+    text-align: center;
+    padding-top: 2em;
+}
