@@ -8,6 +8,11 @@ namespace LaundryTime.Controllers
 {
     public class LaundryUserController : Controller
     {
+        public IActionResult Book()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();

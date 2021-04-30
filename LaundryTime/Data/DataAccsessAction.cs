@@ -21,6 +21,8 @@ namespace LaundryTime.Data
         public ISystemAdminRepository SystemAdmins { get; private set; }
 
         public ILaundryLogRepository LaundryLogs { get; private set; }
+        
+        public IBookingListRepository BookingList { get; private set; }
 
         public DataAccsessAction(ApplicationDbContext context)
         {
@@ -31,6 +33,7 @@ namespace LaundryTime.Data
             UserAdmins = new UserAdminRepository(_context);
             SystemAdmins = new SystemAdminRepository(_context);
             LaundryLogs = new LaundryLogRepository(_context);
+            BookingList = new BookingListRepository(_context);
         }
         public int Complete()
         {

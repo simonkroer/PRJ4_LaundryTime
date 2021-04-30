@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LaundryTime.Data.Models;
 using LaundryTime.Models.Calender;
 
 namespace LaundryTime.ViewModels
@@ -12,7 +13,8 @@ namespace LaundryTime.ViewModels
         public DateTime Date { get; set; }
         public int MachineName { get; set; }
         public string MachineType { get; set; }
-        public DatePickerModel DatePickerModel { get; set; }
-
+        public List<DatePickerModel> DatePickerModels { get; set; }
+        public List<Machine> Machines { get; set; }
+        public int BookingID { get; set; }
     }
 }

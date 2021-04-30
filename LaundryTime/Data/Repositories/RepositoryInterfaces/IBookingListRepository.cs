@@ -8,5 +8,6 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
 {
     public interface IBookingListRepository : IRepository<BookingListModel>
     {
+        void AddBooking(BookingListModel bookingList);
     }
 }

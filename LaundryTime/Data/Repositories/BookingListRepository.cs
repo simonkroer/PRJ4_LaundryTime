@@ -15,6 +15,10 @@ namespace LaundryTime.Data.Repositories
         }
         public BookingListRepository(ApplicationDbContext context) : base(context) { }
 
+        public void AddBooking(BookingListModel bookingList)
+        {
+            context.BookingListModels.Add(bookingList);
+        }
         
     }
 }

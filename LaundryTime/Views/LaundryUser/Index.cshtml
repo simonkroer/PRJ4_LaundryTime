@@ -1,49 +1,45 @@
-﻿@model LaundryTime.Models.Calender.DatePickerModel
-@{
-    ViewData["Title"] = "Booking";
-}
+﻿@using System.Linq
+@model LaundryTime.ViewModels.BookingListViewModel
+@*@model LaundryTime.Models.Calender.DatePickerModel*@
+
 <head>
     @* Calender date picker *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/CalenderStyle.css" />
 </head>
 
 <body>
-    <h1>@ViewData["Title"]</h1>
+    <h1>booking</h1>
 
     <div>
         <br />
         <h4>Select a date</h4>
-        @using (Html.BeginForm())
-        {
-            @Html.EditorFor(model => model.Datedata, new { htmlAttributes = new { @class = "datepicker", @Type = "date" } })
 
-        }
+        @using (Html.BeginForm())
+            {
+                @foreach (var model in Model.DatePickerModels)
+                {
+                @Html.EditorFor(modelItem => model, new { htmlAttributes = new { @class = "datepicker", @Type = "date" } })
+                }
+            }
+
+
         <br />
     </div>
 
-    
+
     @section Scripts
     {
         <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
         <script>
-            var date = new Date();
-            date.setDate(date.getDate() - 1);
-
             $(document).ready(function () {
-                $("#datepicker").datepicker({
+                $(".datepicker").datepicker({
                     dateFormat: "dd-mm-yy",
-                    changeMonth: true,
-                    changeYear: true,
-                    defaultDate: date,
-                    onSelect: function () {
-                        var selectedDate = $.datepicker.formatDate("dd-mm-yy", $(this).datepicker('getDate'));
-                    }
+                    changemonth: true,
+                    changeyear: true
                 });
-                $("#datepicker").datepicker("setDate", date);
             });
         </script>
     }
@@ -51,87 +47,40 @@
 
 
     @* Remove style for final version *@
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Time:</th>
+                <th>Type:</th>
+                <th>Number:</th>
+                <th>Book now:</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Machines)
+            {
 
-    <div class="row">
-        <div class="column left">
-            <div class="headerCSS">
-                <p>List of own reserved booking times:</p>
-            </div>
-            <div class="fixTable">
-                
-            </div>
-        </div>
+                DateTime date = DateTime.Parse("22-04-2021");
+                if (item.InstallationDate == date)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InstallationDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModelNumber)
+                        </td>
+                        <td>
+                            <a asp-action="Book" asp-route-id="@Model.BookingID">Book now</a>
+                        </td>
+                    </tr>
+                }
 
-        @if(selectedDate)
-        <div class="column right">
-            <div class="headerCSS">
-                <p>List of all available booking times:</p>
-            </div>
-            <div class="fixTable">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name:</th>
-                            <th>Time:</th>
-                            <th>Machine:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
+            }
+        </tbody>
+    </table>
 
 </body>
