@@ -141,19 +141,39 @@ namespace LaundryTime.Controllers
         {
             var userAdminViewModel = new UserAdminViewModel();
 
-            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
+            var currentUser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+
+            userAdminViewModel.MyMachines = currentUser.Machines;
 
             return View(userAdminViewModel);
         }
 
         //[Authorize("IsUserAdmin")]
+        [HttpGet]
         public IActionResult AddMachines()
         {
             var userAdminViewModel = new UserAdminViewModel();
 
-            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
-
             return View(userAdminViewModel);
+        }
+
+        //[Authorize("IsUserAdmin")]
+        [HttpPost]
+        public IActionResult AddMachines(UserAdminViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+
+            viewModel.CurrentMachine.UserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+
+            _dataAccess.Machines.AddMachine(viewModel.CurrentMachine);
+            _dataAccess.Complete();
+
+            TempData["Success"] = "true";
+
+            return RedirectToAction(nameof(IndexMachines));
         }
 
         //[Authorize("IsUserAdmin")]

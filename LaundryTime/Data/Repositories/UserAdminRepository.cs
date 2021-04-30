@@ -33,7 +33,7 @@ namespace LaundryTime.Data.Repositories
                 .ToList();
         }
 
-        public UserAdmin GetSingleUserAdmin(string username)
+        public UserAdmin GetSingleUserAdmin(string email)
         {
             return context.UserAdmins
                 .Include(m => m.Machines)
@@ -42,7 +42,7 @@ namespace LaundryTime.Data.Repositories
                     .ThenInclude(s=>s.Address)
                 .Include(o=>o.Users)
                     .ThenInclude(l => l.LaundryHistory)
-                .SingleOrDefault(i => i.UserName == username);
+                .SingleOrDefault(i => i.UserName == email);
         }
 
         public void AddUserAdmin(UserAdmin userAdmin)
