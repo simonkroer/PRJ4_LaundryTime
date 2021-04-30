@@ -11,6 +11,7 @@ namespace LaundryTime.ViewModels
     //[Bind(nameof(CurrentLaundryUser))]
     public class UserAdminViewModel
     {
+        public UserAdmin CurrentUserAdmin { get; set; }
         public UserAdminViewModel() { }
         public List<LaundryUser> MyUsers { get; set; }
 
