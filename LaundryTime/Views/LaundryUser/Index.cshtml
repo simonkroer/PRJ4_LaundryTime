@@ -1,4 +1,7 @@
-﻿@model LaundryTime.Models.Calender.DatePickerModel
+﻿@using System.Linq
+@model IEnumerable<LaundryTime.ViewModels.BookingListViewModel>
+
+
 @{
     ViewData["Title"] = "Booking";
 }
@@ -8,7 +11,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/CalenderStyle.css" />
 </head>
 
 <body>
@@ -17,11 +19,16 @@
     <div>
         <br />
         <h4>Select a date</h4>
-        @using (Html.BeginForm())
-        {
-            @Html.EditorFor(model => model.Datedata, new { htmlAttributes = new { @class = "datepicker", @Type = "date" } })
-
-        }
+        
+            @*@using (Html.BeginForm())
+            {
+                @foreach (var model in Model)
+                {
+                @Html.EditorFor(modelItem => model.DatePickerModel, new { htmlAttributes = new { @class = "datepicker", @Type = "date" } })
+                }
+            }*@ 
+        
+        
         <br />
     </div>
 
@@ -43,147 +50,34 @@
 
 
     @* Remove style for final version *@
-
-    <div class="row">
-        <div class="column left">
-            <div class="headerCSS">
-                <p>List of own reserved booking times:</p>
-            </div>
-            <div class="fixTable">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name:</th>
-                            <th>Time:</th>
-                            <th>Machine:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
-        <div class="column right">
-            <div class="headerCSS">
-                <p>List of all available booking times:</p>
-            </div>
-            <div class="fixTable">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name:</th>
-                            <th>Time:</th>
-                            <th>Machine:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
+<table class="table">
+    <thead>
+    <tr>
+        <th>Time:</th>
+        <th>Type:</th>
+        <th>Number:</th>
+        <th>Book now:</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MachineType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MachineName)
+            </td>
+            <td>
+                <a asp-action="Book" asp-route-id="@item.BookingID">Book now</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
 
 </body>
