@@ -67,10 +67,21 @@ button.accept-policy {
   line-height: inherit;
 }
 
+.collapsible {
+    cursor: pointer;
+    outline: none;
+    color: #1b6ec2;
+    border: none;
+    background-color: white;
+}
+
+.active, .collapsible:hover {
+    background-color: #ccc;
+}
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 header {
@@ -81,6 +92,20 @@ header {
 
 .bg-opacity-blue {
     background: rgba(9, 36, 128, 0.7);
+}
+
+.logContent {
+    padding: 0 18px;
+    max-height: 0;
+    display:none;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+    width:100%;
+    text-align:center;
+}
+
+.logContent.active {
+    display: inline-block;
 }
 
 main {
@@ -126,4 +151,13 @@ li {
 
 .addMachineTable {
     text-align: right;
+}
+
+.content {
+    text-align: center;
+    padding-top: 2em;
+}
+
+#UserLog {
+    display:none;
 }
