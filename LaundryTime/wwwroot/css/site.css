@@ -1,0 +1,118 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+  color: white;
+}
+
+.navbar-light {
+    color: white;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: white;
+}
+
+.nav-link {
+    color: white;
+}
+
+.navbar-nav li {
+    padding-right: 1em;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.bg-opacity-blue {
+    background: rgba(9, 36, 128, 0.7);
+}
+
+main {
+  /* Margin bottom by footer height */
+    margin-top: 80px;
+    margin-bottom: 60px;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    text-align: center;
+    background: rgba(9, 36, 128, 0.7);
+}
+
+.mytable {
+    border-style: none;
+    font-family: Arial, sans-serif;
+}
+
+.mytable td, thead, tbody, tr, th, input {
+        text-align: center;
+        height: auto;
+        font-size:medium;
+        padding: 1em;
+}
+#InputButtonUserAdmin {
+    color: #1b6ec2;
+    border: none;
+    background-color: white;
+}
+#UserEditUpdateUserAdmin {
+    color: #1b6ec2;
+    border: none;
+    background-color: white;
+}
+
+

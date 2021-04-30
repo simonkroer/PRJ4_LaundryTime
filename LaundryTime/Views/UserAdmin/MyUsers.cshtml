@@ -1,0 +1,76 @@
+﻿@model UserAdminViewModel
+@{
+    ViewBag.Title = "UserAdminMyUsers";
+    Layout = "_Layout";
+}
+
+<div>
+    <br />
+    <h4> All my users:</h4>
+    <br />
+
+    <div>
+        <input type="button" class="btn btn-primary" value="Add new user" onclick="location.href = '@Url.Action("AddUsers", "UserAdmin")'" />
+
+    </div>
+    <br /><br />
+
+    <div>
+        <table class="mytable">
+            <thead>
+                <tr>
+                    <td>
+                        Name
+                    </td>
+                    <td>
+                        Phone
+                    </td>
+                    <td>
+                        Email
+                    </td>
+                    <td>
+                        Address
+                    </td>
+                    <td>
+                        Paymentmethod
+                    </td>
+                    <td>
+                        Payment due date
+                    </td>
+                    <td>
+                        @Html.Display("Actions")
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.MyUsers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.StreetAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentMethod)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentDueDate)
+                    </td>
+                    <td>
+                        <input type="button" id="InputButtonUserAdmin" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> |
+                        <input type="button" id="InputButtonUserAdmin" value="Delete"  />
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
