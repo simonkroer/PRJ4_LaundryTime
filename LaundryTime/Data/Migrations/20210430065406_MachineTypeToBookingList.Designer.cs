@@ -4,14 +4,16 @@ using LaundryTime.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LaundryTime.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210430065406_MachineTypeToBookingList")]
+    partial class MachineTypeToBookingList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,12 +119,7 @@ namespace LaundryTime.Data.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
                 {
-                    b.Property<int>("LogId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("LaundryUserId")
+                    b.Property<string>("LogId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("LogDate")
@@ -133,9 +130,7 @@ namespace LaundryTime.Data.Migrations
 
                     b.HasKey("LogId");
 
-                    b.HasIndex("LaundryUserId");
-
-                    b.ToTable("LaundryLogs");
+                    b.ToTable("LaundryLog");
                 });
 
             modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>
@@ -495,11 +490,11 @@ namespace LaundryTime.Data.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
                 {
-                    b.HasOne("LaundryTime.Data.Models.LaundryUser", "LaundryUser")
+                    b.HasOne("LaundryTime.Data.Models.LaundryUser", null)
                         .WithMany("LaundryHistory")
-                        .HasForeignKey("LaundryUserId");
-
-                    b.Navigation("LaundryUser");
+                        .HasForeignKey("LogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>

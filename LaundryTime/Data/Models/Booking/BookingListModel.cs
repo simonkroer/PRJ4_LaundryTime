@@ -12,7 +12,7 @@ namespace LaundryTime.Data.Models.Booking
         public bool Status { get; set; }
         public string Time { get; set; }
 
-        public int MachineName { get; set; }
+        public int MachineId { get; set; }
         public Machine Machine { get; set; }
         
         public DateTime Date { get; set; }
