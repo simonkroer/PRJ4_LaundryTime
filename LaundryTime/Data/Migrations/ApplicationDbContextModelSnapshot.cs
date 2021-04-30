@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LaundryTime.Migrations
+namespace LaundryTime.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -53,10 +53,7 @@ namespace LaundryTime.Migrations
                     b.Property<int?>("DateModelId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MachineId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MachineName")
+                    b.Property<int>("MachineId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")
@@ -81,7 +78,7 @@ namespace LaundryTime.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateData")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -473,7 +470,9 @@ namespace LaundryTime.Migrations
 
                     b.HasOne("LaundryTime.Data.Models.Machine", "Machine")
                         .WithMany()
-                        .HasForeignKey("MachineId");
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("DateModel");
 

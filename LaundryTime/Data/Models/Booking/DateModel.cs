@@ -8,7 +8,7 @@ namespace LaundryTime.Data.Models.Booking
     public class DateModel
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime DateData { get; set; }
         public List<BookingListModel> BookingListModels { get; set; }
         public List<ReservedListModel> ReservedListModels { get; set; }
 

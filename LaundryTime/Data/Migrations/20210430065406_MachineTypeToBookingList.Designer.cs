@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LaundryTime.Migrations
+namespace LaundryTime.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210423164750_NewInitialSchemaCreate")]
-    partial class NewInitialSchemaCreate
+    [Migration("20210430065406_MachineTypeToBookingList")]
+    partial class MachineTypeToBookingList
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,10 +55,7 @@ namespace LaundryTime.Migrations
                     b.Property<int?>("DateModelId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MachineId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MachineName")
+                    b.Property<int>("MachineId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")
@@ -83,7 +80,7 @@ namespace LaundryTime.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateData")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -475,7 +472,9 @@ namespace LaundryTime.Migrations
 
                     b.HasOne("LaundryTime.Data.Models.Machine", "Machine")
                         .WithMany()
-                        .HasForeignKey("MachineId");
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("DateModel");
 
