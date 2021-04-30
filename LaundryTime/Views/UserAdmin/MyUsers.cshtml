@@ -1,15 +1,17 @@
-﻿@model UserAdminViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+@using Microsoft.CodeAnalysis.CSharp
+@model UserAdminViewModel
 @{ ViewBag.Title = "UserAdminMyUsers";
-                Layout = "_Layout"; }
+    Layout = "_Layout"; }
 
 <div>
     <br />
     <h4> All my users:</h4>
     <br />
 
-    <div>
-        <input type="button" class="btn btn-primary" value="Add new user" onclick="location.href = '@Url.Action("AddUsers", "UserAdmin")'" />
-
+    <div >
+        <a class="btn btn-primary" type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
     </div>
     <br /><br />
     <div>

@@ -59,5 +59,6 @@ namespace LaundryTime.Data.Repositories
         {
             context.UserAdmins.Remove(userAdmin);
         }
+
     }
 }
