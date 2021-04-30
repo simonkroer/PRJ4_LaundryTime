@@ -84,8 +84,20 @@ namespace LaundryTime
 
             SeedUsers(userManager, context); //Seeding users
             SeedMachines(context); //Seeding Machinces
-            CreateNewBookList(context, CreateDateModel(context, "22-04-2021"));
-            CreateNewBookList(context, CreateDateModel(context, "23-04-2021"));
+
+            DateTime date = DateTime.Parse("22-04-2021");
+            var check = context.DateModels.FirstOrDefault(c => c.DateData == date);
+            if (check == null)
+            {
+                CreateNewBookList(context, CreateDateModel(context, "22-04-2021"));
+            }
+            date = DateTime.Parse("23-04-2021");
+            check = context.DateModels.FirstOrDefault(c => c.DateData == date);
+            if (check == null)
+            {
+                CreateNewBookList(context, CreateDateModel(context, "23-04-2021"));
+            }
+            
 
             app.UseAuthorization();
 
