@@ -25,17 +25,25 @@
         <br />
     </div>
 
-
+    
     @section Scripts
     {
         <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
         <script>
+            var date = new Date();
+            date.setDate(date.getDate() - 1);
+
             $(document).ready(function () {
-                $(".datepicker").datepicker({
+                $("#datepicker").datepicker({
                     dateFormat: "dd-mm-yy",
-                    changemonth: true,
-                    changeyear: true
+                    changeMonth: true,
+                    changeYear: true,
+                    defaultDate: date,
+                    onSelect: function () {
+                        var selectedDate = $.datepicker.formatDate("dd-mm-yy", $(this).datepicker('getDate'));
+                    }
                 });
+                $("#datepicker").datepicker("setDate", date);
             });
         </script>
     }
@@ -50,71 +58,11 @@
                 <p>List of own reserved booking times:</p>
             </div>
             <div class="fixTable">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name:</th>
-                            <th>Time:</th>
-                            <th>Machine:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                        <tr>
-                            <td>new item</td>
-                            <td>new item</td>
-                            <td>new item</td>
-                        </tr>
-                    </tbody>
-                </table>
+                
             </div>
         </div>
 
-
+        @if(selectedDate)
         <div class="column right">
             <div class="headerCSS">
                 <p>List of all available booking times:</p>
