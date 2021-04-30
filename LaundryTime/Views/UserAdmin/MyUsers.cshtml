@@ -1,15 +1,17 @@
-﻿@model UserAdminViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+@using Microsoft.CodeAnalysis.CSharp
+@model UserAdminViewModel
 @{ ViewBag.Title = "UserAdminMyUsers";
-                Layout = "_Layout"; }
+    Layout = "_Layout"; }
 
 <div>
     <br />
     <h4> All my users:</h4>
     <br />
 
-    <div>
-        <input type="button" class="btn btn-primary" value="Add new user" onclick="location.href = '@Url.Action("AddUsers", "UserAdmin")'" />
-
+    <div >
+        <a class="btn btn-primary" type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
     </div>
     <br /><br />
     <div>
@@ -42,40 +44,49 @@
             <tbody>
                 @foreach (var item in Model.MyUsers)
                 {
-    <tr id="ChosenUser">
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address.StreetAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentMethod)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentDueDate)
-        </td>
-        <td>
-            <input type="button" id="InputButtonUserAdmin" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> |
-            <input type="button" id="InputButtonUserAdmin" value="Delete" /> |
-            <input type="button" id="InputButtonUserAdmin" value="History" class="btn-primary" />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="6">
-            <div class="collapse">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-            </div>
-        </td>
-    </tr>}
+                    <tr id="ChosenUser">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address.StreetAddress)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentMethod)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentDueDate)
+                        </td>
+                        <td>
+                            <input type="button" id="InputButtonUserAdmin" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> |
+                            <input type="button" id="InputButtonUserAdmin" value="Delete" /> |
+                            <input type="button" id="InputButtonUserAdmin" value="History" class="collapsible" />
+                            <div class="logContent">
+                                <p class="UserLog">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                    aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                            <button type="button" class="InputButtonUserAdmin btn-primary">Toggle</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <div class="collapse">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                aliquip ex ea commodo consequat.
+                            </div>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

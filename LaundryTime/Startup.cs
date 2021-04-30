@@ -154,11 +154,16 @@ namespace LaundryTime
                     userManager.AddClaimAsync(user2, new Claim("UserAdmin", "IsUserAdmin")).Wait();
                 }
 
-                //Adding user to UserAdmin:
-                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
-                useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
-                dataAcces.Complete();
+            }
 
+            var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+
+            if (useradmin!=null)
+            {
+                //Adding user to UserAdmin:
+                if (useradmin.Users != null)
+                    useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
+                dataAcces.Complete();
             }
 
 
