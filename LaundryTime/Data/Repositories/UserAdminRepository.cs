@@ -54,5 +54,10 @@ namespace LaundryTime.Data.Repositories
         {
             context.Update(userAdmin);
         }
+
+        public void DeleteUser(UserAdmin userAdmin)
+        {
+            context.UserAdmins.Remove(userAdmin);
+        }
     }
 }

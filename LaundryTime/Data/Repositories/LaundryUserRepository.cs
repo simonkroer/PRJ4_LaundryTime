@@ -45,5 +45,10 @@ namespace LaundryTime.Data.Repositories
             context.Update(laundryUser);
         }
 
+        public async void DeleteUser(LaundryUser user)
+        {
+            context.LaundryUsers.Remove(user);
+        }
+
     }
 }
