@@ -115,4 +115,10 @@ main {
     background-color: white;
 }
 
+li {
+    padding-left: 1em;
+}
 
+.addMachineTable {
+    text-align: right;
+}
