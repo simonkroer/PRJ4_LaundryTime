@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace LaundryTime.Controllers
 {
+
+
     public class SystemAdminController : Controller
     {
+
         public IActionResult Index()
         {
             return View();
