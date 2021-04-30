@@ -71,11 +71,12 @@
     </tr>
     <tr id="">
         <td colspan="6">
-            <div class="collapse">
+            <div class="collapse testAlignText">
                 @foreach (var logEntry in item.LaundryHistory)
                 {
                     @Html.DisplayFor(modelItem => logEntry.LogDate)
                     @Html.DisplayFor(modelItem => logEntry.LogInfo)
+                    <br />
                 }
             </div>
         </td>
