@@ -23,8 +23,6 @@ namespace LaundryTime.Data
         public DbSet<BookingListModel> BookingListModels { get; set; }
         public DbSet<DateModel> DateModels { get; set; }
         public DbSet<ReservedListModel> ReservedListModels { get; set; }
-
-
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         

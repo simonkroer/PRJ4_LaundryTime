@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 using LaundryTime.Data.Models.Booking;
@@ -33,10 +34,12 @@ namespace LaundryTime
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("AlexConnection")));
+                    Configuration.GetConnectionString("EmilConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
+            services
+                .AddDefaultIdentity<ApplicationUser
+                >(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
@@ -47,7 +50,7 @@ namespace LaundryTime
                     policyBuilder => policyBuilder
                         .RequireClaim("LaundryUser"));
 
-                options.AddPolicy("IsAdminUser",
+                options.AddPolicy("IsUserAdmin",
                     policyBuilder => policyBuilder
                         .RequireClaim("AdminUser"));
 
@@ -58,13 +61,15 @@ namespace LaundryTime
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }
+
             //else
             //{
             //    app.UseExceptionHandler("/Home/Error");
@@ -77,6 +82,7 @@ namespace LaundryTime
             app.UseRouting();
 
             app.UseAuthentication();
+
             SeedUsers(userManager, context); //Seeding users
             SeedMachines(context); //Seeding Machinces
             CreateNewBookList(context, CreateDateModel(context, "22-04-2021"));
@@ -155,8 +161,7 @@ namespace LaundryTime
                 //Adding user to UserAdmin:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
                 useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
-
-                context.SaveChanges();
+                dataAcces.Complete();
 
             }
 
@@ -188,10 +193,10 @@ namespace LaundryTime
                 var systemAdmin = dataAcces.SystemAdmins.GetSingleSystemAdmin(systemAdminEmail);
                 systemAdmin.LaundryUsers.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
                 systemAdmin.UserAdmins.Add(dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail));
-                context.SaveChanges();
+                dataAcces.Complete();
             }
-
         }
+
 
         public static void SeedMachines(ApplicationDbContext context)
         {
@@ -212,8 +217,7 @@ namespace LaundryTime
                 //Adding machine to DB:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
                 useradmin.Machines.Add(machine);
-                dataAcces.Complete();
-
+                context.SaveChanges();
             }
 
             ModelNumber = "SE-59-355W";
@@ -323,3 +327,5 @@ namespace LaundryTime
 
     }
 }
+
+

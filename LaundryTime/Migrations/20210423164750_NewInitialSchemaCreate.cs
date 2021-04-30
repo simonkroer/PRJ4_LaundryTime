@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace LaundryTime.Data.Migrations
+namespace LaundryTime.Migrations
 {
-    public partial class IniticalCreate : Migration
+    public partial class NewInitialSchemaCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -281,9 +281,9 @@ namespace LaundryTime.Data.Migrations
                 {
                     MachineId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModelNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserAdminId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     InstallationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

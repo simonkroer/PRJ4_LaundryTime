@@ -26,6 +26,7 @@ namespace LaundryTime.Data.Repositories
             return context.LaundryUsers
                 .Include(p => p.Administrator)
                 .Include(t => t.LaundryHistory)
+                .Include(g=>g.Address)
                 .SingleOrDefault(i => i.UserName == username);
         }
 
@@ -37,6 +38,11 @@ namespace LaundryTime.Data.Repositories
         public bool LaundryUserExists(string email)
         {
             return context.LaundryUsers.Any(e => e.UserName == email);
+        }
+
+        public void Update(LaundryUser laundryUser)
+        {
+            context.Update(laundryUser);
         }
     }
 }
