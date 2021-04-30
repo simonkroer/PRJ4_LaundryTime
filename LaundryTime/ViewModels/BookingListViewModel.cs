@@ -8,6 +8,7 @@ namespace LaundryTime.ViewModels
 {
     public class BookingListViewModel
     {
+        public int BookingID { get; set; }
         public string Time { get; set; }
         public DateTime Date { get; set; }
         public int MachineName { get; set; }
