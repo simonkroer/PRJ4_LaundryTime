@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaundryTime.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210423164750_NewInitialSchemaCreate")]
-    partial class NewInitialSchemaCreate
+    [Migration("20210430124408_NewInitial")]
+    partial class NewInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -122,7 +122,12 @@ namespace LaundryTime.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
                 {
-                    b.Property<string>("LogId")
+                    b.Property<int>("LogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LaundryUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("LogDate")
@@ -133,7 +138,9 @@ namespace LaundryTime.Migrations
 
                     b.HasKey("LogId");
 
-                    b.ToTable("LaundryLog");
+                    b.HasIndex("LaundryUserId");
+
+                    b.ToTable("LaundryLogs");
                 });
 
             modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>
@@ -491,11 +498,11 @@ namespace LaundryTime.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
                 {
-                    b.HasOne("LaundryTime.Data.Models.LaundryUser", null)
+                    b.HasOne("LaundryTime.Data.Models.LaundryUser", "LaundryUser")
                         .WithMany("LaundryHistory")
-                        .HasForeignKey("LogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LaundryUserId");
+
+                    b.Navigation("LaundryUser");
                 });
 
             modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>

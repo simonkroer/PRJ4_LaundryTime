@@ -8,6 +8,8 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
 {
     public interface ILaundryLogRepository: IRepository<LaundryLog>
     {
-        bool LaundryLogExists(string id);
+        bool LaundryLogExists(string info);
+
+        void AddLaundryLog(LaundryLog logEntry);
     }
 }

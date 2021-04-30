@@ -72,11 +72,11 @@
     <tr id="">
         <td colspan="6">
             <div class="collapse">
-                @Html.DisplayFor(modelItem => item.LaundryHistory)
-
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
+                @foreach (var logEntry in item.LaundryHistory)
+                {
+                    @Html.DisplayFor(modelItem => logEntry.LogDate)
+                    @Html.DisplayFor(modelItem => logEntry.LogInfo)
+                }
             </div>
         </td>
     </tr>}

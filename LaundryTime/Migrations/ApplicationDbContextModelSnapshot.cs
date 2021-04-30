@@ -120,7 +120,12 @@ namespace LaundryTime.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
                 {
-                    b.Property<string>("LogId")
+                    b.Property<int>("LogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LaundryUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("LogDate")
@@ -130,6 +135,8 @@ namespace LaundryTime.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LogId");
+
+                    b.HasIndex("LaundryUserId");
 
                     b.ToTable("LaundryLogs");
                 });
@@ -489,11 +496,11 @@ namespace LaundryTime.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
                 {
-                    b.HasOne("LaundryTime.Data.Models.LaundryUser", null)
+                    b.HasOne("LaundryTime.Data.Models.LaundryUser", "LaundryUser")
                         .WithMany("LaundryHistory")
-                        .HasForeignKey("LogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LaundryUserId");
+
+                    b.Navigation("LaundryUser");
                 });
 
             modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>
