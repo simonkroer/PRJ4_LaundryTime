@@ -48,6 +48,7 @@ namespace LaundryTime.Controllers
 
 
         //[Authorize("IsUserAdmin")]
+        [HttpPost]
         public IActionResult DeleteUser(string username)
         {
             if (username == null)
