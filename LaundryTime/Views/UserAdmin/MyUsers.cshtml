@@ -42,7 +42,7 @@
             <tbody>
                 @foreach (var item in Model.MyUsers)
                 {
-    <tr id="ChosenUser">
+    <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -67,9 +67,11 @@
             <input type="button" id="InputButtonUserAdmin" value="History" class="btn-primary" />
         </td>
     </tr>
-    <tr>
+    <tr id="">
         <td colspan="6">
             <div class="collapse">
+                @Html.DisplayFor(modelItem => item.LaundryHistory)
+
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
                 et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
                 aliquip ex ea commodo consequat.
