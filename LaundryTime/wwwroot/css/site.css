@@ -17,6 +17,11 @@ a {
     color: white;
 }
 
+.UserAdminEditUser a{
+    color: #1861ac;
+    background-color: white;
+}
+
 .nav-link {
     color: white;
 }
