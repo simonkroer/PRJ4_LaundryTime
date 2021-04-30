@@ -80,7 +80,8 @@ namespace LaundryTime.Controllers
         }
 
         //Virker ikke endnu. Der kommer blot en nyt laundryUser med som er tom. 
-        public IActionResult UpdateUser([Bind(Prefix = nameof(UserAdminViewModel.CurrentLaundryUser))] UserAdminViewModel viewModel)
+        [HttpPost]
+        public IActionResult UpdateUser(UserAdminViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
