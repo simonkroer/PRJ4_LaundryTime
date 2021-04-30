@@ -28,17 +28,21 @@ namespace LaundryTime.Data.Repositories
                 .Include(a => a.WorkAddress)
                 .Include(u => u.Users)
                     .ThenInclude(l => l.LaundryHistory)
+                .Include(u => u.Users)
+                    .ThenInclude(l => l.Address)
                 .ToList();
         }
 
-        public UserAdmin GetSingleUserAdmin(string username)
+        public UserAdmin GetSingleUserAdmin(string email)
         {
             return context.UserAdmins
                 .Include(m => m.Machines)
                 .Include(a => a.WorkAddress)
                 .Include(u => u.Users)
+                    .ThenInclude(s=>s.Address)
+                .Include(o=>o.Users)
                     .ThenInclude(l => l.LaundryHistory)
-                .SingleOrDefault(i => i.UserName == username);
+                .SingleOrDefault(i => i.UserName == email);
         }
 
         public void AddUserAdmin(UserAdmin userAdmin)
@@ -49,6 +53,11 @@ namespace LaundryTime.Data.Repositories
         public void Update(UserAdmin userAdmin)
         {
             context.Update(userAdmin);
+        }
+
+        public void DeleteUser(UserAdmin userAdmin)
+        {
+            context.UserAdmins.Remove(userAdmin);
         }
     }
 }

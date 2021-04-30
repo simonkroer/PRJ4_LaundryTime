@@ -55,9 +55,17 @@ namespace LaundryTime.Controllers
         }
 
         //[Authorize("IsUserAdmin")]
-        public IActionResult DeleteUser()
+        public IActionResult DeleteUser(string username)
         {
-            //Delete the chosen user HERE
+            if (username == null)
+            {
+                return NotFound();
+            }
+            
+            var userToDelete = _dataAccess.LaundryUsers.GetSingleLaundryUser(username);
+
+            _dataAccess.LaundryUsers.DeleteUser(userToDelete);
+            _dataAccess.Complete();
 
             return RedirectToAction(nameof(MyUsers));
         }
@@ -80,15 +88,32 @@ namespace LaundryTime.Controllers
             return View(_userAdminViewModel);
         }
 
-        //Virker ikke endnu. Der kommer blot en nyt laundryUser med som er tom. 
-        public IActionResult UpdateUser([Bind(Prefix = nameof(UserAdminViewModel.CurrentLaundryUser))] UserAdminViewModel viewModel)
+        [HttpPost]
+        //[Authorize("IsUserAdmin")]
+        public IActionResult UpdateUser(UserAdminViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var name = viewModel.CurrentLaundryUser.Name; //Just for testing
-                    _dataAccess.LaundryUsers.Update(viewModel.CurrentLaundryUser);
+                    var user = _dataAccess.LaundryUsers.GetSingleLaundryUser(viewModel.CurrentLaundryUser.UserName);
+
+                    user.Name = viewModel.CurrentLaundryUser.Name;
+                    user.PhoneNumber = viewModel.CurrentLaundryUser.PhoneNumber;
+                    user.Email = viewModel.CurrentLaundryUser.Email;
+
+                    if (user.Address == null && viewModel.CurrentLaundryUser.Address!=null)
+                    {
+                        user.Address = new Address();
+                        user.Address.StreetAddress = viewModel.CurrentLaundryUser.Address.StreetAddress;
+                        user.Address.Zipcode = viewModel.CurrentLaundryUser.Address.Zipcode;
+                    }
+
+                    user.PaymentMethod = viewModel.CurrentLaundryUser.PaymentMethod;
+                    user.PaymentDueDate = viewModel.CurrentLaundryUser.PaymentDueDate;
+                    user.UserName = viewModel.CurrentLaundryUser.UserName;
+
+                    _dataAccess.LaundryUsers.Update(user);
                     _dataAccess.Complete();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -99,11 +124,11 @@ namespace LaundryTime.Controllers
                     }
                     else
                     {
-                        throw;
+                        return RedirectToAction(nameof(MyUsers));
                     }
                 }
 
-                return RedirectToAction(nameof(EditUser));
+                return RedirectToAction(nameof(MyUsers));
             }
 
             return RedirectToAction(nameof(MyUsers));
@@ -117,19 +142,39 @@ namespace LaundryTime.Controllers
         {
             var userAdminViewModel = new UserAdminViewModel();
 
-            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
+            var currentUser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+
+            userAdminViewModel.MyMachines = currentUser.Machines;
 
             return View(userAdminViewModel);
         }
 
         //[Authorize("IsUserAdmin")]
+        [HttpGet]
         public IActionResult AddMachines()
         {
             var userAdminViewModel = new UserAdminViewModel();
 
-            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
-
             return View(userAdminViewModel);
+        }
+
+        //[Authorize("IsUserAdmin")]
+        [HttpPost]
+        public IActionResult AddMachines(UserAdminViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+
+            viewModel.CurrentMachine.UserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+
+            _dataAccess.Machines.AddMachine(viewModel.CurrentMachine);
+            _dataAccess.Complete();
+
+            TempData["Success"] = "true";
+
+            return RedirectToAction(nameof(IndexMachines));
         }
 
         //[Authorize("IsUserAdmin")]
