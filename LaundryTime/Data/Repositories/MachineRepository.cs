@@ -18,24 +18,32 @@ namespace LaundryTime.Data.Repositories
         public List<Machine> GetAllMachines()
         {
             //skal der ikke være noget med hvilke tider der er på maskinerne? Fremmednøgle til de bookede tider?
-            return Context.Machines.ToList();
+            return context.Machines.ToList();
         }
 
         public Machine GetSingleMachine(int id)
         {
             //Igen, noget med tider?
-            return Context.Machines
+            return context.Machines
                 .SingleOrDefault(m => m.MachineId == id);
         }
 
         public void AddMachine(Machine machine)
         {
-            Context.Machines.Add(machine);
+            context.Machines.Add(machine);
+        }
+
+        public void DelMachine(int id)
+        {
+            var machineToDel = context.Machines.SingleOrDefault(i => i.MachineId == id);
+            
+            if(machineToDel != null)
+                context.Machines.Remove(machineToDel);
         }
 
         public int GetNumberOfMachines()
         {
-            return Context.Machines.Count();
+            return context.Machines.Count();
         }
 
         public string GetTypeOfMachine(int id)

@@ -131,7 +131,7 @@ main {
 .mytable td, thead, tbody, tr, th, input {
         text-align: center;
         height: auto;
-        font-size:medium;
+        font-size: small;
         padding: 1em;
 }
 #InputButtonUserAdmin {
@@ -188,4 +188,8 @@ li {
 
 #UserLog {
     display:none;
+}
+
+.delButton {
+    background-image: url('/Images/redx.jpg');
 }

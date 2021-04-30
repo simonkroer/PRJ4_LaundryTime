@@ -171,11 +171,18 @@ namespace LaundryTime.Controllers
         }
 
         //[Authorize("IsUserAdmin")]
-        public IActionResult DeleteMachines()
+        [HttpPost]
+        public IActionResult DeleteMachines(string MachineToDel)
         {
-            _userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
 
-            return View(_userAdminViewModel);
+            _dataAccess.Machines.DelMachine(int.Parse(MachineToDel));
+            _dataAccess.Complete();
+
+            return RedirectToAction(nameof(IndexMachines));
         }
     }
 }

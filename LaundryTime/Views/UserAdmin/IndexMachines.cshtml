@@ -8,13 +8,10 @@
 
 <h4>Current Machines - @DateTime.Today.ToString("D")</h4>
 <br />
-<table class="mytable">
+<table>
     <tr>
         <td>
             <input type="button" class="btn btn-primary" value="Add New Machine" onclick="location.href = '@Url.Action("AddMachines", "UserAdmin")'" />
-        </td>
-        <td>
-            <input type="button" class="btn btn-primary" value="Remove Machine" onclick="location.href = '@Url.Action("DeleteMachines", "UserAdmin")'" />
         </td>
     </tr>
     <tr>
@@ -49,8 +46,6 @@
     </thead>
     @foreach (var item in Model.MyMachines)
     {
-        Model.CurrentMachine = item;
-
         <tbody>
         <tr>
 
@@ -67,7 +62,10 @@
                 @Html.DisplayFor(modelItem => item.InstallationDate)
             </td>
             <td>
-                <img width="25" src="~/Images/redx.jpg"/>
+                <form method="post">
+                    <input type="image" src="~/Images/redx.jpg" formaction="/UserAdmin/DeleteMachines">
+                    <input type="hidden" name="MachineToDel" value="@item.MachineId"/>
+                </form>
             </td>
         </tr>
         </tbody>
