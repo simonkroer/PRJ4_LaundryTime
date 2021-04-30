@@ -193,3 +193,7 @@ li {
 .delButton {
     background-image: url('/Images/redx.jpg');
 }
+
+.testAlignText{
+    text-align: left;
+}
