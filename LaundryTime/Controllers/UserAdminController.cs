@@ -79,15 +79,14 @@ namespace LaundryTime.Controllers
             return View(_userAdminViewModel);
         }
 
-        //Virker ikke endnu. Der kommer blot en nyt laundryUser med som er tom. 
         [HttpPost]
+        //[Authorize("IsUserAdmin")]
         public IActionResult UpdateUser(UserAdminViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var name = viewModel.CurrentLaundryUser.Name; //Just for testing
                     _dataAccess.LaundryUsers.Update(viewModel.CurrentLaundryUser);
                     _dataAccess.Complete();
                 }
@@ -99,7 +98,7 @@ namespace LaundryTime.Controllers
                     }
                     else
                     {
-                        throw;
+                        return RedirectToAction(nameof(MyUsers));
                     }
                 }
 
