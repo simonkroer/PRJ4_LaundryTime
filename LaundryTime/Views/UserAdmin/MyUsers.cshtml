@@ -14,7 +14,6 @@
 
     </div>
     <br /><br />
-
     <div>
         <table class="mytable">
             <thead>
@@ -43,33 +42,45 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.MyUsers)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address.StreetAddress)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaymentMethod)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaymentDueDate)
-                    </td>
-                    <td>
-                        <input type="button" id="InputButtonUserAdmin" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> |
-                        <input type="button" id="InputButtonUserAdmin" value="Delete" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin", new {username = item.UserName})'" />
-                    </td>
-                </tr>
-            }
+                @foreach (var item in Model.MyUsers)
+                {
+                    <tr id="ChosenUser">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address.StreetAddress)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentMethod)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentDueDate)
+                        </td>
+                        <td>
+                            <input type="button" id="InputButtonUserAdmin" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> |
+                            <input type="button" id="InputButtonUserAdmin" value="Delete" /> |
+                            <input type="button" id="InputButtonUserAdmin" value="History" class="collapsible" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="logContent">
+                                <p id="UserLog">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                    aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
