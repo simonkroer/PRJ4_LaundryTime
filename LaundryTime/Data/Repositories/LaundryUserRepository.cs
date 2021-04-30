@@ -44,5 +44,6 @@ namespace LaundryTime.Data.Repositories
         {
             context.Update(laundryUser);
         }
+
     }
 }

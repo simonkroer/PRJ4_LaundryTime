@@ -28,6 +28,8 @@ namespace LaundryTime.Data.Repositories
                 .Include(a => a.WorkAddress)
                 .Include(u => u.Users)
                     .ThenInclude(l => l.LaundryHistory)
+                .Include(u => u.Users)
+                    .ThenInclude(l => l.Address)
                 .ToList();
         }
 
@@ -37,6 +39,8 @@ namespace LaundryTime.Data.Repositories
                 .Include(m => m.Machines)
                 .Include(a => a.WorkAddress)
                 .Include(u => u.Users)
+                    .ThenInclude(s=>s.Address)
+                .Include(o=>o.Users)
                     .ThenInclude(l => l.LaundryHistory)
                 .SingleOrDefault(i => i.UserName == username);
         }

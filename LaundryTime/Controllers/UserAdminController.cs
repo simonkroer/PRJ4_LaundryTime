@@ -87,7 +87,18 @@ namespace LaundryTime.Controllers
             {
                 try
                 {
-                    _dataAccess.LaundryUsers.Update(viewModel.CurrentLaundryUser);
+                    var user = _dataAccess.LaundryUsers.GetSingleLaundryUser(viewModel.CurrentLaundryUser.UserName);
+
+                    user.Name = viewModel.CurrentLaundryUser.Name;
+                    user.PhoneNumber = viewModel.CurrentLaundryUser.PhoneNumber;
+                    user.Email = viewModel.CurrentLaundryUser.Email;
+                    user.Address.StreetAddress = viewModel.CurrentLaundryUser.Address.StreetAddress;
+                    user.Address.Zipcode = viewModel.CurrentLaundryUser.Address.Zipcode;
+                    user.PaymentMethod = viewModel.CurrentLaundryUser.PaymentMethod;
+                    user.PaymentDueDate = viewModel.CurrentLaundryUser.PaymentDueDate;
+                    user.UserName = viewModel.CurrentLaundryUser.UserName;
+
+                    _dataAccess.LaundryUsers.Update(user);
                     _dataAccess.Complete();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -102,7 +113,7 @@ namespace LaundryTime.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(EditUser));
+                return RedirectToAction(nameof(MyUsers));
             }
 
             return RedirectToAction(nameof(MyUsers));
