@@ -127,7 +127,9 @@ namespace LaundryTime.Controllers
         {
             var userAdminViewModel = new UserAdminViewModel();
 
-            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
+            var currentUser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+
+            userAdminViewModel.MyMachines = currentUser.Machines;
 
             return View(userAdminViewModel);
         }
@@ -138,28 +140,26 @@ namespace LaundryTime.Controllers
         {
             var userAdminViewModel = new UserAdminViewModel();
 
-            userAdminViewModel.MyMachines = _dataAccess.Machines.GetAllMachines();
-
-            return View();
+            return View(userAdminViewModel);
         }
 
         //[Authorize("IsUserAdmin")]
         [HttpPost]
-        public IActionResult AddMachines(Machine machine)
+        public IActionResult AddMachines(UserAdminViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound();
             }
 
-            machine.UserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(machine.UserAdmin.Name);
+            viewModel.CurrentMachine.UserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
 
-            _dataAccess.Machines.AddMachine(machine);
+            _dataAccess.Machines.AddMachine(viewModel.CurrentMachine);
             _dataAccess.Complete();
 
             TempData["Success"] = "true";
 
-            return View();
+            return RedirectToAction(nameof(IndexMachines));
         }
 
         //[Authorize("IsUserAdmin")]

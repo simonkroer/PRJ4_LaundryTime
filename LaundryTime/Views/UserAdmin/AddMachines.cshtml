@@ -1,60 +1,31 @@
-﻿@model LaundryTime.Data.Models.Machine
+﻿@model UserAdminViewModel
 
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-controller="UserAdmin" asp-action="EditUser">
+        <form asp-controller="UserAdmin" asp-action="AddMachines">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CurrentLaundryUser" />
+            <input type="hidden" asp-for="CurrentMachine"/>
 
             <div class="form-group">
-                <label class="control-label">Name: </label>
-                <input asp-for="" type="text" class="form-control" id="Name" value="@Html.ViewData.Model.CurrentLaundryUser.Name" onmouseleave="updateUser()" /> <!--Til at kalde javascript metode = onmouseleave="updateUser()"-->
-                <span asp-validation-for="CurrentLaundryUser.Name" class="text-danger"></span>
+                <label>Model Number: </label>
+                <input asp-for="CurrentMachine.ModelNumber" type="text" class="form-control" />
+                <span asp-validation-for="CurrentMachine.ModelNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Phone: </label>
-                <input asp-for="CurrentLaundryUser.PhoneNumber" class="form-control" />
-                <span asp-validation-for="CurrentLaundryUser.PhoneNumber" class="text-danger"></span>
+                <label>Machine Type: </label>
+                <input asp-for="CurrentMachine.Type" class="form-control" />
+                <span asp-validation-for="CurrentMachine.Type" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Email: </label>
-                <input asp-for="CurrentLaundryUser.Email" class="form-control" />
-                <span asp-validation-for="CurrentLaundryUser.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">StreetAddress: </label>
-                <input asp-for="CurrentLaundryUser.Address.StreetAddress" class="form-control" />
-                <span asp-validation-for="CurrentLaundryUser.Address.StreetAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Zip code: </label>
-                <input asp-for="CurrentLaundryUser.Address.Zipcode" class="form-control" />
-                <span asp-validation-for="CurrentLaundryUser.Address.Zipcode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Payment method: </label>
-                <input asp-for="CurrentLaundryUser.PaymentMethod" class="form-control" />
-                <span asp-validation-for="CurrentLaundryUser.PaymentMethod" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Payment due date: </label>
-                <input asp-for="CurrentLaundryUser.PaymentDueDate" class="form-control" />
-                <span asp-validation-for="CurrentLaundryUser.PaymentDueDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">User name: </label>
-                <input asp-for="CurrentLaundryUser.UserName" class="form-control" />
-                <span asp-validation-for="CurrentLaundryUser.UserName" class="text-danger"></span>
+                <label>Installation Date: </label>
+                <input asp-for="CurrentMachine.InstallationDate" class="form-control" />
+                <span asp-validation-for="CurrentMachine.InstallationDate" class="text-danger"></span>
             </div>
 
+            <div>
+                <input type="submit" class="btn btn-primary" asp-controller="UserAdmin" asp-action="AddMachines" />
+            </div>
         </form>
-
-        <div>
-            <input type="submit" class="btn btn-primary" value="Update user" onclick="location.href = '@Url.Action("UpdateUser", "UserAdmin", Model)'" /><!--onclick="location.href = '@*Url.Action("UpdateUser", "UserAdmin",  new {Model})'"*@-->
-        </div>
-    </div>
-    <div>
-        <a asp-action="MyUsers">Back to my users overview</a>
     </div>
 </div>
