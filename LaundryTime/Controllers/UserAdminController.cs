@@ -59,7 +59,15 @@ namespace LaundryTime.Controllers
             {
                 return NotFound();
             }
-            
+
+            if (_userAdminViewModel.CurrentLaundryUser != null)
+            {
+                if (_userAdminViewModel.CurrentLaundryUser.UserName == username || _userAdminViewModel.CurrentLaundryUser.Email == username)
+                {
+                    _userAdminViewModel.CurrentLaundryUser = null;
+                }
+            }
+
             var userToDelete = _dataAccess.LaundryUsers.GetSingleLaundryUser(username);
 
             _dataAccess.LaundryUsers.DeleteUser(userToDelete);

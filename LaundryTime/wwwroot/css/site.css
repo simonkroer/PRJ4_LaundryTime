@@ -128,12 +128,13 @@ main {
     font-family: Arial, sans-serif;
 }
 
-.mytable td, thead, tbody, tr, th, input {
+.mytable td, tbody, tr, th, input {
         text-align: center;
         height: auto;
         font-size: small;
         padding: 1em;
 }
+
 #InputButtonUserAdmin {
     color: #1b6ec2;
     border: none;
@@ -197,3 +198,4 @@ li {
 .testAlignText{
     text-align: left;
 }
+

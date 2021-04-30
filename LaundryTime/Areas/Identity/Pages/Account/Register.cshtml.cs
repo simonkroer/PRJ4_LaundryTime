@@ -73,6 +73,25 @@ namespace LaundryTime.Areas.Identity.Pages.Account
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [Display(Name = "Name")]
             public string Name { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Display(Name = "Street Address")]
+            public string StreetAddress { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Display(Name = "Postal Code")]
+            public string Zipcode { get; set; }
+
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Display(Name = "Phone no.")]
+            public string Phonenumber { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Display(Name = "Payment Method")]
+            public string PaymentMethod { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -91,7 +110,10 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 //Til useradmin til at oprette laundrytime brugere
                 if (User.HasClaim("UserAdmin", "IsUserAdmin"))
                 {
-                    var user = new LaundryUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name};
+                    var user = new LaundryUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name, 
+                        Address = new Address(){StreetAddress = Input.StreetAddress, Zipcode = Input.Zipcode}, 
+                        PhoneNumber = Input.Phonenumber,PaymentMethod = Input.PaymentMethod};
+
                     var result = await _userManager.CreateAsync(user, Input.Password);
                     if (result.Succeeded)
                     {
