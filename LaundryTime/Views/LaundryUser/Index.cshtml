@@ -62,20 +62,26 @@
     <tbody>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Time)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MachineType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MachineName)
-            </td>
-            <td>
-                <a asp-action="Book" asp-route-id="@item.BookingID">Book now</a>
-            </td>
-        </tr>
+        
+        DateTime date = DateTime.Parse("22-04-2021");
+        if (item.Date == date)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MachineType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MachineName)
+                </td>
+                <td>
+                    <a asp-action="Book" asp-route-id="@item.BookingID">Book now</a>
+                </td>
+            </tr>
+        }
+        
     }
     </tbody>
 </table>
