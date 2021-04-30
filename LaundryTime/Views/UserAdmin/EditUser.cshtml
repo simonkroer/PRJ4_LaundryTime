@@ -13,9 +13,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CurrentLaundryUser" />
 
-            <div class="form-group">
-                <label class="control-label">Name: </label>
-                <input asp-for="@Model.CurrentLaundryUser.Name" type="text" class="form-control" /> <!--Til at kalde javascript metode = onmouseleave="updateUser()"-->
+            <div >
+                <label >Name: </label>
+                <input asp-for="@Model.CurrentLaundryUser.Name" type="text" class="form-control" /> 
                 <span asp-validation-for="@Model.CurrentLaundryUser.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -55,21 +55,18 @@
             </div>
 
             <div>
-                <input type="submit" class="btn btn-primary" value="Update user" asp-controller="UserAdmin" asp-action="UpdateUser" /><!--onclick="location.href = '@*Url.Action("UpdateUser", "UserAdmin",  new {Model})'"*@-->
+                <input type="submit" class="btn btn-primary" value="Update user" asp-controller="UserAdmin" asp-action="UpdateUser" />
+            </div>
+            
+            <br/>
+
+            <div class="UserAdminEditUser">
+                <a  asp-controller="UserAdmin" asp-action="MyUsers">Back to my users overview</a>
             </div>
 
         </form>
     </div>
-    <div>
-        <a asp-action="MyUsers">Back to my users overview</a>
-    </div>
 </div>
-
-<script>
-    function updateUser() {
-        @Html.ViewData.Model.CurrentLaundryUser.Name = document.getElementById('Name').value;
-    }
-</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
