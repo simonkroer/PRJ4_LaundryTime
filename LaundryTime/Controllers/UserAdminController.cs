@@ -7,6 +7,7 @@ using LaundryTime.Data;
 using LaundryTime.Data.Models;
 using LaundryTime.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
@@ -37,14 +38,18 @@ namespace LaundryTime.Controllers
             return View(_userAdminViewModel);
         }
 
-        //[Authorize("IsUserAdmin")]
+        [HttpGet]
         public IActionResult MyUsers()
         {
-            if (User.Identity != null)
+            if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
                 var currentuser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
 
                 _userAdminViewModel.MyUsers = currentuser.Users;
+            }
+            else
+            {
+                return NotFound();//Evt erstat med korrekt fejlmeddelelse
             }
 
             return View(_userAdminViewModel);

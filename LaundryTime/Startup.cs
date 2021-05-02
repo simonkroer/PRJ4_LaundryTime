@@ -36,8 +36,7 @@ namespace LaundryTime
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<ApplicationUser
-                >(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
+                .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
