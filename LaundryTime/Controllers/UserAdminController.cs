@@ -9,6 +9,7 @@ using LaundryTime.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,16 +27,22 @@ namespace LaundryTime.Controllers
             _dataAccess = new DataAccsessAction(context);
             _userAdminViewModel = new UserAdminViewModel();
         }
-
-        //[Authorize("IsUserAdmin")]
+        
         public IActionResult Index()
         {
-            var myUser = _dataAccess.LaundryUsers.GetAllLaundryUsers();
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                var myUser = _dataAccess.LaundryUsers.GetAllLaundryUsers();
 
-            if (User.Identity != null)
-                _userAdminViewModel.CurrentUserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+                if (User.Identity != null)
+                    _userAdminViewModel.CurrentUserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
 
-            return View(_userAdminViewModel);
+                return View(_userAdminViewModel);
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         [HttpGet]
@@ -49,14 +56,12 @@ namespace LaundryTime.Controllers
             }
             else
             {
-                return NotFound();//Evt erstat med korrekt fejlmeddelelse
+                return Unauthorized();
             }
 
             return View(_userAdminViewModel);
         }
 
-
-        //[Authorize("IsUserAdmin")]
         //[HttpPost]
         public IActionResult DeleteUser(string username)
         {
@@ -94,6 +99,10 @@ namespace LaundryTime.Controllers
             if (_userAdminViewModel.CurrentLaundryUser == null)
             {
                 return NotFound();
+            }
+            else if (!User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                return Unauthorized();
             }
 
             return View(_userAdminViewModel);
