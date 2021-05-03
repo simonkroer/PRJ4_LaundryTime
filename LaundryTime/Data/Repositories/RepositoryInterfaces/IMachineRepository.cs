@@ -11,6 +11,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
         List<Machine> GetAllMachines();
         Machine GetSingleMachine(int id);
         void AddMachine(Machine machine);
+        void DelMachine(int id);
         int GetNumberOfMachines();
         public string GetTypeOfMachine(int id);
         public bool MachineExist(string number);

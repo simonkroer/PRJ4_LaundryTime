@@ -128,12 +128,13 @@ main {
     font-family: Arial, sans-serif;
 }
 
-.mytable td, thead, tbody, tr, th, input {
+.mytable td, tbody, tr, th, input {
         text-align: center;
         height: auto;
-        font-size:medium;
+        font-size: small;
         padding: 1em;
 }
+
 #InputButtonUserAdmin {
     color: #1b6ec2;
     border: none;
@@ -158,6 +159,43 @@ li {
     padding-top: 2em;
 }
 
+
+/* carousel */
+
+.carousel-item {
+    background: white;
+}
+
+.carousel-control-next,
+.carousel-control-prev, .carousel-indicators {
+    filter: invert(100%);
+}
+
+.carouseltext {
+    color: black;
+    padding-top: 1em;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: -50px;
+}
+
+.carousel-indicators li {
+    width: 10px;
+    height: 10px;
+}
+}
+
 #UserLog {
     display:none;
 }
+
+.delButton {
+    background-image: url('/Images/redx.jpg');
+}
+
+.testAlignText{
+    text-align: left;
+}
+

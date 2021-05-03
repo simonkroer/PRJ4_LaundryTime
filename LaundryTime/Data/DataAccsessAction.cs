@@ -20,6 +20,7 @@ namespace LaundryTime.Data
 
         public ISystemAdminRepository SystemAdmins { get; private set; }
 
+        public ILaundryLogRepository LaundryLogs { get; private set; }
 
         public DataAccsessAction(ApplicationDbContext context)
         {
@@ -29,6 +30,7 @@ namespace LaundryTime.Data
             LaundryUsers = new LaundryUserRepository(_context);
             UserAdmins = new UserAdminRepository(_context);
             SystemAdmins = new SystemAdminRepository(_context);
+            LaundryLogs = new LaundryLogRepository(_context);
         }
         public int Complete()
         {

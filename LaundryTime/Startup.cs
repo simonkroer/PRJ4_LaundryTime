@@ -36,8 +36,7 @@ namespace LaundryTime
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<ApplicationUser
-                >(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
+                .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
@@ -134,6 +133,31 @@ namespace LaundryTime
 
             }
 
+            //=================== Creating LaundryLog ==========================
+            const string infoForLog = "This is a damn test";
+            DateTime logTime = DateTime.Now;
+            const string infoForLog2 = "This is a damn test too";
+            DateTime logTime2 = DateTime.Now;
+            var user3ForLog = dataAcces.LaundryUsers.GetSingleLaundryUser("laundryUser@laundryUser.com"); 
+            if(user3ForLog !=null)
+            {
+                if (user3ForLog.LaundryHistory.Count() == 0)
+                {
+                    var user3Log = new LaundryLog();
+                    user3Log.LogDate = logTime;
+                    user3Log.LogInfo = infoForLog;
+                    user3ForLog.LaundryHistory.Add(user3Log);
+                    context.SaveChanges();
+                }
+            }
+
+            //var user3Log2 = new LaundryLog();
+            //user3Log2.LogDate = logTime2;
+            //user3Log2.LogInfo = infoForLog2;
+
+            //user3ForLog.LaundryHistory.Add(user3Log2);
+            //dataAcces.Complete();
+
             //=================== Creating UserAdmin user ==========================
 
             const string userAdminEmail = "UserAdmin@UserAdmin.com";
@@ -159,11 +183,16 @@ namespace LaundryTime
                     userManager.AddClaimAsync(user2, new Claim("UserAdmin", "IsUserAdmin")).Wait();
                 }
 
-                //Adding user to UserAdmin:
-                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
-                useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
-                dataAcces.Complete();
+            }
 
+            var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
+
+            if (useradmin!=null)
+            {
+                //Adding user to UserAdmin:
+                if (useradmin.Users != null)
+                    useradmin.Users.Add(dataAcces.LaundryUsers.GetSingleLaundryUser(laundryUserEmail));
+                dataAcces.Complete();
             }
 
 

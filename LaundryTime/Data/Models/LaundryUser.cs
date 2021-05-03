@@ -18,7 +18,6 @@ namespace LaundryTime.Data.Models
         [ForeignKey("Id")]
         public UserAdmin Administrator { get; set; }
 
-        [ForeignKey("LogId")]
         public List<LaundryLog> LaundryHistory { get; set; }
 
         public Address Address { get; set; }
