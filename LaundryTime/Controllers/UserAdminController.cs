@@ -65,25 +65,32 @@ namespace LaundryTime.Controllers
         //[HttpPost]
         public IActionResult DeleteUser(string username)
         {
-            if (username == null)
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
-                return NotFound();
-            }
-
-            if (_userAdminViewModel.CurrentLaundryUser != null)
-            {
-                if (_userAdminViewModel.CurrentLaundryUser.UserName == username || _userAdminViewModel.CurrentLaundryUser.Email == username)
+                if (username == null)
                 {
-                    _userAdminViewModel.CurrentLaundryUser = null;
+                    return NotFound();
                 }
+
+                if (_userAdminViewModel.CurrentLaundryUser != null)
+                {
+                    if (_userAdminViewModel.CurrentLaundryUser.UserName == username || _userAdminViewModel.CurrentLaundryUser.Email == username)
+                    {
+                        _userAdminViewModel.CurrentLaundryUser = null;
+                    }
+                }
+
+                var userToDelete = _dataAccess.LaundryUsers.GetSingleLaundryUser(username);
+
+                _dataAccess.LaundryUsers.DeleteUser(userToDelete);
+                _dataAccess.Complete();
+
+                return RedirectToAction(nameof(MyUsers));
             }
-
-            var userToDelete = _dataAccess.LaundryUsers.GetSingleLaundryUser(username);
-
-            _dataAccess.LaundryUsers.DeleteUser(userToDelete);
-            _dataAccess.Complete();
-
-            return RedirectToAction(nameof(MyUsers));
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         [HttpGet]
