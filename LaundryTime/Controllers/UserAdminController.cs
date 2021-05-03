@@ -167,53 +167,79 @@ namespace LaundryTime.Controllers
 
         public IActionResult IndexMachines()
         {
-            var userAdminViewModel = new UserAdminViewModel();
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                var userAdminViewModel = new UserAdminViewModel();
 
-            var currentUser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+                if (User.Identity != null)
+                {
+                    var currentUser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
 
-            userAdminViewModel.MyMachines = currentUser.Machines;
+                    userAdminViewModel.MyMachines = currentUser.Machines;
+                }
 
-            return View(userAdminViewModel);
+                return View(userAdminViewModel);
+            }
+            
+            return Unauthorized();
+            
         }
 
         [HttpGet]
         public IActionResult AddMachines()
         {
-            _userAdminViewModel.CurrentMachine = new Machine();
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                _userAdminViewModel.CurrentMachine = new Machine();
 
-            return View(_userAdminViewModel);
+                return View(_userAdminViewModel);
+            }
+
+            return Unauthorized();
         }
 
         [HttpPost]
         public IActionResult AddMachines(UserAdminViewModel viewModel)
         {
-            if (!ModelState.IsValid)
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
-                return NotFound();
+                if (!ModelState.IsValid)
+                {
+                    return NotFound();
+                }
+
+                if (User.Identity != null)
+                    viewModel.CurrentMachine.UserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+
+                _dataAccess.Machines.AddMachine(viewModel.CurrentMachine);
+                _dataAccess.Complete();
+
+                TempData["Success"] = "true";
+
+                return RedirectToAction(nameof(IndexMachines));
             }
 
-            viewModel.CurrentMachine.UserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
-
-            _dataAccess.Machines.AddMachine(viewModel.CurrentMachine);
-            _dataAccess.Complete();
-
-            TempData["Success"] = "true";
-
-            return RedirectToAction(nameof(IndexMachines));
+            return Unauthorized();
         }
 
         [HttpPost]
         public IActionResult DeleteMachines(string MachineToDel)
         {
-            if (!ModelState.IsValid)
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
-                return NotFound();
+                if (!ModelState.IsValid)
+                {
+                    return NotFound();
+                }
+
+                _dataAccess.Machines.DelMachine(int.Parse(MachineToDel));
+                _dataAccess.Complete();
+
+                return RedirectToAction(nameof(IndexMachines));
             }
 
-            _dataAccess.Machines.DelMachine(int.Parse(MachineToDel));
-            _dataAccess.Complete();
+            return Unauthorized();
 
-            return RedirectToAction(nameof(IndexMachines));
         }
     }
 }
