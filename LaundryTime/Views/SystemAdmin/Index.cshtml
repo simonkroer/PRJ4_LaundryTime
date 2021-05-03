@@ -1,3 +1,28 @@
 ﻿@model SystemAdminViewModel
 
 <h1>This is a Laundry Time "System Admin" site</h1>
+
+
+	<div class="column left">
+		<div class="headerCSS">
+			<p>List of User Admins:</p>
+		</div>
+		<div class="fixTable">
+			<table>
+				<thead>
+					<tr>
+						<th>Name:</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					@foreach(UserAdmin item in Model.AllUserAdmins)
+						{
+							<tr>
+								<td>@item.Name</td>
+							</tr>
+						}
+				</tbody>
+			</table>
+		</div>
+	</div>

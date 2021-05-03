@@ -10,6 +10,8 @@ namespace LaundryTime.ViewModels
     {
         public SystemAdminViewModel() { }
 
-        public List<UserAdmin> MyUserAdmins { get; set; }
+        public SystemAdmin CurrentSystemAdmin { get; set; }
+
+        public List<UserAdmin> AllUserAdmins { get; set; }
     }
 }

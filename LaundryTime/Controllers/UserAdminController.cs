@@ -35,7 +35,11 @@ namespace LaundryTime.Controllers
                 var myUser = _dataAccess.LaundryUsers.GetAllLaundryUsers();
 
                 if (User.Identity != null)
-                    _userAdminViewModel.CurrentUserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+                    _userAdminViewModel.CurrentUserAdmin.Name = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name).Name;
+                else
+                {
+	                _userAdminViewModel.CurrentUserAdmin.Name = "Jim";
+                }
 
                 return View(_userAdminViewModel);
             }

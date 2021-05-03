@@ -26,7 +26,16 @@ namespace LaundryTime.Controllers
 
         public IActionResult Index()
         {
-            return View();
+	        if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
+	        {
+
+		        
+				_systemAdminViewModel.AllUserAdmins = _dataAccess.UserAdmins.GetAllUserAdmins();
+		        
+		        return View(_systemAdminViewModel);
+	        }
+
+	        return Unauthorized();
         }
     }
 }
