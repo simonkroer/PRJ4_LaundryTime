@@ -11,24 +11,21 @@
 
         if (User.HasClaim("UserAdmin", "IsUserAdmin"))
         {
-            UserAdmin currentuser = await UserManager.GetUserAsync(User) as UserAdmin;
-            if (currentuser != null)
+            if (await UserManager.GetUserAsync(User) is UserAdmin currentuser)
             {
                 username = currentuser.Name;
             }
         }
         if (User.HasClaim("LaundryUser", "IsLaundryUser"))
         {
-            LaundryUser currentuser = await UserManager.GetUserAsync(User) as LaundryUser;
-            if (currentuser != null)
+            if (await UserManager.GetUserAsync(User) is LaundryUser currentuser)
             {
                 username = currentuser.Name;
             }
         }
         if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
         {
-            SystemAdmin currentuser = await UserManager.GetUserAsync(User) as SystemAdmin;
-            if (currentuser != null)
+            if (await UserManager.GetUserAsync(User) is SystemAdmin currentuser)
             {
                 username = currentuser.Name;
             }
