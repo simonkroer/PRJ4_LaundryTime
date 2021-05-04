@@ -66,12 +66,12 @@
                     <td>
                         <input type="button" id="InputButtonUserAdmin" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'"/> |
                         <input type="button" id="InputButtonUserAdmin" value="Delete" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin", new {username = item.Email})'"/> |
-                        <input type="button" id="InputButtonUserAdmin" value="History" class="btn-primary"/>
+                        <input type="button" id="InputButtonUserAdmin" value="History" class="btn-primary" onclick="$('#@item.Id').collapse('toggle')"/>
                     </td>
                 </tr>
                 <tr id="">
                     <td colspan="6">
-                        <div class="collapse testAlignText">
+                        <div class="collapse testAlignText" id="@item.Id">
                             @foreach (var logEntry in item.LaundryHistory)
                             {
                                 <label style="padding-right: 8px">Date: </label>
@@ -88,11 +88,11 @@
     </div>
 </div>
 
-<script>
+@*<script>
     $(document).ready(function () {
         $(".btn-primary").click(function () {
             $(".collapse").collapse('toggle');
         });
     });
-</script>
+</script>*@
 
