@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LaundryTime.Controllers
 {
-    public class UserAdminController : Controller
+    public class UserAdminController : Controller //controller base??
     {
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;

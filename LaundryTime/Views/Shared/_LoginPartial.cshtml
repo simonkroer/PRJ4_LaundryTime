@@ -7,8 +7,44 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User) )
     {
+        string username="";
+
+        if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+        {
+            UserAdmin currentuser = await UserManager.GetUserAsync(User) as UserAdmin;
+            if (currentuser != null)
+            {
+                username = currentuser.Name;
+            }
+        }
+        if (User.HasClaim("LaundryUser", "IsLaundryUser"))
+        {
+            LaundryUser currentuser = await UserManager.GetUserAsync(User) as LaundryUser;
+            if (currentuser != null)
+            {
+                username = currentuser.Name;
+            }
+        }
+        if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
+        {
+            SystemAdmin currentuser = await UserManager.GetUserAsync(User) as SystemAdmin;
+            if (currentuser != null)
+            {
+                username = currentuser.Name;
+            }
+        }
+
         <li class="nav-item">
-            <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name</a>
+            <script src="https://unpkg.com/vue"></script>
+            <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" id="identitybar">Welcome {{name}}</a>
+            <script>
+                new Vue({
+                    el: '#identitybar',
+                    data: {
+                        name: '@username'
+                    }
+                });
+            </script>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new {area = ""})">
