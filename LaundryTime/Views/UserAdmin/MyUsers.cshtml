@@ -72,13 +72,20 @@
                 <tr id="">
                     <td colspan="6">
                         <div class="collapse testAlignText" id="@item.Id">
-                            @foreach (var logEntry in item.LaundryHistory)
+                            @if(item.LaundryHistory.Count ==0)
                             {
-                                <label style="padding-right: 8px">Date: </label>
-                                @Html.DisplayFor(modelItem => logEntry.LogDate)
-                                <label style="padding-left: 20px">Info: </label>
-                                @Html.DisplayFor(modelItem => logEntry.LogInfo)
-                                <br/>
+                                <p>There is no laundry history</p>
+                            }
+                            else
+                            { 
+                                foreach (var logEntry in item.LaundryHistory)
+                                {
+                                    <label style="padding-right: 8px">Date: </label>
+                                    @Html.DisplayFor(modelItem => logEntry.LogDate)
+                                    <label style="padding-left: 20px">Info: </label>
+                                    @Html.DisplayFor(modelItem => logEntry.LogInfo)
+                                    <br/>
+                                }
                             }
                         </div>
                     </td>
