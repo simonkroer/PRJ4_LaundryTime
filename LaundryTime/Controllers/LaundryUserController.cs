@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LaundryTime.Data;
+using LaundryTime.Data.Models.Booking;
 using LaundryTime.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,6 +54,14 @@ namespace LaundryTime.Controllers
             }
             else
             {
+                var reservedBookings = new ReservedListModel()
+                {
+                    Date = bookingOrder.Date,
+                    Machine = bookingOrder.MachineId.ToString(),
+                    Time = bookingOrder.Time,
+                    //Name =
+                };
+                _context.ReservedListModels.Add(reservedBookings);
                 bookingOrder.Status = false;
                 _context.SaveChanges();
             }
@@ -111,6 +120,28 @@ namespace LaundryTime.Controllers
             }
 
             return View("UsersBookings", modelList);
+        }
+        public IActionResult UsersBookings()
+        {
+            var BookingList = _context.BookingListModels.Include(b => b.Machine);
+            List<BookingListViewModel> modelList = new List<BookingListViewModel>();
+
+            foreach (var booking in BookingList)
+            {
+                if (booking.Status == false)
+                {
+                    BookingListViewModel model = new BookingListViewModel();
+                    model.BookingID = booking.Id;
+                    model.Date = booking.Date;
+                    model.MachineName = booking.Machine.MachineId;
+                    model.MachineType = booking.Machine.Type;
+                    model.Time = booking.Time;
+
+                    modelList.Add(model);
+                }
+
+            }
+            return View(modelList);
         }
     }
 }
