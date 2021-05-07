@@ -32,7 +32,6 @@ namespace LaundryTime.Controllers
         {
             if (User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
-                var myUser = _dataAccess.LaundryUsers.GetAllLaundryUsers();
 
                 if (User.Identity != null)
                     _userAdminViewModel.CurrentUserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
@@ -45,11 +44,11 @@ namespace LaundryTime.Controllers
         }
 
         [HttpGet]
-        public IActionResult MyUsers()
+        public async Task<IActionResult> MyUsers()
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
-                var currentuser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+                var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
 
                 _userAdminViewModel.MyUsers = currentuser.Users;
 
