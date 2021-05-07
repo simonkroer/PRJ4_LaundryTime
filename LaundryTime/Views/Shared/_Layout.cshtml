@@ -20,7 +20,7 @@
                         <li>
                             <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        
+
                         @{
                             if (User.HasClaim("UserAdmin", "IsUserAdmin"))
                             {
@@ -31,6 +31,15 @@
                                 <li>
                                     <a asp-area="" asp-controller="UserAdmin" asp-action="IndexMachines">My Machines</a>
                                 </li>
+                            }
+                        }
+                        @{
+                            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
+                            {
+                                <li>
+                                    <a asp-area="" asp-controller="LaundryUser" asp-action="UsersBookings"> My Bookings</a>
+                                </li>
+                                <br />
                             }
                         }
 
