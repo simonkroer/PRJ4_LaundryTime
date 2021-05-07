@@ -1,7 +1,7 @@
-﻿@using System.Linq
-@model LaundryTime.ViewModels.BookingListViewModel
-@*@model LaundryTime.Models.Calender.DatePickerModel*@
-
+﻿@model LaundryTime.Models.Calender.DatePickerModel
+@{
+    ViewData["Title"] = "Booking";
+}
 <head>
     @* Calender date picker *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -16,16 +16,16 @@
     <div>
         <br />
         <h4>Select a date</h4>
-
-        @using (Html.BeginForm())
+        
+            @*@using (Html.BeginForm())
             {
-                @foreach (var model in Model.DatePickerModels)
+                @foreach (var model in Model)
                 {
-                @Html.EditorFor(modelItem => model, new { htmlAttributes = new { @class = "datepicker", @Type = "date" } })
+                @Html.EditorFor(modelItem => model.DatePickerModel, new { htmlAttributes = new { @class = "datepicker", @Type = "date" } })
                 }
-            }
-
-
+            }*@ 
+        
+        
         <br />
     </div>
 
@@ -47,40 +47,147 @@
 
 
     @* Remove style for final version *@
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Time:</th>
+        <th>Type:</th>
+        <th>Number:</th>
+        <th>Book now:</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        
+        DateTime date = DateTime.Parse("22-04-2021");
+        if (item.Date == date)
+        {
             <tr>
-                <th>Time:</th>
-                <th>Type:</th>
-                <th>Number:</th>
-                <th>Book now:</th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MachineType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MachineName)
+                </td>
+                <td>
+                    <a asp-action="Book" asp-route-id="@item.BookingID">Book now</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Machines)
-            {
+        }
+        
+    }
+    </tbody>
+</table>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-                DateTime date = DateTime.Parse("22-04-2021");
-                if (item.InstallationDate == date)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.InstallationDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Type)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ModelNumber)
-                        </td>
-                        <td>
-                            <a asp-action="Book" asp-route-id="@Model.BookingID">Book now</a>
-                        </td>
-                    </tr>
-                }
 
-            }
-        </tbody>
-    </table>
+        <div class="column right">
+            <div class="headerCSS">
+                <p>List of all available booking times:</p>
+            </div>
+            <div class="fixTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name:</th>
+                            <th>Time:</th>
+                            <th>Machine:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                        <tr>
+                            <td>new item</td>
+                            <td>new item</td>
+                            <td>new item</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 
 </body>
