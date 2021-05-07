@@ -16,7 +16,6 @@ using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 using LaundryTime.Data.Models.Booking;
-using LaundryTime.Models.Calender;
 
 namespace LaundryTime
 {
@@ -116,7 +115,7 @@ namespace LaundryTime
             IDataAccessAction dataAcces = new DataAccsessAction(_context);
             const bool emailConfirmed = true;
 
-            //=================== Creating LaundryUser ==========================
+            //=================== Creating LaundryUsers ==========================
 
             const string laundryUserEmail = "laundryUser@laundryUser.com";
             const string laundryUserPassword = "Sommer25!";
@@ -141,6 +140,31 @@ namespace LaundryTime
                 if (result.Succeeded) //Add claim to user
                 {
                     userManager.AddClaimAsync(user3, new Claim("LaundryUser", "IsLaundryUser")).Wait();
+                }
+
+            }
+            const string laundryUser2Email = "laundryUser2@laundryUser.com";
+            const string laundryUser2Password = "Sommer25!";
+            const string laundryUser2Cell = "88888888";
+            const string laundryUser2Name = "Dave Jensens";
+            const string laundryUser2Payment = "MobilePay";
+
+            if (!dataAcces.LaundryUsers.LaundryUserExists(laundryUser2Email))
+            {
+                var user4 = new LaundryUser();
+                user4.UserName = laundryUser2Email;
+                user4.Email = laundryUser2Email;
+                user4.EmailConfirmed = emailConfirmed;
+                user4.PhoneNumber = laundryUser2Cell;
+                user4.Name = laundryUser2Name;
+                user4.PaymentMethod = laundryUser2Payment;
+                user4.ActiveUser = active;
+
+                IdentityResult result = userManager.CreateAsync(user4, laundryUser2Password).Result;
+
+                if (result.Succeeded) //Add claim to user
+                {
+                    userManager.AddClaimAsync(user4, new Claim("LaundryUser", "IsLaundryUser")).Wait();
                 }
 
             }

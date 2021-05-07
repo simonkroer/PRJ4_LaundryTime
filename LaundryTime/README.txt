@@ -3,6 +3,9 @@
 User: laundryUser@laundryUser.com
 Password: Sommer25!
 
+User: laundryUser2@laundryUser.com
+Password: Sommer25!
+
 User: UserAdmin@UserAdmin.com
 Password: Sommer25!
 
