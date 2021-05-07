@@ -23,32 +23,36 @@
                 <th>Time:</th>
                 <th>Type:</th>
                 <th>Number:</th>
+                <th>Date:</th>
                 <th>Unbook:</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-
-                DateTime date = DateTime.Parse("22-04-2021");
-                if (item.Date == date)
-                {
-                    <tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Time)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MachineType)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MachineName)
+                    </td>
+                    <div class="col-md-10">
                         <td>
-                            @Html.DisplayFor(modelItem => item.Time)
+                            @Html.DisplayFor(modelItem => item.Date)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MachineType)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MachineName)
-                        </td>
-                        <td>
-                            <a asp-action="Unbook" asp-route-id="@item.BookingID">Unbook</a>
-                        </td>
-                    </tr>
-                }
-
+                    </div>
+                    
+                    
+                    <td>
+                        <a asp-action="Unbook" asp-route-id="@item.BookingID">Unbook</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
