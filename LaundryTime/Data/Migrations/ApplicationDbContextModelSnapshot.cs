@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LaundryTime.Data.Migrations
+namespace LaundryTime.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -122,7 +122,12 @@ namespace LaundryTime.Data.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
                 {
-                    b.Property<string>("LogId")
+                    b.Property<int>("LogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LaundryUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("LogDate")
@@ -133,7 +138,9 @@ namespace LaundryTime.Data.Migrations
 
                     b.HasKey("LogId");
 
-                    b.ToTable("LaundryLog");
+                    b.HasIndex("LaundryUserId");
+
+                    b.ToTable("LaundryLogs");
                 });
 
             modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>
@@ -501,11 +508,11 @@ namespace LaundryTime.Data.Migrations
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>
                 {
-                    b.HasOne("LaundryTime.Data.Models.LaundryUser", null)
+                    b.HasOne("LaundryTime.Data.Models.LaundryUser", "LaundryUser")
                         .WithMany("LaundryHistory")
-                        .HasForeignKey("LogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LaundryUserId");
+
+                    b.Navigation("LaundryUser");
                 });
 
             modelBuilder.Entity("LaundryTime.Data.Models.Machine", b =>
