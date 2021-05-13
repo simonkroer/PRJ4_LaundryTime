@@ -1,0 +1,52 @@
+﻿@using System.Linq
+@model IEnumerable<LaundryTime.ViewModels.BookingListViewModel>
+
+
+@{
+    ViewData["Title"] = "Booking";
+}
+<head>
+    @* Calender date picker *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <h1>@ViewData["Title"]</h1>
+
+    @* Remove style for final version *@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Time:</th>
+        <th>Type:</th>
+        <th>Number:</th>
+        <th>Book now:</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        
+        <tr>
+             <td>
+                 @Html.DisplayFor(modelItem => item.Time)
+             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MachineType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MachineName)
+            </td>
+            <td>
+                <a asp-action="Book" asp-route-id="@item.BookingID">Book now</a>
+            </td>
+        </tr>
+
+    }
+    </tbody>
+</table>
+
+</body>

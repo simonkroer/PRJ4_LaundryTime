@@ -24,17 +24,26 @@
                                 <img width="30" src="~/Images/home.png"/>
                             </a>
                         </li>
-                        
+
                         @{
                             if (User.HasClaim("UserAdmin", "IsUserAdmin"))
                             {
                                 <li>
                                     <a asp-area="" asp-controller="UserAdmin" asp-action="MyUsers"> My Users</a>
+                                    <br/>
                                 </li>
-                                <br />
                                 <li>
                                     <a asp-area="" asp-controller="UserAdmin" asp-action="IndexMachines">My Machines</a>
                                 </li>
+                            }
+                        }
+                        @{
+                            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
+                            {
+                                <li>
+                                    <a asp-area="" asp-controller="LaundryUser" asp-action="UsersBookings"> My Bookings</a>
+                                </li>
+                                <br />
                             }
                         }
 
