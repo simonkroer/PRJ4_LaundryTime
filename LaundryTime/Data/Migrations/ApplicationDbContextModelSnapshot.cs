@@ -53,10 +53,7 @@ namespace LaundryTime.Migrations
                     b.Property<int?>("DateModelId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MachineId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MachineName")
+                    b.Property<int>("MachineId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")
@@ -81,7 +78,7 @@ namespace LaundryTime.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateData")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -102,11 +99,14 @@ namespace LaundryTime.Migrations
                     b.Property<int?>("DateModelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Machine")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MachineId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OldId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Time")
                         .HasColumnType("nvarchar(max)");
@@ -114,6 +114,8 @@ namespace LaundryTime.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DateModelId");
+
+                    b.HasIndex("MachineId");
 
                     b.ToTable("ReservedListModels");
                 });
@@ -480,7 +482,9 @@ namespace LaundryTime.Migrations
 
                     b.HasOne("LaundryTime.Data.Models.Machine", "Machine")
                         .WithMany()
-                        .HasForeignKey("MachineId");
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("DateModel");
 
@@ -492,6 +496,14 @@ namespace LaundryTime.Migrations
                     b.HasOne("LaundryTime.Data.Models.Booking.DateModel", null)
                         .WithMany("ReservedListModels")
                         .HasForeignKey("DateModelId");
+
+                    b.HasOne("LaundryTime.Data.Models.Machine", "Machine")
+                        .WithMany()
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Machine");
                 });
 
             modelBuilder.Entity("LaundryTime.Data.Models.LaundryLog", b =>

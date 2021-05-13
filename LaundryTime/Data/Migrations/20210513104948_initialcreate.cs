@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LaundryTime.Migrations
 {
-    public partial class NewInitial : Migration
+    public partial class initialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,7 @@ namespace LaundryTime.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateData = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -146,29 +146,6 @@ namespace LaundryTime.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ReservedListModels",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Machine = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateModelId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReservedListModels", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ReservedListModels_DateModels_DateModelId",
-                        column: x => x.DateModelId,
-                        principalTable: "DateModels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,8 +284,7 @@ namespace LaundryTime.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MachineName = table.Column<int>(type: "int", nullable: false),
-                    MachineId = table.Column<int>(type: "int", nullable: true),
+                    MachineId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateModelId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -326,7 +302,37 @@ namespace LaundryTime.Migrations
                         column: x => x.MachineId,
                         principalTable: "Machines",
                         principalColumn: "MachineId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReservedListModels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OldId = table.Column<int>(type: "int", nullable: false),
+                    Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MachineId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateModelId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReservedListModels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ReservedListModels_DateModels_DateModelId",
+                        column: x => x.DateModelId,
+                        principalTable: "DateModels",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ReservedListModels_Machines_MachineId",
+                        column: x => x.MachineId,
+                        principalTable: "Machines",
+                        principalColumn: "MachineId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -422,6 +428,11 @@ namespace LaundryTime.Migrations
                 name: "IX_ReservedListModels_DateModelId",
                 table: "ReservedListModels",
                 column: "DateModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReservedListModels_MachineId",
+                table: "ReservedListModels",
+                column: "MachineId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -454,10 +465,10 @@ namespace LaundryTime.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Machines");
+                name: "DateModels");
 
             migrationBuilder.DropTable(
-                name: "DateModels");
+                name: "Machines");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
