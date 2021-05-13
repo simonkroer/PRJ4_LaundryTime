@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Threading.Tasks;
 using LaundryTime.Data;
 using LaundryTime.Data.Models;
 using Microsoft.Data.Sqlite;
@@ -13,7 +14,7 @@ namespace LaundryTime.Test.Unit
     public class Tests
     {
         protected ApplicationDbContext _context { get; set; }
-        protected IDataAccessAction _dataAccess { get; set; }
+        protected IDataAccessAction _uut { get; set; }
 
         [SetUp]
         public void Setup()
@@ -21,16 +22,17 @@ namespace LaundryTime.Test.Unit
             _context = new ApplicationDbContext(
                 new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CreateInMemoryDatabase()).Options);
 
-            _dataAccess = new DataAccsessAction(_context);
+            _uut = new DataAccsessAction(_context);
 
             Seed();
         }
 
+        //Useradmin Repository actions
         [Test]
         public void UserExists_Expected_true()
         {
 
-            var temp = _dataAccess.UserAdmins.UserExists("test@test.dk");
+            var temp = _uut.UserAdmins.UserExists("test@test.dk");
 
             Assert.True(temp);
 
@@ -40,13 +42,60 @@ namespace LaundryTime.Test.Unit
         [Test]
         public void GetAllUserAdmins_Expected_2()
         {
-            var temp = _dataAccess.UserAdmins.GetAllUserAdmins();
-
+            var temp = _uut.UserAdmins.GetAllUserAdmins();
 
             Assert.That(temp.Count==2);
             Assert.That(temp, Is.TypeOf<List<UserAdmin>>());
             Assert.That(temp[0].Machines, Is.Not.Null);
             Assert.That(temp[0].Users, Is.Not.Null);
+
+            Dispose();
+        }
+
+        [Test]
+        public void GetSingleUserAdmin_Expected_succes()
+        {
+            UserAdmin temp = _uut.UserAdmins.GetSingleUserAdmin("test@test.dk");
+
+            Assert.That(temp.Machines, Is.Not.Null);
+            Assert.That(temp.Users, Is.Not.Null);
+            Assert.That(temp.FinancialBalance, Is.EqualTo(1200));
+
+            Dispose();
+        }
+
+        [Test]
+        public async Task GetSingleUserAdminAsync_Expected_succes()
+        {
+            UserAdmin temp = await _uut.UserAdmins.GetSingleUserAdminAsync("test@test.dk");
+
+            Assert.That(temp.Machines, Is.Not.Null);
+            Assert.That(temp.Users, Is.Not.Null);
+            Assert.That(temp.FinancialBalance, Is.EqualTo(1200));
+
+            Dispose();
+        }
+
+        [Test]
+        public void AddUserAdmin_Expected_succes()
+        {
+            var admin = new UserAdmin()
+            {
+                Name = "Tester3",
+                PaymentMethod = "Cash",
+                FinancialBalance = 1200,
+                PaymentDueDate = new DateTime(2021 - 08 - 08),
+                Email = "test3@test.dk",
+                UserName = "test3@test.dk",
+                EmailConfirmed = true
+            };
+
+            _uut.UserAdmins.AddUserAdmin(admin);
+            _uut.Complete();
+
+            var temp = _uut.UserAdmins.GetAllUserAdmins();
+
+            Assert.That(temp.Count == 3);
 
             Dispose();
         }
@@ -104,6 +153,7 @@ namespace LaundryTime.Test.Unit
                 FinancialBalance = 1200,
                 PaymentDueDate = new DateTime(2021 - 08 - 08),
                 Email = "test@test.dk",
+                UserName = "test@test.dk",
                 EmailConfirmed = true
             };
 
@@ -111,11 +161,12 @@ namespace LaundryTime.Test.Unit
             {
                 Name = "Tester2",
                 PaymentMethod = "Mobilepay",
-                Machines = new List<Machine>() { machine1, machine2 },
-                Users = new List<LaundryUser>() { user1, user2 },
+                //Machines = new List<Machine>() { machine1, machine2 },
+                //Users = new List<LaundryUser>() { user1, user2 },
                 FinancialBalance = 1400,
                 PaymentDueDate = new DateTime(2021 - 10 - 08),
                 Email = "test2@test.dk",
+                UserName = "test2@test.dk",
                 EmailConfirmed = true
             };
 
