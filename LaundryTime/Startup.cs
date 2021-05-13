@@ -33,7 +33,7 @@ namespace LaundryTime
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("AlexConnection")));
+                    Configuration.GetConnectionString("ThomasConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
