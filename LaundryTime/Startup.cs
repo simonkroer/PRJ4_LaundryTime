@@ -67,7 +67,7 @@ namespace LaundryTime
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }
-
+            //
             //else
             //{
             //    app.UseExceptionHandler("/Home/Error");
