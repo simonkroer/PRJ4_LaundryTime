@@ -8,6 +8,7 @@ using LaundryTime.Data;
 using LaundryTime.ViewModels;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace LaundryTime.Test.Unit
@@ -24,6 +25,12 @@ namespace LaundryTime.Test.Unit
         {
             _context = new ApplicationDbContext(
                 new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CreateInMemoryDatabase()).Options);
+
+            Seed();
+
+            _dataAccess = Substitute.For<IDataAccessAction>();
+            _userAdminViewModel = Substitute.For<UserAdminViewModel>();
+
             _userAdminController = new UserAdminController();
         }
 
@@ -39,6 +46,21 @@ namespace LaundryTime.Test.Unit
             var connection = new SqliteConnection("Filename=:memory:");//Fake db
             connection.Open();
             return connection;
+        }
+
+        public void Seed()
+        {
+            _context.Database.EnsureCreated();
+
+            //Seeding goes here
+
+            _context.SaveChanges();
+        }
+
+        public void Dispose()
+        {
+            _context.Database.EnsureDeleted();
+            _context.Dispose();
         }
     }
 }
