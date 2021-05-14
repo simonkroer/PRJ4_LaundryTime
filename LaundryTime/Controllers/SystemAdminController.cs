@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LaundryTime.Data;
+using LaundryTime.Data.Models;
 using LaundryTime.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LaundryTime.Controllers
 {
@@ -37,5 +39,26 @@ namespace LaundryTime.Controllers
 
 	        return Unauthorized();
         }
-    }
+
+        // Post /account/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(UserAdmin userAdmin)
+        {
+
+	        if (ModelState.IsValid)
+	        {
+		        var appUser = new UserAdmin()
+		        {
+			        Name = userAdmin.Name,
+					PaymentMethod = userAdmin.PaymentMethod,
+		        };
+		      
+		        _dataAccess.UserAdmins.AddUserAdmin(appUser);
+		        
+		       
+	        }
+	        return View(user);
+        }
+	}
 }
