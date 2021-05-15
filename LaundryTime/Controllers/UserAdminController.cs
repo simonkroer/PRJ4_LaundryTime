@@ -90,6 +90,7 @@ namespace LaundryTime.Controllers
                     builder.Append(JsonConvert.SerializeObject(user));
                     builder.Append(JsonConvert.SerializeObject(builder2));
                 }
+
                 
                 string filename = "MyUsersReport.json";
 
