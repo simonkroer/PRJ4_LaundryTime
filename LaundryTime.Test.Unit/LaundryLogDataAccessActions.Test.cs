@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LaundryTime.Test.Unit
 {
-    class BookingListDataAccessActions
+    public class LaundryLogDataAccessActions
     {
     }
 }
