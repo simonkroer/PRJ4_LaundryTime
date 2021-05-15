@@ -27,35 +27,7 @@ namespace LaundryTime.Test.Unit
 
             Seed();
         }
-        static DbConnection CreateInMemoryDatabase()
-        {
-            var connection = new SqliteConnection("Filename=:memory:");//Fake db
-            connection.Open();
-            return connection;
-        }
-
-        public void Seed()
-        {
-            _context.Database.EnsureCreated();
-
-            var adr1 = new Address()
-            {
-                StreetAddress = "Address1",
-                Zipcode = "1000",
-                Country = "Denmark"
-            };
-
-            var adr2 = new Address()
-            {
-                StreetAddress = "Address2",
-                Zipcode = "2000",
-                Country = "Spain"
-            };
-
-            _context.Addresses.AddRange(adr1, adr2);
-            _context.SaveChanges();
-        }
-
+        
         [Test]
         public void GetAllAddresses_Expected2_True()
         {
@@ -98,6 +70,35 @@ namespace LaundryTime.Test.Unit
             Assert.That(newAdressToCheck.Country, Is.EqualTo("Sweden"));
 
             Dispose();
+        }
+
+        static DbConnection CreateInMemoryDatabase()
+        {
+            var connection = new SqliteConnection("Filename=:memory:");//Fake db
+            connection.Open();
+            return connection;
+        }
+
+        public void Seed()
+        {
+            _context.Database.EnsureCreated();
+
+            var adr1 = new Address()
+            {
+                StreetAddress = "Address1",
+                Zipcode = "1000",
+                Country = "Denmark"
+            };
+
+            var adr2 = new Address()
+            {
+                StreetAddress = "Address2",
+                Zipcode = "2000",
+                Country = "Spain"
+            };
+
+            _context.Addresses.AddRange(adr1, adr2);
+            _context.SaveChanges();
         }
 
         public void Dispose()
