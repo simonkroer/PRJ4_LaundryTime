@@ -100,6 +100,20 @@ namespace LaundryTime.Test.Unit
             Dispose();
         }
 
+        [Test]
+        public void UpdateUserAdmin_Expected_succes()
+        {
+            var temp = _uut.UserAdmins.GetSingleUserAdmin("test@test.dk");
+            temp.FinancialBalance = 1300;
+
+            _uut.UserAdmins.Update(temp);
+
+            var changeduser = _uut.UserAdmins.GetSingleUserAdmin("test@test.dk");
+            Assert.That(changeduser.FinancialBalance.Equals(1300));
+
+            Dispose();
+        }
+
         static DbConnection CreateInMemoryDatabase()
         {
             var connection = new SqliteConnection("Filename=:memory:");//Fake db
