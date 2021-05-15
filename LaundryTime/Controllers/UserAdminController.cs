@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using LaundryTime.Data;
 using LaundryTime.Data.Models;
@@ -12,6 +15,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using JsonConverter = System.Text.Json.Serialization.JsonConverter;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace LaundryTime.Controllers
 {
@@ -57,6 +63,20 @@ namespace LaundryTime.Controllers
             
             return Unauthorized();
             
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GenerateReport()
+        {
+            if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                var jsonstring = JsonConvert.SerializeObject(_userAdminViewModel.MyUsers);
+
+
+            }
+
+            return Unauthorized();
+
         }
 
         [RequireHttps]

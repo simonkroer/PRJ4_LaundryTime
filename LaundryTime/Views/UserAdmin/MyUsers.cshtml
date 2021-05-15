@@ -10,8 +10,9 @@
     <h4> All my users:</h4>
     <br />
 
-    <div >
+    <div>
         <a class="btn btn-primary" type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
+        <a class="btn btn-primary" type="button" onclick="location.href = '@Url.Action("GenerateReport", "UserAdmin")'">Save complete report</a>
     </div>
     <br /><br />
     <div>
