@@ -16,6 +16,8 @@ using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 using LaundryTime.Data.Models.Booking;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace LaundryTime
 {
@@ -33,8 +35,14 @@ namespace LaundryTime
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("EmilConnection")));
+                    Configuration.GetConnectionString("ThomasConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            var notificationMetadata =
+                Configuration.GetSection("NotificationMetadata").
+                    Get<NotificationMetadata>();
+            services.AddSingleton(notificationMetadata);
+            services.AddControllers();
 
             services
                 .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //Adding LaundryUser User type

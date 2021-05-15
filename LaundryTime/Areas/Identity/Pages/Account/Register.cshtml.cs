@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Authentication;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -16,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MimeKit;
 
 namespace LaundryTime.Areas.Identity.Pages.Account
 {
@@ -28,13 +33,16 @@ namespace LaundryTime.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;
+        private NotificationMetadata _notificationMetadata;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender, 
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            NotificationMetadata notificationMetadata)
+            
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -42,6 +50,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _context = context;
             _dataAccess = new DataAccsessAction(context);
+            _notificationMetadata = notificationMetadata;
         }
 
         [BindProperty]
@@ -112,20 +121,36 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 {
                     var user = new LaundryUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name, 
                         Address = new Address(){StreetAddress = Input.StreetAddress, Zipcode = Input.Zipcode}, 
-                        PhoneNumber = Input.Phonenumber,PaymentMethod = Input.PaymentMethod};
+                        PhoneNumber = Input.Phonenumber,PaymentMethod = Input.PaymentMethod, EmailConfirmed = true};
 
                     var result = await _userManager.CreateAsync(user, Input.Password);
+
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created a new account with password.");
 
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        await _userManager.AddClaimAsync(user, new Claim("LaundryUser", "IsLaundryUser"));
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                         var callbackUrl = Url.Page(
                             "/Account/ConfirmEmail",
                             pageHandler: null,
                             values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                             protocol: Request.Scheme);
+
+                        MailMessage message = new MailMessage()
+                        {
+                            From = new MailAddress("laundrytime@outlook.dk"), // sender must be a full email address
+                            Subject = "User Registration",
+                            IsBodyHtml = true,
+                            Body = $"<h3>Hello {user.Name}</h3> <br/> <p>Thank you for registering with Laundry Time</p> <br/> <p>User name: {user.Email} </p> <p>Password: {Input.Password}</p> <img src='https://t4.ftcdn.net/jpg/03/09/29/23/360_F_309292393_4G7XxgXz5ftKSuSStItdT2ZK1snVEH08.jpg'/>",
+                            BodyEncoding = System.Text.Encoding.UTF8,
+                            SubjectEncoding = System.Text.Encoding.UTF8,
+                            To = { "thomasmdaugaard@gmail.com" }
+
+                        };
+
+                        SendMail(message);
 
                         await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                             $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
@@ -196,6 +221,33 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private MimeMessage CreateMimeMessageFromEmailMessage(EmailMessage message)
+        {
+            var mimeMessage = new MimeMessage();
+            mimeMessage.From.Add(message.Sender);
+            mimeMessage.To.Add(message.Reciever);
+            mimeMessage.Subject = message.Subject;
+            mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text)
+                { Text = message.Content };
+            return mimeMessage;
+        }
+
+        private void SendMail(MailMessage message)
+        {
+
+            using (SmtpClient smtpClient = new SmtpClient()
+            {
+                Host = "smtp.office365.com",
+                Port = 587,
+                UseDefaultCredentials = false, // This require to be before setting Credentials property
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential("laundrytime@outlook.dk", "Sommer25!"), // you must give a full email address for authentication 
+                TargetName = "STARTTLS/smtp.office365.com", // Set to avoid MustIssueStartTlsFirst exception
+                EnableSsl = true, // Set to avoid secure connection exception
+            })
+                smtpClient.Send(message);
         }
     }
 }
