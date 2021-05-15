@@ -11,8 +11,10 @@ using LaundryTime.Data.Models;
 using LaundryTime.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -66,12 +68,28 @@ namespace LaundryTime.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GenerateReport()
+        public  async Task<IActionResult> GenerateMyUsersReport()
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
+               // var builder = new StringBuilder();
                 var jsonstring = JsonConvert.SerializeObject(_userAdminViewModel.MyUsers);
+               // builder.Append($"{jsonstring}");
+               // string filename = "MyUsersReport.json";
 
+               // byte[] bytes = System.Text.Encoding.UTF8.GetBytes(jsonstring);
+               //var content = new MemoryStream(bytes);
+
+               //return File(content, "text/json", filename);
+
+               Response.StatusCode = 200;
+               Response.ContentType = "text/json";
+               using (var sw = new StreamWriter(Response.Body))
+               {
+                   await sw.WriteAsync(jsonstring);
+               }
+
+               return null;
 
             }
 
