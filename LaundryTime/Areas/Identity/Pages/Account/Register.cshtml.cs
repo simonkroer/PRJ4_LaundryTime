@@ -146,7 +146,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                             Body = $"<h3>Hello {user.Name}</h3> <br/> <p>Thank you for registering with Laundry Time</p> <br/> <p>User name: {user.Email} </p> <p>Password: {Input.Password}</p> <img src='https://t4.ftcdn.net/jpg/03/09/29/23/360_F_309292393_4G7XxgXz5ftKSuSStItdT2ZK1snVEH08.jpg'/>",
                             BodyEncoding = System.Text.Encoding.UTF8,
                             SubjectEncoding = System.Text.Encoding.UTF8,
-                            To = { "thomasmdaugaard@gmail.com" }
+                            To = { user.Email }
 
                         };
 
