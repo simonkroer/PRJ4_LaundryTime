@@ -30,29 +30,29 @@ namespace LaundryTime.Xunit.Test
         }
 
 
-        [Fact]
-        public async Task MyUsers_Expected()
-        {
-            //Arrange:
-            _context = new ApplicationDbContext(
-                new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CreateInMemoryDatabase()).Options);
-            Seed();
-            _dataAccessfake = Substitute.For<DataAccsessAction>(_context);
-            _userAdminViewModelfake = Substitute.For<UserAdminViewModel>();
-            _userAdminController = new UserAdminController(_context);
-            var _usermanagerfake = Substitute.For<UserManager<ApplicationUser>>();
-            UserAdmin user = await _context.UserAdmins.SingleOrDefaultAsync(); //Get user
+        //[Fact]
+        //public async Task MyUsers_Expected()
+        //{
+        //    //Arrange:
+        //    _context = new ApplicationDbContext(
+        //        new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CreateInMemoryDatabase()).Options);
+        //    Seed();
+        //    _dataAccessfake = Substitute.For<DataAccsessAction>(_context);
+        //    _userAdminViewModelfake = Substitute.For<UserAdminViewModel>();
+        //    _userAdminController = new UserAdminController(_context);
+        //    var _usermanagerfake = Substitute.For<UserManager<ApplicationUser>>();
+        //    UserAdmin user = await _context.UserAdmins.SingleOrDefaultAsync(); //Get user
 
-            //Login
+        //    //Login
 
-            //Act:
-            var res = await _userAdminController.MyUsers();
+        //    //Act:
+        //    var res = await _userAdminController.MyUsers();
 
-            //Assert:
-            //var viewres = Assert.IsType<ViewResult>(res);
+        //    //Assert:
+        //    //var viewres = Assert.IsType<ViewResult>(res);
 
-            Dispose();
-        }
+        //    Dispose();
+        //}
 
         #region Setup Methods
         static DbConnection CreateInMemoryDatabase()
