@@ -67,7 +67,7 @@ namespace LaundryTime.Controllers
             
         }
 
-        [HttpGet]
+        [HttpGet("MyUsersReport")]
         public  async Task<IActionResult> GenerateMyUsersReport()
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
