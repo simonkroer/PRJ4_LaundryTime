@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace LaundryTime.Test.Unit
 {
-    public class Tests
+    public class UserAdminDataAccessActionsTest
     {
         protected ApplicationDbContext _context { get; set; }
         protected IDataAccessAction _uut { get; set; }
@@ -27,7 +27,7 @@ namespace LaundryTime.Test.Unit
             Seed();
         }
 
-        //Useradmin Repository actions
+        //=======================================================   Useradmin Repository actions ============================================================================
         [Test]
         public void UserExists_Expected_true()
         {
@@ -109,10 +109,26 @@ namespace LaundryTime.Test.Unit
             _uut.UserAdmins.Update(temp);
 
             var changeduser = _uut.UserAdmins.GetSingleUserAdmin("test@test.dk");
-            Assert.That(changeduser.FinancialBalance.Equals(1300));
+            Assert.That(changeduser.FinancialBalance, Is.EqualTo(1300));
 
             Dispose();
         }
+
+        [Test]
+        public void DeleteUserAdmin_Expected_succes()
+        {
+            var temp = _uut.UserAdmins.GetSingleUserAdmin("test@test.dk");
+
+            _uut.UserAdmins.DeleteUser(temp);
+            _uut.Complete();
+
+            var res = _uut.UserAdmins.UserExists("test@test.dk");
+
+            Assert.That(res, Is.False);
+
+            Dispose();
+        }
+
 
         static DbConnection CreateInMemoryDatabase()
         {
