@@ -30,6 +30,15 @@ namespace LaundryTime.Data.Repositories
                 .SingleOrDefault(i => i.UserName == username);
         }
 
+        public LaundryUser GetSingleLaundryUserById(string id)
+        {
+            return context.LaundryUsers
+                .Include(p => p.Administrator)
+                .Include(t => t.LaundryHistory)
+                .Include(g => g.Address)
+                .SingleOrDefault(i => i.Id == id);
+        }
+
         public void AddLaundryUser(LaundryUser laundryUser)
         {
             context.LaundryUsers.Add(laundryUser);

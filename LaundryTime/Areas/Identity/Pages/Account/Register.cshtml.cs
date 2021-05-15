@@ -121,7 +121,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 {
                     var user = new LaundryUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name, 
                         Address = new Address(){StreetAddress = Input.StreetAddress, Zipcode = Input.Zipcode}, 
-                        PhoneNumber = Input.Phonenumber,PaymentMethod = Input.PaymentMethod, EmailConfirmed = true};
+                        PhoneNumber = Input.Phonenumber,PaymentMethod = Input.PaymentMethod};
 
                     var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -143,7 +143,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                             From = new MailAddress("laundrytime@outlook.dk"), // sender must be a full email address
                             Subject = "User Registration",
                             IsBodyHtml = true,
-                            Body = $"<h3>Hello {user.Name}</h3><p>Thank you for registering with Laundry Time</p> <p>User name: {user.Email} </p> <p>Password: {Input.Password}</p> <img width='100' src='https://t4.ftcdn.net/jpg/03/09/29/23/360_F_309292393_4G7XxgXz5ftKSuSStItdT2ZK1snVEH08.jpg'/> <p>Kind regards</p> <p>Laundry Time</p>",
+                            Body = $"<h3>Hello {user.Name}</h3><p>Thank you for registering with Laundry Time</p> <p>User name: {user.Email} </p> <p>Password: {Input.Password}</p> <p>Please click on the link below to confirm your email:</p> <a>https://localhost:44383/LaundryUser/EmailConfirm/{user.Id}</a>  <img width='100' src='https://t4.ftcdn.net/jpg/03/09/29/23/360_F_309292393_4G7XxgXz5ftKSuSStItdT2ZK1snVEH08.jpg'/> <p>Kind regards</p> <p>Laundry Time</p>",
                             BodyEncoding = System.Text.Encoding.UTF8,
                             SubjectEncoding = System.Text.Encoding.UTF8,
                             To = { "thomasmdaugaard@gmail.com" }

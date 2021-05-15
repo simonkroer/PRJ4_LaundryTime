@@ -171,6 +171,17 @@ namespace LaundryTime.Controllers
             return View(modelList);
         }
 
-        
+        public IActionResult EmailConfirm(string id)
+        {
+            var user = _dataAccess.LaundryUsers.GetSingleLaundryUserById(id);
+            user.EmailConfirmed = true;
+
+            _dataAccess.LaundryUsers.Update(user);
+            _dataAccess.Complete();
+
+            return View(user);
+        }
+
+
     }
 }
