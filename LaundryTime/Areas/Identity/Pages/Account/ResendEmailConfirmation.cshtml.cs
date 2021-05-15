@@ -74,7 +74,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                        $"<br/> <br/> <img width='100' src='https://t4.ftcdn.net/jpg/03/09/29/23/360_F_309292393_4G7XxgXz5ftKSuSStItdT2ZK1snVEH08.jpg'/> <p>Kind regards</p> <p>Laundry Time</p>",
                 BodyEncoding = System.Text.Encoding.UTF8,
                 SubjectEncoding = System.Text.Encoding.UTF8,
-                To = { "thomasmdaugaard@gmail.com" }
+                To = { user.Email }
             };
 
             SendMail(message);
