@@ -78,8 +78,14 @@ namespace LaundryTime.Test.Unit
             _uut.SystemAdmins.AddSystemAdmin(systemAdmin2);
             _uut.Complete();
 
-            temp = _uut.SystemAdmins.GetSingleSystemAdmin(systemAdmin2.Name);
-            Assert.That(temp == systemAdmin2);
+            temp = _uut.SystemAdmins.GetAllSystemAdmins();
+            Assert.That(temp.Count == 2);
+            var temp2 = _uut.SystemAdmins.GetSingleSystemAdmin("Nougat");
+            Assert.That(temp2.Name == "Nougat");
+            Assert.That(temp2.LaundryUsers, Is.Not.Null);
+            Assert.That(temp2.UserAdmins, Is.Not.Null);
+            Assert.That(temp2.PhoneNumber == "87654321");
+            Assert.That(temp2.Email == "test2@test2.dk");
 
             Dispose();
         }
