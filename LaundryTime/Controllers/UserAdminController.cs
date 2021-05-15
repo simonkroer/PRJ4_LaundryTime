@@ -72,24 +72,31 @@ namespace LaundryTime.Controllers
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
-               // var builder = new StringBuilder();
-                var jsonstring = JsonConvert.SerializeObject(_userAdminViewModel.MyUsers);
-               // builder.Append($"{jsonstring}");
-               // string filename = "MyUsersReport.json";
+                var builder = new StringBuilder();
+                var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
 
-               // byte[] bytes = System.Text.Encoding.UTF8.GetBytes(jsonstring);
-               //var content = new MemoryStream(bytes);
+                _userAdminViewModel.MyUsers = currentuser.Users;
 
-               //return File(content, "text/json", filename);
+                foreach (var user in _userAdminViewModel.MyUsers) // Alternative: Build json object manually
+                {
+                    var builder2 = new StringBuilder();
 
-               Response.StatusCode = 200;
-               Response.ContentType = "text/json";
-               using (var sw = new StreamWriter(Response.Body))
-               {
-                   await sw.WriteAsync(jsonstring);
-               }
+                    foreach (var log in user.LaundryHistory)
+                    {
+                        log.LaundryUser = null;
+                        builder2.Append(log);
+                    }
 
-               return null;
+                    builder.Append(JsonConvert.SerializeObject(user));
+                    builder.Append(JsonConvert.SerializeObject(builder2));
+                }
+                
+                string filename = "MyUsersReport.json";
+
+                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(builder.ToString());
+                var content = new MemoryStream(bytes);
+
+                return File(content, "text/json", filename);
 
             }
 
