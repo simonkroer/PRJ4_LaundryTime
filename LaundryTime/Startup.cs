@@ -35,7 +35,7 @@ namespace LaundryTime
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("CamillaConnection")));
+                    Configuration.GetConnectionString("ThomasConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             var notificationMetadata =
