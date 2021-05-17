@@ -20,7 +20,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using MimeKit;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace LaundryTime.Areas.Identity.Pages.Account
 {
@@ -121,7 +122,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 {
                     var user = new LaundryUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name, 
                         Address = new Address(){StreetAddress = Input.StreetAddress, Zipcode = Input.Zipcode}, 
-                        PhoneNumber = Input.Phonenumber,PaymentMethod = Input.PaymentMethod, EmailConfirmed = true};
+                        PhoneNumber = Input.Phonenumber,PaymentMethod = Input.PaymentMethod};
 
                     var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -140,19 +141,24 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 
                         MailMessage message = new MailMessage()
                         {
-                            From = new MailAddress("laundrytime@outlook.dk"), // sender must be a full email address
-                            Subject = "User Registration",
+                            From = new MailAddress("laundrytimeserver@hotmail.com"), // sender must be a full email address
+                            Subject = "Please confirm your e-mail",
                             IsBodyHtml = true,
-                            Body = $"<h3>Hello {user.Name}</h3><p>Thank you for registering with Laundry Time</p> <p>User name: {user.Email} </p> <p>Password: {Input.Password}</p> <img width='100' src='https://t4.ftcdn.net/jpg/03/09/29/23/360_F_309292393_4G7XxgXz5ftKSuSStItdT2ZK1snVEH08.jpg'/> <p>Kind regards</p> <p>Laundry Time</p>",
+                            Body = $"<h3>Hello {user.Name}</h3><p>Thank you for registering with Laundry Time!</p> " +
+                                   $"<p>Below you will find your user information:</p> <p>User name: {user.Email} </p> " +
+                                   $"<p>Password: {Input.Password} </p> " +
+                                   $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. " +
+                                   $"<br/> <br/> <img width='100' src='https://t4.ftcdn.net/jpg/03/09/29/23/360_F_309292393_4G7XxgXz5ftKSuSStItdT2ZK1snVEH08.jpg'/> <p>Kind regards</p> <p>Laundry Time</p>",
                             BodyEncoding = System.Text.Encoding.UTF8,
                             SubjectEncoding = System.Text.Encoding.UTF8,
-                            To = { "thomasmdaugaard@gmail.com" }
+                            To = { user.Email }
                         };
 
-                        SendMail(message);
+                        string smsMsg =
+                            $"Hi {user.Name}!\n\nThank you for registering with Laundry Time!\nBelow you will find your user information:\nUser name: {user.Email}\nPassword: {Input.Password}\n\nPlease remember to confirm your account by clicking the link in the mail sent to {user.Email}";
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        SendMail(message);
+                        SendSMS(user.PhoneNumber, smsMsg);
 
                         if (User.Identity != null)
                         {
@@ -222,17 +228,6 @@ namespace LaundryTime.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private MimeMessage CreateMimeMessageFromEmailMessage(EmailMessage message)
-        {
-            var mimeMessage = new MimeMessage();
-            mimeMessage.From.Add(message.Sender);
-            mimeMessage.To.Add(message.Reciever);
-            mimeMessage.Subject = message.Subject;
-            mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text)
-                { Text = message.Content };
-            return mimeMessage;
-        }
-
         private void SendMail(MailMessage message)
         {
 
@@ -242,11 +237,29 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 Port = 587,
                 UseDefaultCredentials = false, // This require to be before setting Credentials property
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential("laundrytime@outlook.dk", "Sommer25!"), // you must give a full email address for authentication 
+                Credentials = new NetworkCredential("laundrytimeserver@hotmail.com", "Sommer25!"), // you must give a full email address for authentication 
                 TargetName = "STARTTLS/smtp.office365.com", // Set to avoid MustIssueStartTlsFirst exception
                 EnableSsl = true, // Set to avoid secure connection exception
             })
                 smtpClient.Send(message);
+        }
+
+        private void SendSMS(string number, string msg)
+        {
+            // Find your Account SID and Auth Token at twilio.com/console
+            // and set the environment variables. See http://twil.io/secure
+            string accountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+            string authToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+
+            TwilioClient.Init(accountSid, authToken);
+
+            var message = MessageResource.Create(
+                from: new Twilio.Types.PhoneNumber("+17602011068"),
+                body: msg,
+                to: new Twilio.Types.PhoneNumber(number)
+            );
+
+            Console.WriteLine(message.Sid);
         }
     }
 }

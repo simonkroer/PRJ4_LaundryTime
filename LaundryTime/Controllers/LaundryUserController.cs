@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using LaundryTime.Data;
+using LaundryTime.Data.Models;
 using LaundryTime.Data.Models.Booking;
 using LaundryTime.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -170,7 +173,5 @@ namespace LaundryTime.Controllers
 
             return View(modelList);
         }
-
-        
     }
 }
