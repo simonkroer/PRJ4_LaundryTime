@@ -199,3 +199,23 @@ li {
     text-align: left;
 }
 
+
+/*Add machine*/
+
+.entryform {
+    width: 300px;
+}
+.addmachineContent {
+    width: 70%;
+    padding-left: 35%
+}
+
+/*Macine index*/
+.btnAlignment {
+    padding-left: 55px;
+}
+
+/*Edit user*/
+.contentMargin {
+    padding-left: 40%;
+}
