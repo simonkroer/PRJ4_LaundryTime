@@ -141,7 +141,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 
                         MailMessage message = new MailMessage()
                         {
-                            From = new MailAddress("laundrytime@outlook.dk"), // sender must be a full email address
+                            From = new MailAddress("laundrytimeserver@outlook.dk"), // sender must be a full email address
                             Subject = "Please confirm your e-mail",
                             IsBodyHtml = true,
                             Body = $"<h3>Hello {user.Name}</h3><p>Thank you for registering with Laundry Time!</p> " +
@@ -155,7 +155,10 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                         };
 
                         string smsMsg =
-                            $"Hi {user.Name}!\n\nThank you for registering with Laundry Time!\nBelow you will find your user information:\nUser name: {user.Email}\nPassword: {Input.Password}\n\nPlease remember to confirm your account by clicking the link in the mail sent to {user.Email}";
+                            $"Hi {user.Name}!\n\nThank you for registering with Laundry Time!\n" +
+                            $"Below you will find your user information:\nUser name: {user.Email}" +
+                            $"\nPassword: {Input.Password}\n\n" +
+                            $"Please remember to confirm your account by clicking the link in the mail sent to {user.Email}";
 
                         SendMail(message);
                         SendSMS(user.PhoneNumber, smsMsg);
@@ -237,7 +240,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 Port = 587,
                 UseDefaultCredentials = false, // This require to be before setting Credentials property
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential("laundrytime@outlook.dk", "Sommer25!"), // you must give a full email address for authentication 
+                Credentials = new NetworkCredential("laundrytimeserver@outlook.dk", "Sommer25!"), // you must give a full email address for authentication 
                 TargetName = "STARTTLS/smtp.office365.com", // Set to avoid MustIssueStartTlsFirst exception
                 EnableSsl = true, // Set to avoid secure connection exception
             })
