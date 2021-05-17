@@ -32,7 +32,7 @@ a {
 
 .btn-primary {
   color: #fff;
-  background-color: #1b6ec2;
+  background-color: #007cc7;
   border-color: #1861ac;
 }
 
@@ -91,7 +91,7 @@ header {
 }
 
 .bg-opacity-blue {
-    background: rgba(9, 36, 128, 0.7);
+    background: rgba(9, 36, 128, 0.9);
 }
 
 .logContent {
@@ -120,7 +120,7 @@ main {
     white-space: nowrap;
     line-height: 60px;
     text-align: center;
-    background: rgba(9, 36, 128, 0.7);
+    background: rgba(9, 36, 128, 0.9);
 }
 
 .mytable {
@@ -217,5 +217,22 @@ li {
 
 /*Edit user*/
 .contentMargin {
-    padding-left: 40%;
+    padding-left: 35%;
 }
+
+.inputwidthMyUser {
+    min-width: 300px;
+}
+
+
+/*My users*/
+.headColor {
+    background-color:#007cc7;
+    color: white;
+}
+
+.btnColor {
+    background-color: #12232E;
+    color: white;
+}
+
