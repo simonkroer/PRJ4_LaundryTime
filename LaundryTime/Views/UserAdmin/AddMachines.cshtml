@@ -1,31 +1,37 @@
 ﻿@model UserAdminViewModel
 
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-controller="UserAdmin" asp-action="AddMachines">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CurrentMachine"/>
+<div >
+        <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png" />
+        <div class="addmachineContent">
+            <h1>Add new machine</h1>
+            <div class="col-md-4">
 
-            <div class="form-group">
-                <label>Model Number: </label>
-                <input asp-for="CurrentMachine.ModelNumber" type="text" class="form-control" />
-                <span asp-validation-for="CurrentMachine.ModelNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Machine Type: </label>
-                <input asp-for="CurrentMachine.Type" class="form-control" />
-                <span asp-validation-for="CurrentMachine.Type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Installation Date: </label>
-                <input asp-for="CurrentMachine.InstallationDate" class="form-control" />
-                <span asp-validation-for="CurrentMachine.InstallationDate" class="text-danger"></span>
-            </div>
+                <form asp-controller="UserAdmin" asp-action="AddMachines">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="CurrentMachine" />
 
-            <div>
-                <input type="submit" class="btn btn-primary" asp-controller="UserAdmin" asp-action="AddMachines" />
+                    <div class="entryform">
+                        <label>Model Number: </label>
+                        <input asp-for="CurrentMachine.ModelNumber" type="text" class="form-control" />
+                        <span asp-validation-for="CurrentMachine.ModelNumber" class="text-danger"></span>
+                    </div>
+                    <div class="entryform">
+                        <label>Machine Type: </label>
+                        <input asp-for="CurrentMachine.Type" class="form-control" />
+                        <span asp-validation-for="CurrentMachine.Type" class="text-danger"></span>
+                    </div>
+                    <div class="entryform">
+                        <label>Installation Date: </label>
+                        <input asp-for="CurrentMachine.InstallationDate" class="form-control" />
+                        <span asp-validation-for="CurrentMachine.InstallationDate" class="text-danger"></span>
+                    </div>
+
+                    <div>
+                        <label></label>
+                        <input type="submit" class="btn bg-opacity-blue entryform" asp-controller="UserAdmin" asp-action="AddMachines" />
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
+        </div>
 </div>

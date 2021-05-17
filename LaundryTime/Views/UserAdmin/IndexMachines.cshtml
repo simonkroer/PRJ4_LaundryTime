@@ -5,70 +5,74 @@
     ViewData["Title"] = "Machine Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h4>Current Machines - @DateTime.Today.ToString("D")</h4>
-<br />
-<table >
-    <tr>
-        <td>
-            <input type="button" class="btn btn-primary" value="Add New Machine" onclick="location.href = '@Url.Action("AddMachines", "UserAdmin")'" />
-            <input class="btn btn-primary" type="button" value="Save complete report" onclick="location.href = '@Url.Action("GenerateMyMachinesReport", "UserAdmin")'"/>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @{
-                if ((string) TempData["Success"] == "true")
-                {
-                    <label class="text-danger">Added new machine</label>
-                }
-            }
-        </td>
-    </tr>
-</table>
-<br />
-
-<table class="mytable">
-    <thead>
-    <tr>
-        <th>
-            <label>ID</label>
-        </th>
-        <th>
-            <label>Model Number</label>
-        </th>
-        <th>
-            <label>Type</label>
-        </th>
-        <th>
-            <label>Installation Date</label>
-        </th>
-    </tr>
-    </thead>
-    @foreach (var item in Model.MyMachines)
-    {
-        <tbody>
+<div style="margin-left: 30%; width: 70%">
+    <div>
+        <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png" />
+        <h3>Current Machines - @DateTime.Today.ToString("D")</h3>
+    </div>
+    <br />
+    <table>
         <tr>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.MachineId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModelNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InstallationDate)
-            </td>
-            <td>
-                <form method="post">
-                    <input type="image" src="~/Images/redx.jpg" formaction="/UserAdmin/DeleteMachines">
-                    <input type="hidden" name="MachineToDel" value="@item.MachineId"/>
-                </form>
+            <td class="btnAlignment">
+                <input type="button" class="btn bg-opacity-blue" value="Add New Machine" onclick="location.href = '@Url.Action("AddMachines", "UserAdmin")'" />
+                <input type="button" class="btn bg-opacity-blue" value="Save complete report" onclick="location.href = '@Url.Action("GenerateMyMachinesReport", "UserAdmin")'" />
             </td>
         </tr>
-        </tbody>
-    }
-</table>
+        <tr>
+            <td>
+                @{
+                    if ((string)TempData["Success"] == "true")
+                    {
+                        <label class="text-danger">Added new machine</label>
+                    }
+                }
+            </td>
+        </tr>
+    </table>
+    <br />
+
+    <table class="mytable">
+        <thead>
+            <tr>
+                <th>
+                    <label>ID</label>
+                </th>
+                <th>
+                    <label>Model Number</label>
+                </th>
+                <th>
+                    <label>Type</label>
+                </th>
+                <th>
+                    <label>Installation Date</label>
+                </th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.MyMachines)
+        {
+            <tbody>
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MachineId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModelNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InstallationDate)
+                    </td>
+                    <td>
+                        <form method="post">
+                            <input type="image" src="~/Images/redx.jpg" formaction="/UserAdmin/DeleteMachines">
+                            <input type="hidden" name="MachineToDel" value="@item.MachineId" />
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        }
+    </table>
+</div>
