@@ -8,9 +8,9 @@
     <div class="LaundryUsersize">
         @using (Html.BeginForm())
         {
-            <div class="editor-group fontForDateData generelPadding contentWidth">
+            <div class="editor-group fontForDateData generelPadding">
                 @Html.LabelFor(model => model.Datedata, new { @class = "control-label col-md-2" })
-                <div class="col-md-10 contentWidth">
+                <div class="col-md-10 ">
                     @Html.EditorFor(model => model.Datedata)
                 </div>
             </div>
