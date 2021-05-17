@@ -141,7 +141,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 
                         MailMessage message = new MailMessage()
                         {
-                            From = new MailAddress("laundrytimemaster@hotmail.com"), // sender must be a full email address
+                            From = new MailAddress("laundrytime@outlook.dk"), // sender must be a full email address
                             Subject = "Please confirm your e-mail",
                             IsBodyHtml = true,
                             Body = $"<h3>Hello {user.Name}</h3><p>Thank you for registering with Laundry Time!</p> " +
@@ -236,12 +236,12 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 
             using (SmtpClient smtpClient = new SmtpClient()
             {
-                Host = "smtp.office365.com",
+                Host = "smtp-relay.sendinblue.com",
                 Port = 587,
                 UseDefaultCredentials = false, // This require to be before setting Credentials property
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential("laundrytimemaster@hotmail.com", "Sommer25!"), // you must give a full email address for authentication 
-                TargetName = "STARTTLS/smtp.office365.com", // Set to avoid MustIssueStartTlsFirst exception
+                Credentials = new NetworkCredential("thomasmdaugaard@gmail.com", "1PL4mjN2nIMczVTp"), // you must give a full email address for authentication 
+                TargetName = "STARTTLS/smtp-relay.sendinblue.com", // Set to avoid MustIssueStartTlsFirst exception
                 EnableSsl = true, // Set to avoid secure connection exception
             })
                 smtpClient.Send(message);
