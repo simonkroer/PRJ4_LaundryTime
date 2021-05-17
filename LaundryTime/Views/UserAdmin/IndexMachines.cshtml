@@ -33,59 +33,62 @@
 
     <table class="mytable">
         <thead>
-            <tr>
-                <th>
-                    <label>ID</label>
-                </th>
-                <th>
-                    <label>Model Number</label>
-                </th>
-                <th>
-                    <label>Type</label>
-                </th>
-                <th>
-                    <label>Installation Date</label>
-                </th>
-                <th>
-                    <label>Occupied/Available</label>
-                </th>
-            </tr>
+        <tr>
+            <th>
+                <label>ID</label>
+            </th>
+            <th>
+                <label>Model Number</label>
+            </th>
+            <th>
+                <label>Type</label>
+            </th>
+            <th>
+                <label>Installation Date</label>
+            </th>
+            <th>
+                <label>Occupied/Available</label>
+            </th>
+        </tr>
         </thead>
         @foreach (var item in Model.MyMachines)
         {
             <tbody>
-                <tr>
+            <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MachineId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ModelNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InstallationDate)
-                    </td>
-                    <td>
-                        @if (item.Occupied)
-                        {
-                            <input class="machinestatus" type="image" src="~/Images/redwasher.png" />
-                        }
-                        else
-                        {
-                            <input class="machinestatus" type="image" src="~/Images/greenwasher.png" />
-                        }
-                    </td>
-                    <td>
-                        <form method="post">
-                            <input type="image" src="~/Images/redx.jpg" formaction="/UserAdmin/DeleteMachines">
-                            <input type="hidden" name="MachineToDel" value="@item.MachineId" />
-                        </form>
-                    </td>
-                </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MachineId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModelNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InstallationDate.Date)
+                </td>
+                <td>
+                    @if (item.Occupied)
+                    {
+                        <input class="machinestatus" type="image" src="~/Images/redwasher.png" />
+                    }
+                    else
+                    {
+                        <input class="machinestatus" type="image" src="~/Images/greenwasher.png" />
+                    }
+                </td>
+                <td>
+                    <form method="post">
+                        <input type="image" src="~/Images/redx.jpg" formaction="/UserAdmin/DeleteMachines">
+                        <input type="hidden" name="MachineToDel" value="@item.MachineId" />
+                    </form>
+                </td>
+            </tr>
             </tbody>
         }
     </table>
+    
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/MachineStatus.js"></script>
 </div>
