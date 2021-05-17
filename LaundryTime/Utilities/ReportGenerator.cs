@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LaundryTime.Data;
 using LaundryTime.Data.Models;
+using LaundryTime.Utilities.UtilityModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -15,7 +16,7 @@ namespace LaundryTime.Utilities
     {
         public IReport _report { get; set; }
 
-        public IReport GenerateReport<T>(ICollection<T> collection, string format = "text/json", string filename = "Report.json")
+        public IReport GenerateReport<T>(List<T> collection, string format = "text/json", string filename = "Report.json")
         {
             if (collection is List<LaundryUser> users)
             {
