@@ -15,7 +15,7 @@ namespace LaundryTime.Utilities
     {
         public IReport _report { get; set; }
 
-        public IReport GenerateReport<T>(ICollection<T> collection, string format = "text/json", string filename = "MyUsersReport.json")
+        public IReport GenerateReport<T>(ICollection<T> collection, string format = "text/json", string filename = "Report.json")
         {
             if (collection is List<LaundryUser> users)
             {
@@ -61,10 +61,27 @@ namespace LaundryTime.Utilities
             return _report;
         }
 
-        public IReport GenerateMyMachinesReport(List<Machine> users, string format = "text/json",
-            string filename = "MyMachinesReport.json")
+        public  IReport GenerateMyMachinesReport(List<Machine> machines, string format = "text/json", string filename = "MyMachinesReport.json")
         {
-            throw new NotImplementedException();
+            var builder = new StringBuilder();
+
+            foreach (var machine in machines) // Alternative: Build json object manually
+            {
+                machine.UserAdmin = null;
+                builder.Append(JsonConvert.SerializeObject(machine));
+            }
+
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(builder.ToString());
+            var content = new MemoryStream(bytes);
+
+            _report = new Report()
+            {
+                Content = content,
+                FileName = filename,
+                Format = format
+            };
+
+            return _report;
         }
     }
 }

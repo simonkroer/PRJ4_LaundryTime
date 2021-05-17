@@ -75,8 +75,6 @@ namespace LaundryTime.Controllers
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
-                var builder = new StringBuilder();
-
                 var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
 
                 var report = _reportGenerator.GenerateReport(currentuser.Users);
@@ -92,23 +90,11 @@ namespace LaundryTime.Controllers
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
-                var builder = new StringBuilder();
                 var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
 
-                _userAdminViewModel.MyMachines = currentuser.Machines;
+                var report = _reportGenerator.GenerateReport(currentuser.Machines);
 
-                foreach (var machine in _userAdminViewModel.MyMachines) // Alternative: Build json object manually
-                {
-                    machine.UserAdmin = null;
-                    builder.Append(JsonConvert.SerializeObject(machine));
-                }
-
-                string filename = "MyMachinesReport.json";
-
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(builder.ToString());
-                var content = new MemoryStream(bytes);
-
-                return File(content, "text/json", filename);
+                return File(report.Content, report.Format, report.FileName);
             }
             return Unauthorized();
         }
