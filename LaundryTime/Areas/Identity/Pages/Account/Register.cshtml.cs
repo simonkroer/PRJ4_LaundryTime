@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 
@@ -35,6 +36,8 @@ namespace LaundryTime.Areas.Identity.Pages.Account
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;
         private NotificationMetadata _notificationMetadata;
+        private IOptions<SmsAccount> _smsAccount;
+        private IOptions<EmailAccount> _emailAccount;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -42,7 +45,9 @@ namespace LaundryTime.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender, 
             ApplicationDbContext context,
-            NotificationMetadata notificationMetadata)
+            NotificationMetadata notificationMetadata,
+            IOptions<SmsAccount> smsAccount,
+            IOptions<EmailAccount> emailAccount)
             
         {
             _userManager = userManager;
@@ -52,6 +57,8 @@ namespace LaundryTime.Areas.Identity.Pages.Account
             _context = context;
             _dataAccess = new DataAccsessAction(context);
             _notificationMetadata = notificationMetadata;
+            _smsAccount = smsAccount;
+            _emailAccount = emailAccount;
         }
 
         [BindProperty]
@@ -233,14 +240,14 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 
         private void SendMail(MailMessage message)
         {
-
+            
             using (SmtpClient smtpClient = new SmtpClient()
             {
                 Host = "smtp-relay.sendinblue.com",
                 Port = 587,
                 UseDefaultCredentials = false, // This require to be before setting Credentials property
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential("thomasmdaugaard@gmail.com", "1PL4mjN2nIMczVTp"), // you must give a full email address for authentication 
+                Credentials = new NetworkCredential(_emailAccount.Value.Login, _emailAccount.Value.Password), // you must give a full email address for authentication 
                 TargetName = "STARTTLS/smtp-relay.sendinblue.com", // Set to avoid MustIssueStartTlsFirst exception
                 EnableSsl = true, // Set to avoid secure connection exception
             })
@@ -249,15 +256,10 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 
         private void SendSMS(string number, string msg)
         {
-            // Find your Account SID and Auth Token at twilio.com/console
-            // and set the environment variables. See http://twil.io/secure
-            string accountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-            string authToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
-
-            TwilioClient.Init(accountSid, authToken);
+            TwilioClient.Init(_smsAccount.Value.AccountSid, _smsAccount.Value.AuthToken);
 
             var message = MessageResource.Create(
-                from: new Twilio.Types.PhoneNumber("+17602011068"),
+                from: new Twilio.Types.PhoneNumber(_smsAccount.Value.PhoneNumber),
                 body: msg,
                 to: new Twilio.Types.PhoneNumber(number)
             );

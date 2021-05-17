@@ -16,7 +16,11 @@ using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 using LaundryTime.Data.Models.Booking;
+using LaundryTime.Data.Sensitive;
 using MailKit.Net.Smtp;
+using Microsoft.CodeAnalysis.Options;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols;
 using MimeKit;
 
 namespace LaundryTime
@@ -33,9 +37,15 @@ namespace LaundryTime
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SmsAccount>(Configuration.GetSection("SmsAccount"));
+            services.Configure<EmailAccount>(Configuration.GetSection("EmailAccount"));
+            services.Configure<ConnectionString>(Configuration.GetSection("ConnectionString"));
+
+            var connectionString = new ConnectionString();
+            Configuration.GetSection("ConnectionString").Bind(connectionString, c => c.BindNonPublicProperties = true);
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("ThomasConnection")));
+                options.UseSqlServer(connectionString.MyConnection));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             var notificationMetadata =
@@ -70,8 +80,11 @@ namespace LaundryTime
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
             UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
+            var build = new ConfigurationBuilder();
+
             if (env.IsDevelopment())
             {
+                build.AddUserSecrets<Startup>();
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }
