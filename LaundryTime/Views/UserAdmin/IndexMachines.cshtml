@@ -46,6 +46,9 @@
                 <th>
                     <label>Installation Date</label>
                 </th>
+                <th>
+                    <label>Occupied/Available</label>
+                </th>
             </tr>
         </thead>
         @foreach (var item in Model.MyMachines)
@@ -64,6 +67,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.InstallationDate)
+                    </td>
+                    <td>
+                        <input class="machinestatus" type="image" src="~/Images/machineavail.png" />
                     </td>
                     <td>
                         <form method="post">
