@@ -7,37 +7,39 @@
 
 <div>
     <br />
-    <h4> All my users:</h4>
+    <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png" />
+    <h1> All my users:</h1>
+    
     <br />
 
     <div>
-        <a class="btn btn-primary" type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
-        <a class="btn btn-primary" type="button" onclick="location.href = '@Url.Action("GenerateMyUsersReport", "UserAdmin")'">Save complete report</a>
+        <a class="btn bg-opacity-blue" type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
+        <a class="btn bg-opacity-blue" type="button" onclick="location.href = '@Url.Action("GenerateMyUsersReport", "UserAdmin")'">Save complete report</a>
     </div>
     <br /><br />
     <div>
-        <table class="mytable">
-            <thead>
-            <tr>
-                <td>
+        <table class="mytable table-striped">
+            <thead >
+            <tr class="bg-opacity-blue">
+                <td style="font-size: 15px">
                     Name
                 </td>
-                <td>
+                <td style="font-size: 15px">
                     Phone
                 </td>
-                <td>
+                <td style="font-size: 15px">
                     Email
                 </td>
-                <td>
+                <td style="font-size: 15px">
                     Address
                 </td>
-                <td>
+                <td style="font-size: 15px">
                     Paymentmethod
                 </td>
-                <td>
+                <td style="font-size: 15px">
                     Payment due date
                 </td>
-                <td>
+                <td >
                     @Html.Display("Actions")
                 </td>
             </tr>
@@ -65,9 +67,9 @@
                         @Html.DisplayFor(modelItem => item.PaymentDueDate)
                     </td>
                     <td>
-                        <input type="button" id="InputButtonUserAdmin" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> |
-                        <input type="button" id="InputButtonUserAdmin" value="History" class="btn-primary" onclick="$('#@item.Id').collapse('toggle')" /> |
-                        <input type="button" id="InputButtonUserAdmin" value ="Delete" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin", new {username = item.Email})'" />
+                        <input type="button" id="InputButtonUserAdmin" style="background-color:lightgray" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> |
+                        <input type="button" id="InputButtonUserAdmin" style="background-color:lightgray" value="History" class="btn-primary" onclick="$('#@item.Id').collapse('toggle')" /> |
+                        <input type="button" id="InputButtonUserAdmin" style="background-color:lightgray" value ="Delete" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin", new {username = item.Email})'" />
                     </td>
                 </tr>
                 <tr id="">
