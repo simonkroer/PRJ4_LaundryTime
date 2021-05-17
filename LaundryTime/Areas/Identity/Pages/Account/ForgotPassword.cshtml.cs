@@ -61,7 +61,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 
                 MailMessage message = new MailMessage()
                 {
-                    From = new MailAddress("laundrytimeserver@hotmail.com"), // sender must be a full email address
+                    From = new MailAddress("laundrytimeserver@outlook.dk"), // sender must be a full email address
                     Subject = "Reset Password",
                     IsBodyHtml = true,
                     Body = $"Please reset your password by <a href = '{HtmlEncoder.Default.Encode(callbackUrl)}'> clicking here </a>. <br/> <br/> <img width='100' src='https://t4.ftcdn.net/jpg/03/09/29/23/360_F_309292393_4G7XxgXz5ftKSuSStItdT2ZK1snVEH08.jpg'/> <p>Kind regards</p> <p>Laundry Time</p>",
@@ -87,7 +87,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 Port = 587,
                 UseDefaultCredentials = false, // This require to be before setting Credentials property
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential("laundrytimeserver@hotmail.com", "Sommer25!"), // you must give a full email address for authentication 
+                Credentials = new NetworkCredential("laundrytimeserver@outlook.dk", "Sommer25!"), // you must give a full email address for authentication 
                 TargetName = "STARTTLS/smtp.office365.com", // Set to avoid MustIssueStartTlsFirst exception
                 EnableSsl = true, // Set to avoid secure connection exception
             })
