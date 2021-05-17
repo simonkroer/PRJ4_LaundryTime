@@ -15,6 +15,7 @@ namespace LaundryTime.Test.Unit
     public class ReportGenerator
     {
         public List<LaundryUser> laundryusers { get; set; }
+        public List<Machine> machines { get; set; }
         public List<int> randomlist { get; set; }
         public IReportGenerator _uut { get; set; }
 
@@ -27,33 +28,41 @@ namespace LaundryTime.Test.Unit
         }
 
         [Test]
-        public void GenerateMyUsersReport_With_Content()
+        public void GenerateReport_With_LuandryUser_Content()
         {
-            var temp = _uut.GenerateMyUsersReport(laundryusers);
+            var temp = _uut.GenerateReport(laundryusers);
 
-            Assert.That(temp.FileName.Equals("MyUsersReport.json"));
+            Assert.That(temp.FileName.Equals("Report.json"));
             Assert.That(temp.Content, Is.Not.Null);
             Assert.That(temp.Format.Equals("text/json"));
         }
         [Test]
-        public void GenerateUsersReport_No_Content()
+        public void GenerateUsersReport_Empty_Laundryuser_content_EmptyReportExpected()
         {
             laundryusers = new List<LaundryUser>();
 
-            var temp = _uut.GenerateMyUsersReport(laundryusers);
+            var temp = _uut.GenerateReport(laundryusers);
 
             Assert.That(temp, Is.Not.Null);
         }
 
         [Test]
-        public void GenerateMyMachinesReport_With_Content()
+        public void GenerateReport_With_Machine_Content()
         {
+            var temp = _uut.GenerateReport(machines);
 
+            Assert.That(temp.FileName.Equals("Report.json"));
+            Assert.That(temp.Content, Is.Not.Null);
+            Assert.That(temp.Format.Equals("text/json"));
         }
         [Test]
-        public void GenerateMyMachinesReport_No_Content()
+        public void GenerateReport_Empty_Machine_Content_ExpectedEmptyReportObject()
         {
+            machines = new List<Machine>();
 
+            var temp = _uut.GenerateReport(machines);
+
+            Assert.That(temp, Is.Not.Null);
         }
 
         [Test]
@@ -85,6 +94,25 @@ namespace LaundryTime.Test.Unit
                     Address = Substitute.For<Address>(),
                 }
             };
+
+            machines = new List<Machine>()
+            {
+                new Machine()
+                {
+                    InstallationDate = new DateTime(2021-10-08),
+                    ModelNumber = "123456asdas",
+                    Type = "Washer",
+                    UserAdmin = Substitute.For<UserAdmin>()
+                },
+                new Machine()
+                {
+                    InstallationDate = new DateTime(2021-10-05),
+                    ModelNumber = "123333456asdas",
+                    Type = "Dyer",
+                    UserAdmin = Substitute.For<UserAdmin>()
+                }
+            };
+
             randomlist = new List<int>() { 1, 2, 3 };
         }
     }
