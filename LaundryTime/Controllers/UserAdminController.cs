@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using LaundryTime.Data;
 using LaundryTime.Data.Models;
+using LaundryTime.Utilities;
 using LaundryTime.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
@@ -28,12 +29,14 @@ namespace LaundryTime.Controllers
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;
         public UserAdminViewModel _userAdminViewModel;
+        protected IReportGenerator _reportGenerator;
 
         public UserAdminController(ApplicationDbContext context)
         {
             _context = context;
             _dataAccess = new DataAccsessAction(context);
             _userAdminViewModel = new UserAdminViewModel();
+            _reportGenerator = new ReportGenerator();
         }
         
         public IActionResult Index()
@@ -73,36 +76,14 @@ namespace LaundryTime.Controllers
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
                 var builder = new StringBuilder();
+
                 var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
 
-                _userAdminViewModel.MyUsers = currentuser.Users;
+                var report = _reportGenerator.GenerateMyUsersReport(currentuser.Users);
 
-                foreach (var user in _userAdminViewModel.MyUsers) // Alternative: Build json object manually
-                {
-                    var builder2 = new StringBuilder();
-
-                    foreach (var log in user.LaundryHistory)
-                    {
-                        log.LaundryUser = null;
-                        builder2.Append(log);
-                    }
-
-                    builder.Append(JsonConvert.SerializeObject(user));
-                    builder.Append(JsonConvert.SerializeObject(builder2));
-                }
-
-                
-                string filename = "MyUsersReport.json";
-
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(builder.ToString());
-                var content = new MemoryStream(bytes);
-
-                return File(content, "text/json", filename);
-
+                return File(report.Content, report.Format, report.FileName);
             }
-
             return Unauthorized();
-
         }
 
         [HttpGet("MyMachinesReport")]
