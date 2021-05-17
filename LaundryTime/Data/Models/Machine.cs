@@ -27,5 +27,7 @@ namespace LaundryTime.Data.Models
 
         [Display(Name = "Installation Date")]
         public DateTime InstallationDate { get; set; }
+
+        public bool Occupied { get; set; }
     }
 }

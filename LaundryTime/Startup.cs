@@ -300,6 +300,7 @@ namespace LaundryTime
                 machine.Type = "Washing";
                 machine.InstallationDate = DateTime.Today;
                 machine.ModelNumber = ModelNumber;
+                machine.Occupied = false;
 
                 //Adding machine to DB:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
@@ -315,6 +316,7 @@ namespace LaundryTime
                 machine.Type = "Washing";
                 machine.InstallationDate = DateTime.Today;
                 machine.ModelNumber = ModelNumber;
+                machine.Occupied = false;
 
                 //Adding machine to DB:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
@@ -330,6 +332,7 @@ namespace LaundryTime
                 machine.Type = "Washing";
                 machine.InstallationDate = DateTime.Today;
                 machine.ModelNumber = ModelNumber;
+                machine.Occupied = false;
 
                 //Adding machine to DB:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
@@ -345,6 +348,7 @@ namespace LaundryTime
                 machine.Type = "Drying";
                 machine.InstallationDate = DateTime.Today;
                 machine.ModelNumber = ModelNumber;
+                machine.Occupied = false;
 
                 //Adding machine to DB:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
@@ -360,6 +364,7 @@ namespace LaundryTime
                 machine.Type = "Drying";
                 machine.InstallationDate = DateTime.Today;
                 machine.ModelNumber = ModelNumber;
+                machine.Occupied = false;
 
                 //Adding machine to DB:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
