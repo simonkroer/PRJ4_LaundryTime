@@ -36,12 +36,24 @@ namespace LaundryTime.Test.Unit
             Assert.That(temp.Format.Equals("text/json"));
         }
         [Test]
+        public void GenerateUsersReport_No_Content()
+        {
+            laundryusers = new List<LaundryUser>();
+
+            var temp = _uut.GenerateMyUsersReport(laundryusers);
+
+            Assert.That(temp, Is.Not.Null);
+        }
+
+        [Test]
         public void GenerateMyMachinesReport_With_Content()
         {
+
         }
         [Test]
         public void GenerateMyMachinesReport_No_Content()
         {
+
         }
 
         [Test]
