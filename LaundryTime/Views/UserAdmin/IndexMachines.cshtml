@@ -69,7 +69,14 @@
                         @Html.DisplayFor(modelItem => item.InstallationDate)
                     </td>
                     <td>
-                        <input class="machinestatus" type="image" src="~/Images/machineavail.png" />
+                        @if (item.Occupied)
+                        {
+                            <input class="machinestatus" type="image" src="~/Images/redwasher.png" />
+                        }
+                        else
+                        {
+                            <input class="machinestatus" type="image" src="~/Images/greenwasher.png" />
+                        }
                     </td>
                     <td>
                         <form method="post">
