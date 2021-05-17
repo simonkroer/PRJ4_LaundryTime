@@ -79,9 +79,10 @@ namespace LaundryTime.Controllers
 
                 var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
 
-                var report = _reportGenerator.GenerateMyUsersReport(currentuser.Users);
+                var report = _reportGenerator.GenerateReport(currentuser.Users);
 
                 return File(report.Content, report.Format, report.FileName);
+                
             }
             return Unauthorized();
         }

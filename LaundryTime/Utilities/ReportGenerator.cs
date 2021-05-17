@@ -14,6 +14,22 @@ namespace LaundryTime.Utilities
     public class ReportGenerator: IReportGenerator
     {
         public IReport _report { get; set; }
+
+        public IReport GenerateReport<T>(ICollection<T> collection, string format = "text/json", string filename = "MyUsersReport.json")
+        {
+            if (collection is List<LaundryUser> users)
+            {
+                return GenerateMyUsersReport(users, format, filename);
+            }
+
+            if (collection is List<Machine> machines)
+            {
+                return GenerateMyMachinesReport(machines, format, filename);
+            }
+
+            return new Report(){Content = null,Format = null,FileName = null};
+        }
+
         public IReport GenerateMyUsersReport(List<LaundryUser> users, string format = "text/json", string filename = "MyUsersReport.json")
         {
             var builder = new StringBuilder();
@@ -45,7 +61,8 @@ namespace LaundryTime.Utilities
             return _report;
         }
 
-        public Task<IActionResult> GenerateMyMachinesReport()
+        public IReport GenerateMyMachinesReport(List<Machine> users, string format = "text/json",
+            string filename = "MyMachinesReport.json")
         {
             throw new NotImplementedException();
         }

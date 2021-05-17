@@ -11,9 +11,12 @@ namespace LaundryTime.Utilities
 {
     public interface IReportGenerator
     {
+        public IReport GenerateReport<T>(ICollection<T> collection, string format = "text/json", string filename = "MyUsersReport.json");
+
         public IReport GenerateMyUsersReport(List<LaundryUser> users, string format = "text/json", string filename = "MyUsersReport.json");
 
-        public Task<IActionResult> GenerateMyMachinesReport();
+        public IReport GenerateMyMachinesReport(List<Machine> users, string format = "text/json",
+            string filename = "MyMachinesReport.json");
 
 
     }
