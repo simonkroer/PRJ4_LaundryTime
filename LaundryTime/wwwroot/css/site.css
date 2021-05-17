@@ -206,7 +206,7 @@ li {
 }
 
 
-/*Add machine*/
+/*Add machine - User admin*/
 
 .entryform {
     width: 300px;
@@ -216,12 +216,12 @@ li {
     padding-left: 35%
 }
 
-/*Macine index*/
+/*Macine index - User admin*/
 .btnAlignment {
     padding-left: 55px;
 }
 
-/*Edit user*/
+/*Edit user - User admin*/
 .contentMargin {
     padding-left: 35%;
 }
@@ -231,7 +231,7 @@ li {
 }
 
 
-/*My users*/
+/*My users - User admin*/
 .headColor {
     background-color: #203647;
     color: white;
@@ -247,4 +247,27 @@ li {
     max-height: 50px;
     max-width: 50px;
     
+}
+
+/*Index - LaundryUser*/
+.LaundryUserContent{
+    width: 60%;
+    margin-left: 25%;
+}
+
+.LaundryUsersize{
+    min-width: 60%;
+    padding-top: 50px;
+    margin-left:20%;
+}
+.fontForDateData{
+    font-size: 20px;
+}
+.generelPadding{
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.contentWidth{
+    min-width: 300px;
 }

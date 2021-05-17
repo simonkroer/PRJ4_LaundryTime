@@ -2,23 +2,26 @@
 @{
     ViewData["Title"] = "Datepicker";
 }
+<div class="LaundryUserContent">
+    <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png" />
+    <h5>Please enter the date you want to review booking list for below:</h5>
+    <div class="LaundryUsersize">
+        @using (Html.BeginForm())
+        {
+            <div class="editor-group fontForDateData generelPadding contentWidth">
+                @Html.LabelFor(model => model.Datedata, new { @class = "control-label col-md-2" })
+                <div class="col-md-10 contentWidth">
+                    @Html.EditorFor(model => model.Datedata)
+                </div>
+            </div>
+            <div class="form-group generelPadding">
+                <div class="col-md-offset-2 col-md-10">
+                    <input asp-action="AvailableBookings" class="raise btn btnColor contentWidth" asp-route-id="@Model.Datedata" type="submit" value="Press Enter" />
+                </div>
+            </div>
 
-<p>Please enter the date you want to review booking list for below:</p>
-
-@using (Html.BeginForm())
-{
-<div class="editor-group">
-    @Html.LabelFor(model => model.Datedata, new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.Datedata)
+        }
     </div>
 </div>
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <input asp-action="AvailableBookings" asp-route-id="@Model.Datedata" type="submit" value="Press Enter" />
-    </div>
-</div>
-}
-
 
 
