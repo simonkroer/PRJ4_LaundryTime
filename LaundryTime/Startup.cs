@@ -300,7 +300,7 @@ namespace LaundryTime
                 machine.Type = "Washing";
                 machine.InstallationDate = DateTime.Today;
                 machine.ModelNumber = ModelNumber;
-                machine.Occupied = false;
+                machine.Occupied = true;
 
                 //Adding machine to DB:
                 var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
