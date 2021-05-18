@@ -9,9 +9,7 @@
     Layout = "_Layout";
 }
 
-<div>
-    @{ string name="";}
-    <br/>
+<div class="table-responsive">
     <div>
         <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png"/>
         <h1> All my users:</h1>
@@ -23,17 +21,15 @@
         <a class="btn btnColor raise text-white" type="button" onclick="location.href = '@Url.Action("GenerateMyUsersReport", "UserAdmin")'">Save complete report</a>
         <br/><br/>
 
-        
-        <form class="embed-responsive">
-            <div>
-                <input type="hidden" asp-for="SearchString" />
-                <label>Find by name:</label>
-                <input type="text" class="searchfield" asp-for="@Model.SearchString" />
-                <input type="submit" value="Search" class="btn btnColor raise"  onclick="location.href = '@Url.Action("MyUsers", "UserAdmin", new{name = Model.SearchString})'"/>
-                <span asp-validation-for="@Model.SearchString" class="text-danger"></span>
-            </div>
-        </form>
-        
+        <div >
+            <label>Find by name:</label>
+            @using (Html.BeginForm("SearchUser", "UserAdmin"))
+            {
+                <input type="text" name="nameinput"/>
+                <input type="submit" class="btn btnColor raise "/>
+            }
+        </div>
+
     </div>
     <br/><br/>
     <div>

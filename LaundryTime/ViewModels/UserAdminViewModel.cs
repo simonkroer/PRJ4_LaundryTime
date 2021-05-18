@@ -24,8 +24,6 @@ namespace LaundryTime.ViewModels
 
         [BindProperty]
         public LaundryUser CurrentLaundryUser { get; set; }
-
-        [BindProperty]
-        public string SearchString { get; set; }
+        
     }
 }

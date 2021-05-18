@@ -56,27 +56,32 @@ namespace LaundryTime.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MyUsers(string name)
+        public async Task<IActionResult> MyUsers(string nameinput)
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
                 var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
-                
+
                 _userAdminViewModel.MyUsers = currentuser.Users;
 
-
-                if (!string.IsNullOrEmpty(name))
+                if (!string.IsNullOrEmpty(nameinput))
                 {
-                    _userAdminViewModel.MyUsers = (List<LaundryUser>)_userAdminViewModel.MyUsers.Where(s => s.Name.Contains(name));
+                    _userAdminViewModel.MyUsers = _userAdminViewModel.MyUsers.Where(s => s.Name.Contains(nameinput)).ToList();
                 }
 
                 _userAdminViewModel.MyUsers.Sort((res1, res2) => String.Compare(res1.Name, res2.Name, StringComparison.Ordinal));
+                
                 
                 return View(_userAdminViewModel);
             }
 
             return Unauthorized();
             
+        }
+        
+        public IActionResult SearchUser(string nameinput)
+        {
+            return RedirectToAction(nameof(MyUsers), new{nameinput = nameinput});
         }
 
         [HttpGet("MyUsersReport")]
