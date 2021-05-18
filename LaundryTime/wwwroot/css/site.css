@@ -230,6 +230,10 @@ li {
     min-width: 300px;
 }
 
+/*Register - UserAdmin*/
+.rContent {
+    margin-left:25%;
+}
 
 /*My users - User admin*/
 .headColor {
