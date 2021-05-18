@@ -1,11 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Http
+@using Microsoft.CodeAnalysis
 @using Microsoft.CodeAnalysis.CSharp
+@using Org.BouncyCastle.Asn1.Ocsp
+@using Request = Twilio.Http.Request
 @model UserAdminViewModel
 @{ ViewBag.Title = "UserAdminMyUsers";
-    Layout = "_Layout"; }
+    Layout = "_Layout";
+}
 
-<div >
+<div>
     <br />
     <div>
         <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png" />
@@ -16,22 +20,20 @@
     <div>
         <a class="btn btnColor raise " type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
         <a class="btn btnColor raise text-white" type="button" onclick="location.href = '@Url.Action("GenerateMyUsersReport", "UserAdmin")'">Save complete report</a>
-        <br/><br/>
+        <br /><br />
 
         <div class="embed-responsive">
-            @using (Html.BeginForm())
-            {
-                <p>
-                    Find by name: @Html.TextBox("SearchString")  
-                    <input type="submit" value="Search" class="btn btnColor raise"/>
-                </p>
-            }
+            <form>
+                <label>Find by name:</label>
+                <input type="text" class="searchfield" placeholder="Enter name"/>
+                <input type="submit" value="Search" class="btn btnColor raise" onclick="location.href = '@Url.Action("MyUsers", "UserAdmin")'"/>
+            </form>
         </div>
     </div>
     <br /><br />
     <div>
         <table class="mytable table-striped ">
-            <thead >
+            <thead>
                 <tr class="headColor">
                     <td style="font-size: 15px">
                         Name
@@ -52,7 +54,7 @@
                         Payment due date
                     </td>
                     <td style="font-size: 15px">
-                        Active User 
+                        Active User
                     </td>
                     <td>
                         @Html.Display("Actions")
@@ -60,8 +62,8 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.MyUsers)
-            {
+                @foreach (var item in Model.MyUsers)
+                            {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -85,32 +87,33 @@
                         @Html.DisplayFor(modelItem => item.ActiveUser)
                     </td>
                     <td>
-                        <input type="button" id="InputButtonUserAdmin" style="background-color:lightgray" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> |
-                        <input type="button" id="InputButtonUserAdmin" style="background-color:lightgray" value="History" class="btn-primary" onclick="$('#@item.Id').collapse('toggle')" /> |
-                        <input type="button" id="InputButtonUserAdmin" style="background-color:lightgray" value="Delete" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin", new {username = item.Email})'" />
+                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> |
+                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="History" class="btn-primary" onclick="$('#@item.Id').collapse('toggle')" /> |
+                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="Delete" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin", new {username = item.Email})'" />
                     </td>
                 </tr>
                 <tr id="">
                     <td colspan="6">
                         <div class="collapse testAlignText" id="@item.Id">
-                            @if(item.LaundryHistory.Count ==0)
-                            {
+                            @if (item.LaundryHistory.Count == 0)
+{
                                 <p>There is no laundry history</p>
-                            }
-                            else
-                            { 
+}
+else
+{
                                 foreach (var logEntry in item.LaundryHistory)
                                 {
                                     <label style="padding-right: 8px">Date: </label>
                                     @Html.DisplayFor(modelItem => logEntry.LogDate)
                                     <label style="padding-left: 20px">Info: </label>
                                     @Html.DisplayFor(modelItem => logEntry.LogInfo)
-                                    <br/>
+                                    <br />
                                 }
-                            }
+}
                         </div>
                     </td>
-                </tr>}
+                </tr>
+                            }
             </tbody>
         </table>
     </div>

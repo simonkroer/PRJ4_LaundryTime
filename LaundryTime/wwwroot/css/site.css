@@ -257,6 +257,10 @@ li {
     color: white;
 }
 
+.searchfield {
+    max-width: 20%;
+}
+
 
 .machinestatus {
     max-height: 50px;

@@ -127,7 +127,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 //Til useradmin til at oprette laundrytime brugere
                 if (User.HasClaim("UserAdmin", "IsUserAdmin"))
                 {
-                    var user = new LaundryUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name, 
+                    var user = new LaundryUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name,ActiveUser = true, 
                         Address = new Address(){StreetAddress = Input.StreetAddress, Zipcode = Input.Zipcode}, 
                         PhoneNumber = Input.Phonenumber,PaymentMethod = Input.PaymentMethod};
 
