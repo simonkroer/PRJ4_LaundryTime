@@ -31,30 +31,33 @@
         </div>
     </div>
     <br /><br />
-    <div>
+    <div >
         <table class="mytable table-striped" id="sortingID">
-            <thead >
-            <tr class="headColor">
-                <th onclick="sortTable(0)">
+            <thead class="headColor">
+            <tr >
+                <th >
                     Name
                 </th>
-                <th onclick="sortTable(1)">
+                <th >
                     Phone
                 </th>
-                <th onclick="sortTable(2)">
+                <th >
                     Email
                 </th>
-                <th onclick="sortTable(3)">
+                <th >
                     Address
                 </th>
-                <th onclick="sortTable(4)">
+                <th >
                     Paymentmethod
                 </th>
-                <th onclick="sortTable(5)">
+                <th >
                     Payment due date
                 </th>
                 <th >
-                    @Html.Display("Actions")
+                   Active
+                </th>
+                <th>
+                    Actions
                 </th>
             </tr>
             </thead>
@@ -106,7 +109,7 @@ else
                                     @Html.DisplayFor(modelItem => logEntry.LogInfo)
                                     <br />
                                 }
-}
+                            }
                         </div>
                     </td>
                 </tr>
@@ -117,7 +120,7 @@ else
 </div>
 
 <script>
-    function sortTable() {
+    var direction = "ascending";
         function sortTable(n) {
             var table;
             table = document.getElementById("sortingID");
@@ -125,7 +128,10 @@ else
             var switching = true;
 
             // Order is set as ascending
-            var direction = "ascending";
+            if (direction == "ascending")
+                direction = "descending"
+            else
+                direction = "ascending";
 
             // Run loop until no switching is needed
             while (switching) {
@@ -175,6 +181,5 @@ else
                 }
             }
         }
-    }
 </script>
 
