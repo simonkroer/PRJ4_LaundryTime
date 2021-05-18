@@ -1,0 +1,31 @@
+﻿@{ ViewBag.Title = "ContactUs";
+    Layout = "_Layout";
+}
+
+<div class="table-responsive">
+    <div>
+        <h1> Contact:</h1>
+        <form>
+            <div class="form-group">
+                <label for="emailinput">Email address:</label>
+                <input type="email" class="form-control" id="emailinput" placeholder="name@example.com">
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <select class="form-control" id="subject">
+                    <option>Login support</option>
+                    <option>Sales</option>
+                    <option>Financial</option>
+                    <option>Partnership</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="comments">You text goes here:</label>
+                <textarea class="form-control" id="comments" rows="3"></textarea>
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <img class="rounded align-content-center imghoover" style="max-width: 120px;" src="~/Images/logo.png"/>
+</div>

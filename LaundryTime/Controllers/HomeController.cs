@@ -21,7 +21,7 @@ namespace LaundryTime.Controllers
         {
             _logger = logger;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             if (User.HasClaim("LaundryUser", "IsLaundryUser"))
@@ -44,6 +44,11 @@ namespace LaundryTime.Controllers
                 TempData["Security Check"] = "failed";
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        public IActionResult ContactUs()
+        {
+            return View();
         }
 
     }
