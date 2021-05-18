@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
@@ -65,7 +66,7 @@ namespace LaundryTime.Controllers
 
                 return View(_userAdminViewModel);
             }
-            
+
             return Unauthorized();
             
         }
@@ -202,6 +203,50 @@ namespace LaundryTime.Controllers
 
             return Unauthorized();
 
+        }
+
+        [HttpPost]
+        public IActionResult ToggleBlockUser(UserAdminViewModel viewModel)
+        {
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                if (ModelState.IsValid)
+                {
+                    LaundryUser user;
+                    try
+                    {
+                        user =  _dataAccess.LaundryUsers.GetSingleLaundryUser(viewModel.CurrentLaundryUser.UserName);
+
+                        if (user.LockoutEnd == null)
+                        {
+                            user.LockoutEnd = new DateTimeOffset(DateTime.MaxValue);
+                            user.ActiveUser = false;
+                        }
+                        else
+                        {
+                            user.LockoutEnd = null;
+                            user.ActiveUser = true;
+                        }
+
+                        _dataAccess.Complete();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!_dataAccess.LaundryUsers.LaundryUserExists(viewModel.CurrentLaundryUser.Email))
+                        {
+                            return NotFound();
+                        }
+
+                        TempData["alertMessage"] = "Blocking/Unblocking unsuccessful";
+                        return RedirectToAction("EditUser", "UserAdmin", new { email = viewModel.CurrentLaundryUser.Email });
+                    }
+
+                    TempData["alertMessage"] = "Blocking/Unblocking successful";
+                    return RedirectToAction("EditUser","UserAdmin" ,new {email = user.Email });
+                }
+                return BadRequest();
+            }
+            return Unauthorized();
         }
 
         public IActionResult IndexMachines()

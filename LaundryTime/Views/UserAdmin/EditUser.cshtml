@@ -59,7 +59,16 @@
                 <div>
                     <input type="submit" class="btn btnColor inputwidthMyUser raise" value="Update user" asp-controller="UserAdmin" asp-action="UpdateUser" />
                 </div>
-
+                <br/>
+                <div>
+                    <input type="submit" class="btn btnColor inputwidthMyUser raise" value="Block/Unblock user" asp-controller="UserAdmin" asp-action="ToggleBlockUser"/>
+                </div>
+                @if(null != TempData["alertMessage"])
+                {
+                    <script type="text/javascript">
+                        alert("@TempData["alertMessage"]");
+                    </script>
+                }
                 <br />
 
                 <div class="UserAdminEditUser">
