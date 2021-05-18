@@ -8,6 +8,16 @@
 @{ ViewBag.Title = "UserAdminMyUsers";
     Layout = "_Layout";
 }
+@functions{
+    public void sortIt()
+    {
+        Model.MyUsers.Sort((res1, res2) => res1.PaymentDueDate.CompareTo(res2.PaymentDueDate));
+    }
+}
+<div>
+    @{ string name="";}
+    <br/>
+    <div>
 
 <div class="table-responsive">
     <div>
@@ -34,8 +44,8 @@
     <br/><br/>
     <div>
         <table class="mytable table-striped" id="sortingID">
-            <thead >
-            <tr class="headColor">
+            <thead class="headColor">
+            <tr >
                 <th onclick="sortTable(0)">
                     Name
                 </th>
@@ -55,7 +65,10 @@
                     Payment due date
                 </th>
                 <th >
-                    @Html.Display("Actions")
+                   Active
+                </th>
+                <th>
+                    Actions
                 </th>
             </tr>
             </thead>
@@ -118,64 +131,6 @@
 </div>
 
 <script>
-    function sortTable() {
-        function sortTable(n) {
-            var table;
-            table = document.getElementById("sortingID");
-            var rows, i, x, y, count = 0;
-            var switching = true;
-
-            // Order is set as ascending
-            var direction = "ascending";
-
-            // Run loop until no switching is needed
-            while (switching) {
-                switching = false;
-                var rows = table.rows;
-
-                //Loop to go through all rows
-                for (i = 1; i < (rows.length - 1); i++) {
-                    var Switch = false;
-
-                    // Fetch 2 elements that need to be compared
-                    x = rows[i].getElementsByTagName("TD")[n];
-                    y = rows[i + 1].getElementsByTagName("TD")[n];
-
-                    // Check the direction of order
-                    if (direction == "ascending") {
-
-                        // Check if 2 rows need to be switched
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            // If yes, mark Switch as needed and break loop
-                            Switch = true;
-                            break;
-                        }
-                    } else if (direction == "descending") {
-
-                        // Check direction
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            // If yes, mark Switch as needed and break loop
-                            Switch = true;
-                            break;
-                        }
-                    }
-                }
-                if (Switch) {
-                    // Function to switch rows and mark switch as completed
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-
-                    // Increase count for each switch
-                    count++;
-                } else {
-                    // Run while loop again for descending order
-                    if (count == 0 && direction == "ascending") {
-                        direction = "descending";
-                        switching = true;
-                    }
-                }
-            }
-        }
-    }
+    
 </script>
 
