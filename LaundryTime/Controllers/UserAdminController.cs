@@ -56,13 +56,18 @@ namespace LaundryTime.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MyUsers()
+        public async Task<IActionResult> MyUsers(string searchString)
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
                 var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
 
                 _userAdminViewModel.MyUsers = currentuser.Users;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    _userAdminViewModel.MyUsers = (List<LaundryUser>)currentuser.Users.Where(s => s.Name.Contains(searchString));
+                }
 
                 return View(_userAdminViewModel);
             }

@@ -5,7 +5,7 @@
 @{ ViewBag.Title = "UserAdminMyUsers";
     Layout = "_Layout"; }
 
-<div>
+<div >
     <br />
     <div>
         <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png" />
@@ -14,12 +14,23 @@
     <br />
 
     <div>
-        <a class="btn btnColor raise" type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
+        <a class="btn btnColor raise " type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
         <a class="btn btnColor raise text-white" type="button" onclick="location.href = '@Url.Action("GenerateMyUsersReport", "UserAdmin")'">Save complete report</a>
+        <br/><br/>
+
+        <div class="embed-responsive">
+            @using (Html.BeginForm())
+            {
+                <p>
+                    Find by name: @Html.TextBox("SearchString")  
+                    <input type="submit" value="Search" class="btn btnColor raise"/>
+                </p>
+            }
+        </div>
     </div>
     <br /><br />
     <div>
-        <table class="mytable table-striped">
+        <table class="mytable table-striped ">
             <thead >
                 <tr class="headColor">
                     <td style="font-size: 15px">
