@@ -213,7 +213,7 @@ li {
 }
 .addmachineContent {
     width: 70%;
-    padding-left: 35%
+    padding-left: 35%;
 }
 
 /*Macine index - User admin*/
@@ -227,12 +227,9 @@ li {
 }
 
 .mmAddbtnSide{
-    padding-left: 40%;
+    padding-left: 100px;
 }
 
-.mmRepportbtnSide {
-    padding-left: 40%;
-}
 
 
 /*Edit user - User admin*/

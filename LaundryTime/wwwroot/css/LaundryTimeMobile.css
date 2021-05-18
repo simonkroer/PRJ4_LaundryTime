@@ -6,6 +6,7 @@ a.navbar-brand {
     text-align: left;
     word-break: break-all;
     color: white;
+    font-size: 14px;
 }
 
 .navbar-light {
@@ -118,7 +119,7 @@ header {
 
 main {
     /* Margin bottom by footer height */
-    margin-top: 80px;
+    margin-top: 150px;
     margin-bottom: 60px;
 }
 
@@ -257,7 +258,7 @@ li {
 
 .addmachineContent {
     width: 70%;
-    padding-left: 35%
+    padding-left: 0;
 }
 
 /*Macine index - User admin*/
@@ -277,9 +278,7 @@ li {
     padding-left: 0;
 }
 
-.mmRepportbtnSide {
-    padding-left: 0;
-}
+
 
 
 /*Edit user - User admin*/
