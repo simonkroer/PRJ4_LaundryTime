@@ -10,60 +10,65 @@
 }
 
 <div>
-    <br />
+    @{ string name="";}
+    <br/>
     <div>
-        <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png" />
+        <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png"/>
         <h1> All my users:</h1>
     </div>
-    <br />
+    <br/>
 
     <div>
         <a class="btn btnColor raise " type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
         <a class="btn btnColor raise text-white" type="button" onclick="location.href = '@Url.Action("GenerateMyUsersReport", "UserAdmin")'">Save complete report</a>
-        <br /><br />
+        <br/><br/>
 
-        <div class="embed-responsive">
-            <form>
+        
+        <form class="embed-responsive">
+            <div>
+                <input type="hidden" asp-for="SearchString" />
                 <label>Find by name:</label>
-                <input type="text" class="searchfield" placeholder="Enter name"/>
-                <input type="submit" value="Search" class="btn btnColor raise" onclick="location.href = '@Url.Action("MyUsers", "UserAdmin")'"/>
-            </form>
-        </div>
+                <input type="text" class="searchfield" asp-for="@Model.SearchString" />
+                <input type="submit" value="Search" class="btn btnColor raise"  onclick="location.href = '@Url.Action("MyUsers", "UserAdmin", new{name = Model.SearchString})'"/>
+                <span asp-validation-for="@Model.SearchString" class="text-danger"></span>
+            </div>
+        </form>
+        
     </div>
-    <br /><br />
+    <br/><br/>
     <div>
         <table class="mytable table-striped ">
             <thead>
-                <tr class="headColor">
-                    <td style="font-size: 15px">
-                        Name
-                    </td>
-                    <td style="font-size: 15px">
-                        Phone
-                    </td>
-                    <td style="font-size: 15px">
-                        Email
-                    </td>
-                    <td style="font-size: 15px">
-                        Address
-                    </td>
-                    <td style="font-size: 15px">
-                        Paymentmethod
-                    </td>
-                    <td style="font-size: 15px">
-                        Payment due date
-                    </td>
-                    <td style="font-size: 15px">
-                        Active User
-                    </td>
-                    <td>
-                        @Html.Display("Actions")
-                    </td>
-                </tr>
+            <tr class="headColor">
+                <td style="font-size: 15px">
+                    Name
+                </td>
+                <td style="font-size: 15px">
+                    Phone
+                </td>
+                <td style="font-size: 15px">
+                    Email
+                </td>
+                <td style="font-size: 15px">
+                    Address
+                </td>
+                <td style="font-size: 15px">
+                    Paymentmethod
+                </td>
+                <td style="font-size: 15px">
+                    Payment due date
+                </td>
+                <td style="font-size: 15px">
+                    Active User
+                </td>
+                <td>
+                    @Html.Display("Actions")
+                </td>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.MyUsers)
-                            {
+            @foreach (var item in Model.MyUsers)
+            {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -87,33 +92,33 @@
                         @Html.DisplayFor(modelItem => item.ActiveUser)
                     </td>
                     <td>
-                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'" /> |
-                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="History" class="btn-primary" onclick="$('#@item.Id').collapse('toggle')" /> |
-                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="Delete" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin", new {username = item.Email})'" />
+                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'"/> |
+                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="History" class="btn-primary" onclick="$('#@item.Id').collapse('toggle')"/> |
+                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="Delete" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin", new {username = item.Email})'"/>
                     </td>
                 </tr>
                 <tr id="">
                     <td colspan="6">
                         <div class="collapse testAlignText" id="@item.Id">
                             @if (item.LaundryHistory.Count == 0)
-{
+                            {
                                 <p>There is no laundry history</p>
-}
-else
-{
+                            }
+                            else
+                            {
                                 foreach (var logEntry in item.LaundryHistory)
                                 {
                                     <label style="padding-right: 8px">Date: </label>
                                     @Html.DisplayFor(modelItem => logEntry.LogDate)
                                     <label style="padding-left: 20px">Info: </label>
                                     @Html.DisplayFor(modelItem => logEntry.LogInfo)
-                                    <br />
+                                    <br/>
                                 }
-}
+                            }
                         </div>
                     </td>
                 </tr>
-                            }
+            }
             </tbody>
         </table>
     </div>
