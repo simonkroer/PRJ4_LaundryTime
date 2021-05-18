@@ -5,16 +5,18 @@
     ViewData["Title"] = "Machine Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div style="margin-left: 30%; width: 70%">
-    <div>
+<div class="mmContent">
+    <div class="mmsideMargin">
         <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png" />
         <h3>Current Machines - @DateTime.Today.ToString("D")</h3>
     </div>
     <br />
     <table>
         <tr>
-            <td class="btnAlignment">
+            <td class="mmAddbtnSide">
                 <input type="button" class="btn btnColor raise" value="Add New Machine" onclick="location.href = '@Url.Action("AddMachines", "UserAdmin")'" />
+            </td>
+            <td class="mmAddbtnSide">
                 <input type="button" class="btn btnColor raise" value="Save complete report" onclick="location.href = '@Url.Action("GenerateMyMachinesReport", "UserAdmin")'" />
             </td>
         </tr>
@@ -31,7 +33,7 @@
     </table>
     <br />
 
-    <table class="mytable">
+    <table class="mytable table-striped">
         <thead>
         <tr>
             <th>

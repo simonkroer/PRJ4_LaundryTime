@@ -61,7 +61,7 @@ namespace LaundryTime.Controllers
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
                 var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
-
+                
                 _userAdminViewModel.MyUsers = currentuser.Users;
 
                 if (!String.IsNullOrEmpty(searchString))
@@ -69,6 +69,8 @@ namespace LaundryTime.Controllers
                     _userAdminViewModel.MyUsers = (List<LaundryUser>)currentuser.Users.Where(s => s.Name.Contains(searchString));
                 }
 
+                _userAdminViewModel.MyUsers.Sort((res1, res2) => res1.Name.CompareTo(res2.Name));
+                
                 return View(_userAdminViewModel);
             }
 

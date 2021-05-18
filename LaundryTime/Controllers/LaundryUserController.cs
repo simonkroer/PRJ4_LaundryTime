@@ -170,7 +170,7 @@ namespace LaundryTime.Controllers
                     modelList.Add(model);
                 }
             }
-
+            modelList.Sort((res1, res2) => res1.Date.CompareTo(res2.Date));
             return View(modelList);
         }
     }

@@ -2,10 +2,11 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: left;
-  word-break: break-all;
-  color: white;
+    white-space: normal;
+    text-align: left;
+    word-break: break-all;
+    color: white;
+    font-size: 14px;
 }
 
 .navbar-light {
@@ -17,7 +18,7 @@ a {
     color: white;
 }
 
-.UserAdminEditUser a{
+.UserAdminEditUser a {
     color: #1861ac;
     background-color: white;
 }
@@ -49,28 +50,30 @@ a {
 }
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 .collapsible {
@@ -81,9 +84,9 @@ button.accept-policy {
     background-color: white;
 }
 
-.active, .collapsible:hover {
-    background-color: #ccc;
-}
+    .active, .collapsible:hover {
+        background-color: #ccc;
+    }
 
 html {
     position: relative;
@@ -103,22 +106,23 @@ header {
 .logContent {
     padding: 0 18px;
     max-height: 0;
-    display:none;
+    display: none;
     transition: max-height 0.2s ease-out;
     background-color: #f1f1f1;
-    width:100%;
-    text-align:center;
+    width: 100%;
+    text-align: center;
 }
 
-.logContent.active {
-    display: inline-block;
-}
+    .logContent.active {
+        display: inline-block;
+    }
 
 main {
-  /* Margin bottom by footer height */
-    margin-top: 80px;
+    /* Margin bottom by footer height */
+    margin-top: 150px;
     margin-bottom: 60px;
 }
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -133,19 +137,59 @@ main {
     border-style: none;
     font-family: Arial, sans-serif;
 }
+/* Force table to not be like tables anymore */
+table, thead, tbody, th, td, tr {
+    display: block;
+}
 
-.mytable td, tbody, tr, th, input {
+    .mytable, input {
         text-align: center;
         height: auto;
         font-size: small;
         padding: 1em;
+    }
+
+
+thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
 }
+
+tr {
+    border: 1px solid #ccc;
+}
+
+td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 0;
+}
+
+    td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    /*
+	Label the data
+	*/
+  
 
 #InputButtonUserAdmin {
     color: #1b6ec2;
     border: none;
     background-color: white;
 }
+
 #UserEditUpdateUserAdmin {
     color: #1b6ec2;
     border: none;
@@ -187,21 +231,21 @@ li {
     bottom: -50px;
 }
 
-.carousel-indicators li {
-    width: 10px;
-    height: 10px;
-}
-}
+    .carousel-indicators li {
+        width: 10px;
+        height: 10px;
+    }
+
 
 #UserLog {
-    display:none;
+    display: none;
 }
 
 .delButton {
     background-image: url('/Images/redx.jpg');
 }
 
-.testAlignText{
+.testAlignText {
     text-align: left;
 }
 
@@ -209,41 +253,46 @@ li {
 /*Add machine - User admin*/
 
 .entryform {
-    width: 300px;
+    width: 280px;
 }
+
 .addmachineContent {
     width: 70%;
-    padding-left: 35%;
+    padding-left: 0;
 }
 
 /*Macine index - User admin*/
+.btnAlignment {
+    padding-left: 20px;
+}
 .mmContent {
-    margin-left: 25%;
-    width: 70%
+    margin-left: 5%;
+    width: 90%;
 }
 
 .mmsideMargin {
-    margin-left: 15%;
+    margin-left: 0;
 }
 
-.mmAddbtnSide{
-    padding-left: 100px;
+.mmAddbtnSide {
+    padding-left: 0;
 }
+
 
 
 
 /*Edit user - User admin*/
 .contentMargin {
-    padding-left: 35%;
+    padding-left: 0;
 }
 
 .inputwidthMyUser {
-    min-width: 300px;
+    min-width: 270px;
 }
 
 /*Register - UserAdmin*/
 .rContent {
-    margin-left:25%;
+    margin-left: 25%;
 }
 
 /*My users - User admin*/
@@ -263,70 +312,80 @@ li {
     max-width: 50px;
     animation: blink 1.3s steps(1, end) infinite;
 }
+
 @keyframes blink {
     0% {
         opacity: 1;
     }
+
     12% {
         opacity: 0.75;
     }
+
     25% {
         opacity: 0.5;
     }
+
     37% {
         opacity: 0.25;
     }
+
     50% {
         opacity: 0;
     }
+
     62% {
         opacity: 0.25;
     }
+
     75% {
         opacity: 0.5;
     }
+
     87% {
         opacity: 0.75;
     }
+
     100% {
         opacity: 1;
     }
-    
 }
 
 /*Index - LaundryUser*/
-.LaundryUserContent{
-    width: 60%;
-    margin-left: 25%;
+.LaundryUserContent {
+    width: 100%;
+    margin-left: 0;
 }
 
-.LaundryUsersize{
+.LaundryUsersize {
     min-width: 60%;
-    padding-top: 50px;
-    margin-left:20%;
+    padding-top: 0;
+    margin-left: 9%;
 }
-.fontForDateData{
+
+.fontForDateData {
     font-size: 20px;
 }
-.generelPadding{
+
+.generelPadding {
     padding-top: 25px;
     padding-bottom: 25px;
 }
 
-.contentWidth{
-    min-width: 300px;
+.contentWidth {
+    min-width: 205px;
 }
 
 /*Available booking - Laundryuser*/
-.abContent{
+.abContent {
     margin-left: 25%
 }
 
 /*Register*/
-#marginRegister{
-    margin-left: 35%;
+#marginRegister {
+    margin-left: 0;
 }
 
-.col-md-4{
-    margin-left: 0%;
+.col-md-4 {
+    margin-left: 0;
 }
