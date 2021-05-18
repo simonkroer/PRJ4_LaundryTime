@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
@@ -55,18 +56,25 @@ namespace LaundryTime.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MyUsers()
+        public async Task<IActionResult> MyUsers(string searchname)
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
                 var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
                 
                 _userAdminViewModel.MyUsers = currentuser.Users;
+
+
+                if (!String.IsNullOrEmpty(searchname))
+                {
+                    _userAdminViewModel.MyUsers = (List<LaundryUser>)_userAdminViewModel.MyUsers.Where(s => s.Name.Contains(searchname));
+                }
+
                 _userAdminViewModel.MyUsers.Sort((res1, res2) => res1.Name.CompareTo(res2.Name));
                 
                 return View(_userAdminViewModel);
             }
-            
+
             return Unauthorized();
             
         }
@@ -203,6 +211,50 @@ namespace LaundryTime.Controllers
 
             return Unauthorized();
 
+        }
+
+        [HttpPost]
+        public IActionResult ToggleBlockUser(UserAdminViewModel viewModel)
+        {
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                if (ModelState.IsValid)
+                {
+                    LaundryUser user;
+                    try
+                    {
+                        user =  _dataAccess.LaundryUsers.GetSingleLaundryUser(viewModel.CurrentLaundryUser.UserName);
+
+                        if (user.LockoutEnd == null)
+                        {
+                            user.LockoutEnd = new DateTimeOffset(DateTime.MaxValue);
+                            user.ActiveUser = false;
+                        }
+                        else
+                        {
+                            user.LockoutEnd = null;
+                            user.ActiveUser = true;
+                        }
+
+                        _dataAccess.Complete();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!_dataAccess.LaundryUsers.LaundryUserExists(viewModel.CurrentLaundryUser.Email))
+                        {
+                            return NotFound();
+                        }
+
+                        TempData["alertMessage"] = "Blocking/Unblocking unsuccessful";
+                        return RedirectToAction("EditUser", "UserAdmin", new { email = viewModel.CurrentLaundryUser.Email });
+                    }
+
+                    TempData["alertMessage"] = "Blocking/Unblocking successful";
+                    return RedirectToAction("EditUser","UserAdmin" ,new {email = user.Email });
+                }
+                return BadRequest();
+            }
+            return Unauthorized();
         }
 
         public IActionResult IndexMachines()
