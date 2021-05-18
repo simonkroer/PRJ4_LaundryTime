@@ -37,33 +37,30 @@
     </div>
     <br/><br/>
     <div>
-        <table class="mytable table-striped ">
-            <thead>
+        <table class="mytable table-striped" id="sortingID">
+            <thead >
             <tr class="headColor">
-                <td style="font-size: 15px">
+                <th onclick="sortTable(0)">
                     Name
-                </td>
-                <td style="font-size: 15px">
+                </th>
+                <th onclick="sortTable(1)">
                     Phone
-                </td>
-                <td style="font-size: 15px">
+                </th>
+                <th onclick="sortTable(2)">
                     Email
-                </td>
-                <td style="font-size: 15px">
+                </th>
+                <th onclick="sortTable(3)">
                     Address
-                </td>
-                <td style="font-size: 15px">
+                </th>
+                <th onclick="sortTable(4)">
                     Paymentmethod
-                </td>
-                <td style="font-size: 15px">
+                </th>
+                <th onclick="sortTable(5)">
                     Payment due date
-                </td>
-                <td style="font-size: 15px">
-                    Active User
-                </td>
-                <td>
+                </th>
+                <th >
                     @Html.Display("Actions")
-                </td>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -124,11 +121,65 @@
     </div>
 </div>
 
-@*<script>
-    $(document).ready(function () {
-        $(".btn-primary").click(function () {
-            $(".collapse").collapse('toggle');
-        });
-    });
-</script>*@
+<script>
+    function sortTable() {
+        function sortTable(n) {
+            var table;
+            table = document.getElementById("sortingID");
+            var rows, i, x, y, count = 0;
+            var switching = true;
+
+            // Order is set as ascending
+            var direction = "ascending";
+
+            // Run loop until no switching is needed
+            while (switching) {
+                switching = false;
+                var rows = table.rows;
+
+                //Loop to go through all rows
+                for (i = 1; i < (rows.length - 1); i++) {
+                    var Switch = false;
+
+                    // Fetch 2 elements that need to be compared
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+
+                    // Check the direction of order
+                    if (direction == "ascending") {
+
+                        // Check if 2 rows need to be switched
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            // If yes, mark Switch as needed and break loop
+                            Switch = true;
+                            break;
+                        }
+                    } else if (direction == "descending") {
+
+                        // Check direction
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            // If yes, mark Switch as needed and break loop
+                            Switch = true;
+                            break;
+                        }
+                    }
+                }
+                if (Switch) {
+                    // Function to switch rows and mark switch as completed
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+
+                    // Increase count for each switch
+                    count++;
+                } else {
+                    // Run while loop again for descending order
+                    if (count == 0 && direction == "ascending") {
+                        direction = "descending";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    }
+</script>
 
