@@ -56,7 +56,7 @@ namespace LaundryTime.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MyUsers(string searchname)
+        public async Task<IActionResult> MyUsers(string name)
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
@@ -65,12 +65,12 @@ namespace LaundryTime.Controllers
                 _userAdminViewModel.MyUsers = currentuser.Users;
 
 
-                if (!String.IsNullOrEmpty(searchname))
+                if (!string.IsNullOrEmpty(name))
                 {
-                    _userAdminViewModel.MyUsers = (List<LaundryUser>)_userAdminViewModel.MyUsers.Where(s => s.Name.Contains(searchname));
+                    _userAdminViewModel.MyUsers = (List<LaundryUser>)_userAdminViewModel.MyUsers.Where(s => s.Name.Contains(name));
                 }
 
-                _userAdminViewModel.MyUsers.Sort((res1, res2) => res1.Name.CompareTo(res2.Name));
+                _userAdminViewModel.MyUsers.Sort((res1, res2) => String.Compare(res1.Name, res2.Name, StringComparison.Ordinal));
                 
                 return View(_userAdminViewModel);
             }
