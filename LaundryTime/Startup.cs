@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using LaundryTime.Data.Models;
 using LaundryTime.Data.Models.Booking;
 using LaundryTime.Data.Sensitive;
+using LaundryTime.Utilities.SignalRHubs;
 using MailKit.Net.Smtp;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Options;
@@ -59,6 +60,8 @@ namespace LaundryTime
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
+
+            services.AddSignalR();
 
             services.AddAuthorization(options =>
             {
@@ -127,6 +130,7 @@ namespace LaundryTime
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<MachineHub>("/machineHub");
             });
         }
 
