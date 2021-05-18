@@ -353,14 +353,14 @@ li {
 
 /*Index - LaundryUser*/
 .LaundryUserContent {
-    width: 60%;
-    margin-left: 25%;
+    width: 100%;
+    margin-left: 0;
 }
 
 .LaundryUsersize {
     min-width: 60%;
-    padding-top: 50px;
-    margin-left: 20%;
+    padding-top: 0;
+    margin-left: 9%;
 }
 
 .fontForDateData {
@@ -373,7 +373,7 @@ li {
 }
 
 .contentWidth {
-    min-width: 300px;
+    min-width: 205px;
 }
 
 /*Available booking - Laundryuser*/
