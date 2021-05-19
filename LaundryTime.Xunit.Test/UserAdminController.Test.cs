@@ -15,6 +15,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using Xunit;
 
 namespace LaundryTime.Xunit.Test
@@ -23,18 +24,17 @@ namespace LaundryTime.Xunit.Test
     {
         protected ApplicationDbContext _context { get; set; }
         protected UserAdminController _uut;
-        private IDataAccessAction _dataAccess;
 
         public UserAdminControllerTest()
         {
             _context = new ApplicationDbContext(
                 new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CreateInMemoryDatabase()).Options);
 
-            //_dataAccess = Substitute.For<DataAccsessAction>(_context);
-
             Seed();
 
             _uut = new UserAdminController(_context);
+            
+            _uut._userAdminViewModel = Substitute.For<UserAdminViewModel>();
         }
         //=======================================================   Index() ============================================================================
         [Fact]
@@ -51,10 +51,9 @@ namespace LaundryTime.Xunit.Test
                 }
             };
 
-            var res1 = _uut.MyUsers("", "");
-            
-            Assert.IsType<Task<IActionResult>>(res1);
+            var res = _uut.MyUsers("", "");
 
+            Assert.IsType<Task<IActionResult>>(res);
             Dispose();
         }
 
@@ -93,9 +92,9 @@ namespace LaundryTime.Xunit.Test
                 }
             };
 
-            var res1 = _uut.MyUsers("", "");
+            var res = _uut.MyUsers("", "");
 
-            Assert.IsType<Task<IActionResult>>(res1);
+            Assert.IsType<Task<IActionResult>>(res);
             
             Dispose();
         }
