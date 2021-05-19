@@ -301,6 +301,10 @@ li {
     color: white;
 }
 
+.noShow {
+    visibility: hidden !important;
+}
+
 .btnColor {
     background-color: #203647;
     color: white;
