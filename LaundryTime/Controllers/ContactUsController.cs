@@ -8,6 +8,7 @@ namespace LaundryTime.Controllers
 {
     public class ContactUsController : Controller
     {
+        [RequireHttps]
         public IActionResult ContactUs()
         {
             return View();

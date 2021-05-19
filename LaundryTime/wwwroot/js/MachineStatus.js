@@ -11,7 +11,7 @@ connection.on("Status Changed", function() {
 
 function toggleImage(machine) {
 
-    if (machine.src == "~/Images/redwasher.png") {
+    if (machine.src.equalTo("~/Images/redwasher.png")) {
         machine.src = "~/Images/greenwasher.png";
     } else {
         machine.src = "~/Images/redwasher.png";

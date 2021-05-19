@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using LaundryTime.Data;
 using LaundryTime.Data.Models;
 using LaundryTime.Utilities;
+using LaundryTime.Utilities.SignalRHubs;
 using LaundryTime.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
@@ -353,5 +355,6 @@ namespace LaundryTime.Controllers
             return Unauthorized();
 
         }
+
     }
 }
