@@ -11,6 +11,8 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
     {
         Task<BookingListModel> SingleBook(long? id);
         Task<List<BookingListModel>> GetAllAvalableBookings(DateTime date);
+        Task<List<BookingListModel>> GetBookingList();
         bool BookingListExsits();
+        Task<BookingListModel> GetBookingListOrder(int id);
     }
 }

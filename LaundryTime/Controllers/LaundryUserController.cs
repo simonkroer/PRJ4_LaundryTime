@@ -38,14 +38,14 @@ namespace LaundryTime.Controllers
         {
             //obj.Datedata = DateTime.Parse("22-04-2021");
             var bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
-            if (_dataAccess.BookingList.BookingListExsits())
+            if (!_dataAccess.BookingList.BookingListExsits())
             {
                 BookingSeeder bs = new BookingSeeder();
                 var datemodel = bs.CreateDateModel(_context, obj.Datedata.Date.ToString());
                 bs.CreateNewBookList(_context, datemodel);
                 
             }
-            bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
+            //bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
 
             List<BookingListViewModel> modelList = new List<BookingListViewModel>();
 
@@ -100,7 +100,7 @@ namespace LaundryTime.Controllers
                 _dataAccess.Complete();
             }
 
-            var BookingList = _context.BookingListModels.Include(b => b.Machine);
+            var BookingList = await _dataAccess.BookingList.GetBookingList();
             List<BookingListViewModel> modelList = new List<BookingListViewModel>();
 
             foreach (var booking in BookingList)
@@ -126,10 +126,10 @@ namespace LaundryTime.Controllers
             
             return RedirectToAction("AvailableBookings", dvm);
         }
-        public IActionResult Unbook(long? id)
+        public async Task<IActionResult> Unbook(long? id)
         {
-            var unBookOrder = _context.ReservedListModels.FirstOrDefault(r => r.Id == id);
-            var bookingOrder = _context.BookingListModels.FirstOrDefault(b => b.Id == unBookOrder.OldId);
+            var unBookOrder = await _dataAccess.ReservedList.GetUnBookOrder(id);
+            var bookingOrder = await _dataAccess.BookingList.GetBookingListOrder(unBookOrder.OldId);
 
             if (bookingOrder == null || unBookOrder == null)
             {
@@ -138,22 +138,22 @@ namespace LaundryTime.Controllers
             else
             {
                 bookingOrder.Status = true;
-                _context.Remove(unBookOrder);
-
+                _dataAccess.ReservedList.RemoveBooking(unBookOrder);
+                /*Log Entry*/
                 var LUser = User.Identity.Name;
                 var tempUserUn = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
                 var laundryLogUn = new LaundryLog();
                 laundryLogUn.LaundryUser = tempUserUn;
                 laundryLogUn.LogDate = DateTime.Now;
-                laundryLogUn.LogInfo = ($"Unbooked machine");
+                laundryLogUn.LogInfo = ($"Unbooked machine {unBookOrder.Machine.MachineId} that was reserved at {unBookOrder.Date} at {unBookOrder.Time}");
                 _dataAccess.LaundryLogs.AddLaundryLog(laundryLogUn);
                 _dataAccess.Complete();
             }
 
-            var BookingList = _context.ReservedListModels.Include(r => r.Machine);
+            var ReservedBookingList = await _dataAccess.ReservedList.GetReservedBookingList();
             List<BookingListViewModel> modelList = new List<BookingListViewModel>();
 
-            foreach (var booking in BookingList)
+            foreach (var booking in ReservedBookingList)
             {
                 if (booking.Name == User.Identity.Name)
                 {
@@ -165,15 +165,15 @@ namespace LaundryTime.Controllers
                     model.Time = booking.Time;
                     
                     modelList.Add(model);
-                    
+                    _dataAccess.Complete();
                 }
             }
 
             return View("UsersBookings", modelList);
         }
-        public IActionResult UsersBookings()
+        public async Task<IActionResult> UsersBookings()
         {
-            var BookingList = _context.ReservedListModels.Include(r => r.Machine);
+            var BookingList = await _dataAccess.ReservedList.GetReservedBookingList();
             List<BookingListViewModel> modelList = new List<BookingListViewModel>();
 
             foreach (var booking in BookingList)

@@ -32,5 +32,16 @@ namespace LaundryTime.Data.Repositories
         {
             return context.BookingListModels.Any();
         }
+
+        public async Task<List<BookingListModel>> GetBookingList()
+        {
+            return await context.BookingListModels.Include(b => b.Machine).ToListAsync();
+        }
+
+        public async Task<BookingListModel> GetBookingListOrder(int id)
+        {
+            return await context.BookingListModels.FirstOrDefaultAsync(b => b.Id == id);
+        }
+
     }
 }
