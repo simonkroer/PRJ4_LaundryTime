@@ -1,5 +1,6 @@
 ﻿using LaundryTime.Data.Models.Booking;
 using LaundryTime.Data.Repositories.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,22 @@ namespace LaundryTime.Data.Repositories
         public void AddSingleReservation(ReservedListModel modelToAdd)
         {
             context.ReservedListModels.AddAsync(modelToAdd);
+        }
+
+        public async Task<ReservedListModel> GetUnBookOrder(long? id)
+        {
+            return await context.ReservedListModels.Include(b => b.Machine).FirstOrDefaultAsync(r => r.Id == id);
+
+        }
+
+        public void RemoveBooking(ReservedListModel bookingToRemove)
+        {
+            context.Remove(bookingToRemove);
+        }
+
+        public async Task<List<ReservedListModel>> GetReservedBookingList()
+        {
+            return await context.ReservedListModels.Include(r => r.Machine).ToListAsync();
         }
     }
 }

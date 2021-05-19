@@ -9,5 +9,9 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
     public interface IReservedListRepository: IRepository<ReservedListModel>
     {
         void AddSingleReservation(ReservedListModel modelToAdd);
+
+        Task<ReservedListModel> GetUnBookOrder(long? id);
+        void RemoveBooking(ReservedListModel bookingToRemove);
+        Task<List<ReservedListModel>> GetReservedBookingList();
     }
 }
