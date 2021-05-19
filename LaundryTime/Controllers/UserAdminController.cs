@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using LaundryTime.Data;
 using LaundryTime.Data.Models;
 using LaundryTime.Utilities;
+using LaundryTime.Utilities.SignalRHubs;
 using LaundryTime.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
@@ -31,13 +33,15 @@ namespace LaundryTime.Controllers
         private IDataAccessAction _dataAccess;
         public UserAdminViewModel _userAdminViewModel;
         protected IReportGenerator _reportGenerator;
+        private IHubContext<MachineHub> _machineHub;
 
-        public UserAdminController(ApplicationDbContext context)
+        public UserAdminController(ApplicationDbContext context, IHubContext<MachineHub> hub)
         {
             _context = context;
             _dataAccess = new DataAccsessAction(context);
             _userAdminViewModel = new UserAdminViewModel();
             _reportGenerator = new ReportGenerator();
+            _machineHub = hub;
         }
         
         public IActionResult Index()
@@ -337,6 +341,20 @@ namespace LaundryTime.Controllers
 
             return Unauthorized();
 
+        }
+
+        //SignalR Machine controle
+        [HttpPost("ReceiveMachineUpdate")]
+        [Route("{status:bool}/{machineId:int}")]
+        public async void ReceiveMachineUpdate(bool status, int machineId)
+        {
+            StringBuilder tekst = new StringBuilder();
+            tekst.Append($"{status},{machineId}");
+
+            JsonSerializer seri = new JsonSerializer();
+            var jsonmsg = JsonConvert.SerializeObject(tekst);
+
+            await _machineHub.Clients.All.SendAsync(jsonmsg);
         }
     }
 }
