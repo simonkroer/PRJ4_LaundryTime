@@ -56,7 +56,7 @@ namespace LaundryTime.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MyUsers(string nameinput)
+        public async Task<IActionResult> MyUsers(string sortDate, string nameinput)
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
@@ -68,20 +68,35 @@ namespace LaundryTime.Controllers
                 {
                     _userAdminViewModel.MyUsers = _userAdminViewModel.MyUsers.Where(s => s.Name.Contains(nameinput)).ToList();
                 }
+                if(sortDate == "sort")
+                {
+                    _userAdminViewModel.MyUsers.Sort((res1, res2) => res1.PaymentDueDate.CompareTo(res2.PaymentDueDate));
+                }
+                else
+                {
+                    _userAdminViewModel.MyUsers.Sort((res1, res2) => String.Compare(res1.Name, res2.Name, StringComparison.Ordinal));
+                }
 
-                _userAdminViewModel.MyUsers.Sort((res1, res2) => String.Compare(res1.Name, res2.Name, StringComparison.Ordinal));
-                
-                
                 return View(_userAdminViewModel);
             }
 
             return Unauthorized();
             
         }
+
+        public IActionResult SortDate()
+        {
+            return RedirectToAction(nameof(MyUsers), new { sortDate = "sort" });
+        }
+
+        public IActionResult SortName()
+        {
+            return RedirectToAction(nameof(MyUsers), new { sortDate = "" });
+        }
         
         public IActionResult SearchUser(string nameinput)
         {
-            return RedirectToAction(nameof(MyUsers), new{nameinput = nameinput});
+            return RedirectToAction(nameof(MyUsers), new{nameinput = nameinput, sortDate=""});
         }
 
         [HttpGet("MyUsersReport")]

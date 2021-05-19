@@ -35,29 +35,30 @@
                 <input type="submit" class="btn btnColor raise "/>
             }
         </div>
-
+        <br />
     </div>
-    <br/><br/>
+        <p class="noShow">Hover over "Name" or "Payment due date" for sorting </p>
+
     <div>
         <table class="mytable table-striped" id="sortingID">
             <thead class="headColor">
             <tr >
-                <th onclick="sortTable(0)">
+                <th onclick="location.href = '@Url.Action("SortName", "UserAdmin")'" data-toggle="tooltip" data-placement="top" title="Press for name sorting, A-Z">
                     Name
                 </th>
-                <th onclick="sortTable(1)">
+                <th >
                     Phone
                 </th>
-                <th onclick="sortTable(2)">
+                <th >
                     Email
                 </th>
-                <th onclick="sortTable(3)">
+                <th >
                     Address
                 </th>
-                <th onclick="sortTable(4)">
+                <th >
                     Paymentmethod
                 </th>
-                <th onclick="sortTable(5)">
+                <th onclick="location.href = '@Url.Action("SortDate", "UserAdmin")'" data-toggle="tooltip" data-placement="top" title="Press for date sorting">
                     Payment due date
                 </th>
                 <th >

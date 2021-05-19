@@ -24,6 +24,7 @@ namespace LaundryTime.ViewModels
 
         [BindProperty]
         public LaundryUser CurrentLaundryUser { get; set; }
+        public bool SortDate { get; set; }
         
     }
 }
