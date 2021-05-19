@@ -86,6 +86,15 @@ namespace LaundryTime.Controllers
                 };
                 _context.ReservedListModels.Add(reservedBookings);
                 bookingOrder.Status = false;
+                var LUser = User.Identity.Name;
+                var tempUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
+                var laundryLog = new LaundryLog()
+                {
+                    LaundryUser = tempUser,
+                    LogDate = DateTime.Now,
+                    LogInfo = $"Booked machine {reservedBookings.Machine.MachineId} of the type {reservedBookings.Machine.Type}"
+                };
+                _context.LaundryLogs.Add(laundryLog);
                 _context.SaveChanges();
             }
 
