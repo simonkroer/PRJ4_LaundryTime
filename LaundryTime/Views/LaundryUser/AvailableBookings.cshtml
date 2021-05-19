@@ -17,7 +17,6 @@
     <div style="width:70%; margin-left:15%">
         <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png" />
         <h1>@ViewData["Title"]</h1>
-
         @* Remove style for final version *@
         <table class="table table-striped">
             <thead>
@@ -44,7 +43,7 @@
                             @Html.DisplayFor(modelItem => item.MachineName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Date.Date)
+                            @Html.DisplayFor(modelItem => item.Date)
                         </td>
                         <td>
                             <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book now</a>
