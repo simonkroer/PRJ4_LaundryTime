@@ -23,11 +23,14 @@ namespace LaundryTime.Xunit.Test
     {
         protected ApplicationDbContext _context { get; set; }
         protected UserAdminController _uut;
+        private IDataAccessAction _dataAccess;
 
         public UserAdminControllerTest()
         {
             _context = new ApplicationDbContext(
                 new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CreateInMemoryDatabase()).Options);
+
+            //_dataAccess = Substitute.For<DataAccsessAction>(_context);
 
             Seed();
 
@@ -49,8 +52,8 @@ namespace LaundryTime.Xunit.Test
             };
 
             var res1 = _uut.MyUsers("", "");
-
-            var viewResult = Assert.IsType<Task<IActionResult>>(res1);
+            
+            Assert.IsType<Task<IActionResult>>(res1);
 
             Dispose();
         }
@@ -92,7 +95,7 @@ namespace LaundryTime.Xunit.Test
 
             var res1 = _uut.MyUsers("", "");
 
-            var viewResult = Assert.IsType<Task<IActionResult>>(res1);
+            Assert.IsType<Task<IActionResult>>(res1);
             
             Dispose();
         }
