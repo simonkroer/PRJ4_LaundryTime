@@ -92,10 +92,10 @@ namespace LaundryTime.Controllers
                 {
                     LaundryUser = tempUser,
                     LogDate = DateTime.Now,
-                    LogInfo = $"Booked machine {reservedBookings.Machine.MachineId} of the type {reservedBookings.Machine.Type}"
+                    LogInfo = $"Booked machine {reservedBookings.Machine.MachineId} of the type {reservedBookings.Machine.Type} for {reservedBookings.Date} at {reservedBookings.Time}"
                 };
-                _context.LaundryLogs.Add(laundryLog);
-                _context.SaveChanges();
+                _dataAccess.LaundryLogs.AddLaundryLog(laundryLog);
+                _dataAccess.Complete();
             }
 
             var BookingList = _context.BookingListModels.Include(b => b.Machine);
@@ -128,6 +128,7 @@ namespace LaundryTime.Controllers
         {
             var unBookOrder = _context.ReservedListModels.FirstOrDefault(r => r.Id == id);
             var bookingOrder = _context.BookingListModels.FirstOrDefault(b => b.Id == unBookOrder.OldId);
+
             if (bookingOrder == null || unBookOrder == null)
             {
                 return NotFound();
@@ -136,7 +137,15 @@ namespace LaundryTime.Controllers
             {
                 bookingOrder.Status = true;
                 _context.Remove(unBookOrder);
-                _context.SaveChanges();
+
+                var LUser = User.Identity.Name;
+                var tempUserUn = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
+                var laundryLogUn = new LaundryLog();
+                laundryLogUn.LaundryUser = tempUserUn;
+                laundryLogUn.LogDate = DateTime.Now;
+                laundryLogUn.LogInfo = ($"Unbooked machine");
+                _dataAccess.LaundryLogs.AddLaundryLog(laundryLogUn);
+                _dataAccess.Complete();
             }
 
             var BookingList = _context.ReservedListModels.Include(r => r.Machine);
