@@ -27,7 +27,7 @@ using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace LaundryTime.Controllers
 {
-    public class UserAdminController : Controller //controller base??
+    public class UserAdminController : Controller 
     {
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;

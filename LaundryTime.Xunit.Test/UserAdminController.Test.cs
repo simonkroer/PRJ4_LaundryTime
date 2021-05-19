@@ -7,10 +7,13 @@ using LaundryTime.Controllers;
 using LaundryTime.Data;
 using LaundryTime.Data.Models;
 using LaundryTime.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Xunit;
 
@@ -19,43 +22,63 @@ namespace LaundryTime.Xunit.Test
     public class UserAdminControllerTest
     {
         protected ApplicationDbContext _context { get; set; }
-        protected UserAdminController _userAdminController;
-        private IDataAccessAction _dataAccessfake;
-        public UserAdminViewModel _userAdminViewModelfake;
-        public static UserManager<ApplicationUser> _userManager { get; set; }
+        protected UserAdminController _uut;
 
         public UserAdminControllerTest()
         {
+            _context = new ApplicationDbContext(
+                new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CreateInMemoryDatabase()).Options);
 
+            Seed();
+
+            _uut = new UserAdminController(_context);
         }
 
 
-        //[Fact]
-        //public async Task MyUsers_Expected()
-        //{
-        //    //Arrange:
-        //    _context = new ApplicationDbContext(
-        //        new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CreateInMemoryDatabase()).Options);
-        //    Seed();
-        //    _dataAccessfake = Substitute.For<DataAccsessAction>(_context);
-        //    _userAdminViewModelfake = Substitute.For<UserAdminViewModel>();
-        //    _userAdminController = new UserAdminController(_context);
-        //    var _usermanagerfake = Substitute.For<UserManager<ApplicationUser>>();
-        //    UserAdmin user = await _context.UserAdmins.SingleOrDefaultAsync(); //Get user
+        [Fact]
+        public async Task MyUsers_ExpectedTaskIActionResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
 
-        //    //Login
+            var res1 = _uut.MyUsers("", "");
 
-        //    //Act:
-        //    var res = await _userAdminController.MyUsers();
+            var viewResult = Assert.IsType<Task<IActionResult>>(res1);
+            
+            Dispose();
+        }
 
-        //    //Assert:
-        //    //var viewres = Assert.IsType<ViewResult>(res);
+        [Fact]
+        public async Task MyUsers_ExpectedViewNameCorrect()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
 
-        //    Dispose();
-        //}
+            var res = await _uut.MyUsers("", "") as ViewResult;
+            var viewname = res.ViewName;
+            
+            Assert.True(string.IsNullOrEmpty(viewname) || viewname == "MyUsers");
+            Dispose();
+        }
 
         #region Setup Methods
-        static DbConnection CreateInMemoryDatabase()
+            static DbConnection CreateInMemoryDatabase()
         {
             var connection = new SqliteConnection("Filename=:memory:");//Fake db
             connection.Open();
@@ -110,6 +133,8 @@ namespace LaundryTime.Xunit.Test
                 Email = "test@test.dk",
                 EmailConfirmed = true
             };
+
+            _context.UserAdmins.Add(admin1);
 
             _context.SaveChanges();
 
