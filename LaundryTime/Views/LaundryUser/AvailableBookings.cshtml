@@ -25,6 +25,7 @@
                     <th>Time:</th>
                     <th>Type:</th>
                     <th>Number:</th>
+                    <th>Date:</th>
                     <th>Book now:</th>
                 </tr>
             </thead>
@@ -43,6 +44,9 @@
                             @Html.DisplayFor(modelItem => item.MachineName)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.Date.Date)
+                        </td>
+                        <td>
                             <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book now</a>
                         </td>
                     </tr>
@@ -50,5 +54,8 @@
                 }
             </tbody>
         </table>
+        <div class="UserAdminEditUser">
+            <a asp-controller="LaundryUser" asp-action="Index">Back to choose date</a>
+        </div>
     </div>
 </body>

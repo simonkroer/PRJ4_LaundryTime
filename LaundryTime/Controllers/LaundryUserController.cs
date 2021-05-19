@@ -63,7 +63,7 @@ namespace LaundryTime.Controllers
                 }
 
             }
-
+            modelList.Sort((res1, res2) => res1.MachineName.CompareTo(res2.MachineName));
             return View(modelList);
         }
 
