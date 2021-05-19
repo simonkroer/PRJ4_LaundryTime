@@ -45,6 +45,8 @@ namespace LaundryTime.Controllers
                 bs.CreateNewBookList(_context, datemodel);
                 
             }
+            bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
+
             List<BookingListViewModel> modelList = new List<BookingListViewModel>();
 
             foreach (var booking in bookingList)

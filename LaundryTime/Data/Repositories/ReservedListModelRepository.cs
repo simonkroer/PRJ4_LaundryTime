@@ -17,7 +17,7 @@ namespace LaundryTime.Data.Repositories
 
         public void AddSingleReservation(ReservedListModel modelToAdd)
         {
-            context.ReservedListModels.Add(modelToAdd);
+            context.ReservedListModels.AddAsync(modelToAdd);
         }
     }
 }
