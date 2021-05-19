@@ -34,18 +34,17 @@ namespace LaundryTime.Controllers
             return View(dp);
         }
 
-        public IActionResult AvailableBookings(DateViewModel obj)
+        public async Task<IActionResult> AvailableBookings(DateViewModel obj)
         {
             //obj.Datedata = DateTime.Parse("22-04-2021");
-            var bookingList = _context.BookingListModels.Where(b => b.Date.Date == obj.Datedata.Date).Include(b => b.Machine);
-            if (bookingList.Any() == false)
+            var bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
+            if (_dataAccess.BookingList.BookingListExsits())
             {
                 BookingSeeder bs = new BookingSeeder();
                 var datemodel = bs.CreateDateModel(_context, obj.Datedata.Date.ToString());
                 bs.CreateNewBookList(_context, datemodel);
                 
             }
-            bookingList = _context.BookingListModels.Where(b => b.Date.Date == obj.Datedata.Date).Include(b => b.Machine);
             List<BookingListViewModel> modelList = new List<BookingListViewModel>();
 
             foreach (var booking in bookingList)
@@ -67,9 +66,9 @@ namespace LaundryTime.Controllers
             return View(modelList);
         }
 
-        public IActionResult Book(long? id)
+        public async Task<IActionResult> Book(long? id)
         {
-            var bookingOrder = _context.BookingListModels.Include(b => b.Machine).FirstOrDefault(b => b.Id == id);
+            var bookingOrder = await _dataAccess.BookingList.SingleBook(id);
             if (bookingOrder == null)
             {
                 return NotFound();
@@ -84,7 +83,8 @@ namespace LaundryTime.Controllers
                     OldId = bookingOrder.Id,
                     Name = User.Identity.Name
                 };
-                _context.ReservedListModels.Add(reservedBookings);
+                //_context.ReservedListModels.Add(reservedBookings);
+                _dataAccess.ReservedList.AddSingleReservation(reservedBookings);
                 bookingOrder.Status = false;
                 var LUser = User.Identity.Name;
                 var tempUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);

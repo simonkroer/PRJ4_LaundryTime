@@ -24,6 +24,8 @@ namespace LaundryTime.Data
 
         public ILaundryLogRepository LaundryLogs { get; private set; }
 
+        public IReservedListRepository ReservedList { get; private set; }
+
         public DataAccsessAction(ApplicationDbContext context)
         {
             _context = context;
@@ -34,6 +36,7 @@ namespace LaundryTime.Data
             SystemAdmins = new SystemAdminRepository(_context);
             BookingList = new BookingListRepository(_context);
             LaundryLogs = new LaundryLogRepository(_context);
+            ReservedList = new ReservedListModelRepository(_context);
         }
         public int Complete()
         {
