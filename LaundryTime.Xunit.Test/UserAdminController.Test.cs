@@ -33,10 +33,51 @@ namespace LaundryTime.Xunit.Test
 
             _uut = new UserAdminController(_context);
         }
+        //=======================================================   Index() ============================================================================
+        [Fact]
+        public void Index_ExpectedTaskIActionResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
 
+            var res1 = _uut.MyUsers("", "");
+
+            var viewResult = Assert.IsType<Task<IActionResult>>(res1);
+
+            Dispose();
+        }
 
         [Fact]
-        public async Task MyUsers_ExpectedTaskIActionResult()
+        public async Task Index_ExpectedViewNameCorrect()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = await _uut.MyUsers("", "") as ViewResult;
+            var viewname = res.ViewName;
+
+            Assert.True(string.IsNullOrEmpty(viewname) || viewname == "Index");
+            Dispose();
+        }
+        //=======================================================   MyUsers() ============================================================================
+        [Fact]
+        public void MyUsers_ExpectedTaskIActionResult()
         {
             _uut.ControllerContext = new ControllerContext
             {
