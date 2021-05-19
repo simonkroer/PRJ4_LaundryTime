@@ -51,7 +51,7 @@ namespace LaundryTime.Controllers
 
             foreach (var booking in bookingList)
             {
-                if (booking.Status == true)
+                if (booking.Status)
                 {
                     BookingListViewModel model = new BookingListViewModel();
                     model.BookingID = booking.Id;
