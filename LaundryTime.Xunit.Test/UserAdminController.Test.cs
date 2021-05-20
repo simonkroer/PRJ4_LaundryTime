@@ -31,7 +31,7 @@ namespace LaundryTime.Xunit.Test
             _context = new ApplicationDbContext(
                 new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CreateInMemoryDatabase()).Options);
 
-            //Seed();
+            Seed();
 
             _uut = new UserAdminController(_context);
             
@@ -57,7 +57,7 @@ namespace LaundryTime.Xunit.Test
             var res = _uut.Index();
 
             Assert.IsType<Task<IActionResult>>(res);
-            //Dispose();
+            Dispose();
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace LaundryTime.Xunit.Test
             Assert.True(string.IsNullOrEmpty(viewname) || viewname == "Index");
             Assert.NotNull(temp);
 
-            //Dispose();
+            Dispose();
         }
 
         [Fact]
@@ -101,7 +101,7 @@ namespace LaundryTime.Xunit.Test
             var res = _uut.Index();
 
             Assert.IsType<UnauthorizedResult>(res);
-            //Dispose();
+            Dispose();
         }
         //=======================================================   MyUsers() ============================================================================
         [Fact]
@@ -122,7 +122,7 @@ namespace LaundryTime.Xunit.Test
 
             Assert.IsType<Task<IActionResult>>(res);
             
-            //Dispose();
+            Dispose();
         }
 
         [Fact]
@@ -146,7 +146,7 @@ namespace LaundryTime.Xunit.Test
             Assert.True(string.IsNullOrEmpty(viewname) || viewname == "MyUsers");
             Assert.NotNull(temp);
 
-            //Dispose();
+            Dispose();
         }
 
         [Fact]
@@ -166,7 +166,7 @@ namespace LaundryTime.Xunit.Test
             var res = _uut.MyUsers("", "");
 
             Assert.IsType<UnauthorizedResult>(res.Result);
-            //Dispose();
+            Dispose();
         }
 
         //=======================================================   SortDate  ============================================================================
@@ -190,7 +190,7 @@ namespace LaundryTime.Xunit.Test
             Assert.NotNull(res);
             Assert.Equal("MyUsers",res.ActionName);
             Assert.Equal("sort",res.RouteValues.Values.First());
-            //Dispose();
+            Dispose();
         }
 
         #region Setup Methods
