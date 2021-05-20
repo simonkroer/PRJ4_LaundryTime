@@ -208,6 +208,7 @@ namespace LaundryTime.Controllers
                 msg.LaundryUser = tempUser;
                 msg.SendDate = DateTime.Now;
                 msg.MessageInfo = message;
+                msg.isRead = false;
                 if (!ModelState.IsValid)
                 {
                     return NotFound();

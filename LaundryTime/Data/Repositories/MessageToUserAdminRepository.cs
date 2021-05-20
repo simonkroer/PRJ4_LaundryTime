@@ -1,5 +1,6 @@
 ﻿using LaundryTime.Data.Models;
 using LaundryTime.Data.Repositories.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,10 @@ namespace LaundryTime.Data.Repositories
         }
         public MessageToUserAdminRepository(ApplicationDbContext context) : base(context) { }
 
-        public List<MessageToUserAdmin> GetAllMessages(string userName)
+
+        public List<MessageToUserAdmin> GetAllMessages()
         {
-            return context.MessageList.ToList();
+            return context.MessageList.Include(u => u.LaundryUser).ToList();
         }
 
         public MessageToUserAdmin GetSingleMessage(int id)

@@ -369,5 +369,16 @@ namespace LaundryTime.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult GetMessages()
+        {
+            if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                _userAdminViewModel.MyMessages = _dataAccess.MessageList.GetAllMessages();
+                return View(_userAdminViewModel);
+            }
+            return Unauthorized();
+        }
+
     }
 }

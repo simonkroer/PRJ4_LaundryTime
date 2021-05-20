@@ -15,5 +15,6 @@ namespace LaundryTime.Data.Models
         public string MessageInfo { get; set; }
         [ForeignKey("LaundryUserId")]
         public LaundryUser LaundryUser { get; set; }
+        public bool isRead { get; set; }
     }
 }

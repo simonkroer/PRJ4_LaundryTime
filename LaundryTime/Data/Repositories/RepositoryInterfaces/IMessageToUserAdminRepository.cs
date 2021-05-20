@@ -8,7 +8,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
 {
     public interface IMessageToUserAdminRepository: IRepository<MessageToUserAdmin>
     {
-        List<MessageToUserAdmin> GetAllMessages(string userName);
+        List<MessageToUserAdmin> GetAllMessages();
         MessageToUserAdmin GetSingleMessage(int id);
         void SendMessage(MessageToUserAdmin message);
     }
