@@ -18,5 +18,6 @@ namespace LaundryTime.Data.Models.Booking
         public DateTime Date { get; set; }
         public DateModel DateModel { get; set; }
 
+
     }
 }

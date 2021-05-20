@@ -14,45 +14,616 @@
 </head>
 
 <body>
-    <div style="width:70%; margin-left:15%">
+    <div style="width:95%;">
         <img class="rounded float-right" style="max-width: 120px;" src="~/Images/logo.png" />
         <h1>@ViewData["Title"]</h1>
+        
         @* Remove style for final version *@
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Time:</th>
-                    <th>Type:</th>
-                    <th>Number:</th>
-                    <th>Date:</th>
-                    <th>Book now:</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Time)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MachineType)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MachineName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Date)
-                        </td>
-                        <td>
-                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book now</a>
-                        </td>
-                    </tr>
-
-                }
-            </tbody>
+        <table class="table">
+            <tr>
+                <td>
+                    <h6>Available machines at 8-9</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 9-10</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 10-11</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 11-12</h6>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "8-9")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "9-10")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "10-11")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "11-12")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h6>Available machines at 12-13</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 13-14</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 14-15</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 15-16</h6>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "12-13")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "13-14")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "14-15")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "15-16")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h6>Available machines at 16-17</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 17-18</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 18-19</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 19-20</h6>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "16-17")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "17-18")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "18-19")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "19-20")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h6>Available machines at 20-21</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 21-22</h6>
+                </td>
+                <td>
+                    <h6>Available machines at 22-23</h6>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "20-21")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "21-22")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Type
+                                </td>
+                                <td>
+                                    Number
+                                </td>
+                                <td>
+                                    Book
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Time == "22-23")
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MachineName)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Book" class="raise btn btnColor" asp-route-id="@item.BookingID">Book</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
         </table>
+        
+                
         <div class="UserAdminEditUser">
             <a asp-controller="LaundryUser" asp-action="Index">Back to choose date</a>
         </div>

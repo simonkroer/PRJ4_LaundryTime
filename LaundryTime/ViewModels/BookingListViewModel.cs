@@ -15,6 +15,8 @@ namespace LaundryTime.ViewModels
         public DateTime Date { get; set; }
         public int MachineName { get; set; }
         public string MachineType { get; set; }
+        public string Interval { get; set; }
+
 
     }
 }

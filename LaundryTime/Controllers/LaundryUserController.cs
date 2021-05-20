@@ -38,7 +38,7 @@ namespace LaundryTime.Controllers
         {
             //obj.Datedata = DateTime.Parse("22-04-2021");
             var bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
-            if (!_dataAccess.BookingList.BookingListExsits())
+            if (bookingList.Count == 0)
             {
                 BookingSeeder bs = new BookingSeeder();
                 var datemodel = bs.CreateDateModel(_context, obj.Datedata.Date.ToString());
