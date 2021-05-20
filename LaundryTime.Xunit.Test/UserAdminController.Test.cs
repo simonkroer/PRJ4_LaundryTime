@@ -396,6 +396,12 @@ namespace LaundryTime.Xunit.Test
 
         #endregion
 
+        #region EditUser
+
+        
+
+        #endregion
+
         #region Setup Methods
         static DbConnection CreateInMemoryDatabase()
         {
