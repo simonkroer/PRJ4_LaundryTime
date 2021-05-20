@@ -576,11 +576,11 @@ namespace LaundryTime.Xunit.Test
             _uut._userAdminViewModel.CurrentLaundryUser = _context.LaundryUsers.SingleOrDefault(d => d.UserName == "testusername1");
             _uut.TempData = new TempDataDictionary(new DefaultHttpContext(), Substitute.For<ITempDataProvider>());
 
-            var res = _uut.ToggleBlockUser(_uut._userAdminViewModel);
+            var res = _uut.ToggleBlockUser(_uut._userAdminViewModel) as RedirectToActionResult;
 
             Assert.NotNull(res);
             Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
-            Assert.IsType<RedirectToActionResult>(res);
+            Assert.Equal("EditUser", res.ActionName);
 
             Dispose();
         }
@@ -820,7 +820,7 @@ namespace LaundryTime.Xunit.Test
 
         #region DeleteMachines
         [Fact]
-        public void DeleteMachines_AuthorizedUser_ExpectedViewResult_NewMachine()
+        public void DeleteMachines_AuthorizedUser_ExpectedRedirect_NotNull()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -834,17 +834,17 @@ namespace LaundryTime.Xunit.Test
             };
             _uut._userAdminViewModel.CurrentLaundryUser = _context.LaundryUsers.SingleOrDefault(d => d.UserName == "testusername1");
 
-            var res = _uut.DeleteMachines("1");
+            var res = _uut.DeleteMachines("1") as RedirectToActionResult;
 
             Assert.NotNull(res);
             Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
-            Assert.IsType<RedirectToActionResult>(res);
+            Assert.Equal("IndexMachines", res.ActionName);
 
             Dispose();
         }
 
         [Fact]
-        public void DeleteMachines_AuthorizedUser_Expected_ViewNameCorrect()
+        public void DeleteMachines_NotAuthorizedUser_Expected_UnAuthorized()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -858,6 +858,78 @@ namespace LaundryTime.Xunit.Test
             };
 
             var res = _uut.DeleteMachines("1");
+
+            Assert.NotNull(res);
+            Assert.IsType<UnauthorizedResult>(res);
+
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region GetMessages
+        [Fact]
+        public void GetMessages_AuthorizedUser_ExpectedViewResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+            _uut._userAdminViewModel.CurrentLaundryUser = _context.LaundryUsers.SingleOrDefault(d => d.UserName == "testusername1");
+
+            var res = _uut.GetMessages();
+
+            Assert.NotNull(res);
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+            Assert.IsType<ViewResult>(res);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void GetMessages_AuthorizedUser_Expected_ModelNotNUll()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+            _uut._userAdminViewModel.CurrentLaundryUser = _context.LaundryUsers.SingleOrDefault(d => d.UserName == "testusername1");
+
+            var res = _uut.GetMessages() as ViewResult;
+
+            Assert.NotNull(res.Model);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void GetMessages_NotAuthorizedUser_Expected_Unauthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.GetMessages();
 
             Assert.NotNull(res);
             Assert.IsType<UnauthorizedResult>(res);
@@ -931,6 +1003,17 @@ namespace LaundryTime.Xunit.Test
 
             _context.UserAdmins.Add(admin1);
 
+            _context.SaveChanges();
+
+            var message = new MessageToUserAdmin()
+            {
+                isRead = false,
+                LaundryUser = user1,
+                MessageInfo = "Test",
+                SendDate = DateTime.Now
+            };
+
+            _context.MessageList.Add(message);
             _context.SaveChanges();
 
         }
