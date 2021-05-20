@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LaundryTime.Controllers;
@@ -36,9 +38,10 @@ namespace LaundryTime.Xunit.Test
             
             _uut._userAdminViewModel = Substitute.For<UserAdminViewModel>();
         }
-        //=======================================================   Index() ============================================================================
+
+        #region Index
         [Fact]
-        public void Index_ExpectedTaskIActionResult()
+        public void Index_AuthorizedUser_ExpectedIActionResult()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -51,14 +54,14 @@ namespace LaundryTime.Xunit.Test
                 }
             };
 
-            var res = _uut.MyUsers("", "");
+            var res = _uut.Index();
 
             Assert.IsType<Task<IActionResult>>(res);
             Dispose();
         }
 
         [Fact]
-        public async Task Index_ExpectedViewNameCorrect()
+        public void Index_AuthorizedUser_Expected_ViewNameCorrect_ModelNotNull()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -71,15 +74,42 @@ namespace LaundryTime.Xunit.Test
                 }
             };
 
-            var res = await _uut.MyUsers("", "") as ViewResult;
+            var res = _uut.Index() as ViewResult;
             var viewname = res.ViewName;
+            var temp = res.Model;
 
             Assert.True(string.IsNullOrEmpty(viewname) || viewname == "Index");
+            Assert.NotNull(temp);
+
             Dispose();
         }
-        //=======================================================   MyUsers() ============================================================================
+
         [Fact]
-        public void MyUsers_ExpectedTaskIActionResult()
+        public void Index_NotAuthorizedUser_Expected_Unauthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.Index();
+
+            Assert.IsType<UnauthorizedResult>(res);
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region MyUsers
+        [Fact]
+        public void MyUsers_AuthorizedUser_ExpectedTaskIActionResult()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -95,12 +125,13 @@ namespace LaundryTime.Xunit.Test
             var res = _uut.MyUsers("", "");
 
             Assert.IsType<Task<IActionResult>>(res);
-            
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
             Dispose();
         }
 
         [Fact]
-        public async Task MyUsers_ExpectedViewNameCorrect()
+        public async Task MyUsers_AuthorizedUser_ExpectedViewNameCorrect_ModelNotNull()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -115,13 +146,264 @@ namespace LaundryTime.Xunit.Test
 
             var res = await _uut.MyUsers("", "") as ViewResult;
             var viewname = res.ViewName;
-            
+            var temp = res.Model;
+
             Assert.True(string.IsNullOrEmpty(viewname) || viewname == "MyUsers");
+            Assert.NotNull(temp);
+
             Dispose();
         }
 
+        [Fact]
+        public void MyUsers_NotAuthorizedUser_Expected_Unauthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.MyUsers("", "");
+
+            Assert.IsType<UnauthorizedResult>(res.Result);
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region SortDate
+        [Fact]
+        public void SortDate_AuthorizedUser_ExpectedRedirectToAction()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = _uut.SortDate() as RedirectToActionResult;
+
+            Assert.NotNull(res);
+            Assert.Equal("MyUsers", res.ActionName);
+            Assert.Equal("sort", res.RouteValues.Values.First());
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region SortName
+        [Fact]
+        public void SortName_AuthorizedUser_ExpectedRedirectToAction()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = _uut.SortName() as RedirectToActionResult;
+
+            Assert.NotNull(res);
+            Assert.Equal("MyUsers", res.ActionName);
+            Assert.Equal("", res.RouteValues.Values.First());
+            Dispose();
+        }
+        #endregion
+
+        #region SearchUser
+        [Fact]
+        public void SearchUser_AuthorizedUser_ExpectedRedirectToAction()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = _uut.SearchUser("user") as RedirectToActionResult;
+
+            Assert.NotNull(res);
+            Assert.Equal("MyUsers", res.ActionName);
+            Assert.Equal("user", res.RouteValues.Values.First());
+            Assert.Equal("", res.RouteValues.Values.ElementAt(1));
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region GenerateMyUsersReport
+        [Fact]
+        public async Task GenerateMyUsersReport_AuthorizedUser_ExpectedFilestreamResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = await _uut.GenerateMyUsersReport();
+
+            Assert.IsType<FileStreamResult>(res);
+            Assert.Equal((int) HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void GenerateMyUsersReport_NotAuthorizedUser_ExpectedNotAuthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.GenerateMyUsersReport();
+
+            Assert.IsType<UnauthorizedResult>(res.Result);
+
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region GenerateMyMachinesReport
+        [Fact]
+        public async Task GenerateMyMachinesReport_AuthorizedUser_ExpectedFilestreamResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = await _uut.GenerateMyMachinesReport();
+
+            Assert.IsType<FileStreamResult>(res);
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void GenerateMyMachinesReport_NotAuthorizedUser_ExpectedUnAuthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.GenerateMyMachinesReport();
+
+            Assert.IsType<UnauthorizedResult>(res.Result);
+
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region DeleteUser
+        [Fact]
+        public void DeleteUser_AuthorizedUser_ExpectedRedirectToAction()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = _uut.DeleteUser("testusername1") as RedirectToActionResult;
+
+            Assert.NotNull(res);
+            Assert.Equal("MyUsers", res.ActionName);
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void DeleteUser_NotAuthorizedUser_ExpectedUnAuthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.DeleteUser("testusername2");
+
+            Assert.IsType<UnauthorizedResult>(res);
+
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region EditUser
+
+        
+
+        #endregion
+
         #region Setup Methods
-            static DbConnection CreateInMemoryDatabase()
+        static DbConnection CreateInMemoryDatabase()
         {
             var connection = new SqliteConnection("Filename=:memory:");//Fake db
             connection.Open();
@@ -139,7 +421,8 @@ namespace LaundryTime.Xunit.Test
                 Address = new Address() { Country = "Denmark", StreetAddress = "Testvej 1", Zipcode = "8700" },
                 ActiveUser = true,
                 FinancialBalance = 1200,
-                PaymentDueDate = new DateTime(2021 - 10 - 08)
+                PaymentDueDate = new DateTime(2021 - 10 - 08),
+                UserName = "testusername1"
             };
             var user2 = new LaundryUser()
             {
@@ -148,7 +431,8 @@ namespace LaundryTime.Xunit.Test
                 Address = new Address() { Country = "Denmark", StreetAddress = "Testvej 1", Zipcode = "8700" },
                 ActiveUser = true,
                 FinancialBalance = 1200,
-                PaymentDueDate = new DateTime(2021 - 10 - 08)
+                PaymentDueDate = new DateTime(2021 - 10 - 08),
+                UserName = "testusername2"
             };
 
             var machine1 = new Machine()

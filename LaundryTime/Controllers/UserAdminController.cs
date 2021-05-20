@@ -41,7 +41,8 @@ namespace LaundryTime.Controllers
             _userAdminViewModel = new UserAdminViewModel();
             _reportGenerator = new ReportGenerator();
         }
-        
+
+        [RequireHttps]
         public IActionResult Index()
         {
             if (User.HasClaim("UserAdmin", "IsUserAdmin"))
@@ -56,7 +57,7 @@ namespace LaundryTime.Controllers
             return Unauthorized();
             
         }
-
+        [RequireHttps]
         [HttpGet]
         public async Task<IActionResult> MyUsers(string sortDate, string nameinput)
         {
@@ -86,21 +87,25 @@ namespace LaundryTime.Controllers
             
         }
 
+        [RequireHttps]
         public IActionResult SortDate()
         {
             return RedirectToAction(nameof(MyUsers), new { sortDate = "sort" });
         }
 
+        [RequireHttps]
         public IActionResult SortName()
         {
             return RedirectToAction(nameof(MyUsers), new { sortDate = "" });
         }
-        
+
+        [RequireHttps]
         public IActionResult SearchUser(string nameinput)
         {
             return RedirectToAction(nameof(MyUsers), new{nameinput = nameinput, sortDate=""});
         }
 
+        [RequireHttps]
         [HttpGet("MyUsersReport")]
         public  async Task<IActionResult> GenerateMyUsersReport()
         {
@@ -116,6 +121,7 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
+        [RequireHttps]
         [HttpGet("MyMachinesReport")]
         public async Task<IActionResult> GenerateMyMachinesReport()
         {
@@ -159,6 +165,7 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
+        [RequireHttps]
         [HttpGet]
         public IActionResult EditUser(string email)
         {
@@ -184,6 +191,7 @@ namespace LaundryTime.Controllers
                 
         }
 
+        [RequireHttps]
         [HttpPost]
         public IActionResult UpdateUser(UserAdminViewModel viewModel)
         {
@@ -235,6 +243,7 @@ namespace LaundryTime.Controllers
 
         }
 
+        [RequireHttps]
         [HttpPost]
         public IActionResult ToggleBlockUser(UserAdminViewModel viewModel)
         {
@@ -279,6 +288,7 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
+        [RequireHttps]
         public IActionResult IndexMachines()
         {
             if (User.HasClaim("UserAdmin", "IsUserAdmin"))
@@ -299,6 +309,7 @@ namespace LaundryTime.Controllers
             
         }
 
+        [RequireHttps]
         [HttpGet]
         public IActionResult AddMachines()
         {
@@ -312,6 +323,7 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
+        [RequireHttps]
         [HttpPost]
         public IActionResult AddMachines(UserAdminViewModel viewModel)
         {
@@ -336,6 +348,7 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
+        [RequireHttps]
         [HttpPost]
         public IActionResult DeleteMachines(string MachineToDel)
         {
