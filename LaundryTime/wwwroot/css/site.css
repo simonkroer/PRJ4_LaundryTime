@@ -256,6 +256,12 @@ li {
     width: 90%;
 }
 
+.textareaMessage {
+    align-content:center;
+    min-width: 400px;
+    min-height: 200px;
+}
+
 .noShow{
 
 }

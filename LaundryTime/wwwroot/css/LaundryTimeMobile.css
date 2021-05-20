@@ -301,6 +301,13 @@ li {
     color: white;
 }
 
+.textareaMessage {
+    align-content: center;
+    min-width: 250px;
+    min-height: 200px;
+}
+
+
 .noShow {
     visibility: hidden !important;
 }

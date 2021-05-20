@@ -193,5 +193,30 @@ namespace LaundryTime.Controllers
             modelList.Sort((res1, res2) => res1.Date.CompareTo(res2.Date));
             return View(modelList);
         }
+        
+        public IActionResult SendMessageToUserAdmin(string message)
+        {
+            if (message == null)
+            {
+                return View();
+            }
+            else
+            {
+                var msg = new MessageToUserAdmin();
+                var LUser = User.Identity.Name;
+                var tempUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
+                msg.LaundryUser = tempUser;
+                msg.SendDate = DateTime.Now;
+                msg.MessageInfo = message;
+                if (!ModelState.IsValid)
+                {
+                    return NotFound();
+                }
+                _dataAccess.MessageList.SendMessage(msg);
+                _dataAccess.Complete();
+
+                return RedirectToAction(nameof(Index));
+            }
+        }
     }
 }

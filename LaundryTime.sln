@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaundryTime.Test.Unit", "La
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaundryTime", "LaundryTime\LaundryTime.csproj", "{8B434052-7E3D-4F17-9D8C-EC10D6DEEB6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaundryTime.Xunit.Test", "LaundryTime.Xunit.Test\LaundryTime.Xunit.Test.csproj", "{A1776DAC-8D5D-4C5C-BA0C-0A9335104493}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaundryTime.Xunit.Test", "LaundryTime.Xunit.Test\LaundryTime.Xunit.Test.csproj", "{A1776DAC-8D5D-4C5C-BA0C-0A9335104493}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
