@@ -37,7 +37,6 @@ namespace LaundryTime.Xunit.Test
             _uut = new UserAdminController(_context);
             
             _uut._userAdminViewModel = Substitute.For<UserAdminViewModel>();
-            
         }
 
         #region Index
@@ -279,28 +278,7 @@ namespace LaundryTime.Xunit.Test
         }
 
         [Fact]
-        public async Task GenerateMyUsersReport_AuthorizedUser_ExpectedFileContentNotNull()
-        {
-            _uut.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext
-                {
-                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("UserAdmin", "IsUserAdmin")
-                    }))
-                }
-            };
-
-            var res = await _uut.GenerateMyUsersReport();
-
-            Assert.IsType<FileStreamResult>(res);
-
-            Dispose();
-        }
-
-        [Fact]
-        public void GenerateMyUsersReport_NotAuthorizedUser_ExpectedDownloadFile()
+        public void GenerateMyUsersReport_NotAuthorizedUser_ExpectedNotAuthorized()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -316,6 +294,101 @@ namespace LaundryTime.Xunit.Test
             var res = _uut.GenerateMyUsersReport();
 
             Assert.IsType<UnauthorizedResult>(res.Result);
+
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region GenerateMyMachinesReport
+        [Fact]
+        public async Task GenerateMyMachinesReport_AuthorizedUser_ExpectedFilestreamResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = await _uut.GenerateMyMachinesReport();
+
+            Assert.IsType<FileStreamResult>(res);
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void GenerateMyMachinesReport_NotAuthorizedUser_ExpectedUnAuthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.GenerateMyMachinesReport();
+
+            Assert.IsType<UnauthorizedResult>(res.Result);
+
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region DeleteUser
+        [Fact]
+        public void DeleteUser_AuthorizedUser_ExpectedRedirectToAction()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = _uut.DeleteUser("testusername1") as RedirectToActionResult;
+
+            Assert.NotNull(res);
+            Assert.Equal("MyUsers", res.ActionName);
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void DeleteUser_NotAuthorizedUser_ExpectedUnAuthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.DeleteUser("testusername2");
+
+            Assert.IsType<UnauthorizedResult>(res);
 
             Dispose();
         }
@@ -342,7 +415,8 @@ namespace LaundryTime.Xunit.Test
                 Address = new Address() { Country = "Denmark", StreetAddress = "Testvej 1", Zipcode = "8700" },
                 ActiveUser = true,
                 FinancialBalance = 1200,
-                PaymentDueDate = new DateTime(2021 - 10 - 08)
+                PaymentDueDate = new DateTime(2021 - 10 - 08),
+                UserName = "testusername1"
             };
             var user2 = new LaundryUser()
             {
@@ -351,7 +425,8 @@ namespace LaundryTime.Xunit.Test
                 Address = new Address() { Country = "Denmark", StreetAddress = "Testvej 1", Zipcode = "8700" },
                 ActiveUser = true,
                 FinancialBalance = 1200,
-                PaymentDueDate = new DateTime(2021 - 10 - 08)
+                PaymentDueDate = new DateTime(2021 - 10 - 08),
+                UserName = "testusername2"
             };
 
             var machine1 = new Machine()
