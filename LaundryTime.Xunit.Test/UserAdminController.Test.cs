@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LaundryTime.Controllers;
@@ -30,7 +31,7 @@ namespace LaundryTime.Xunit.Test
             _context = new ApplicationDbContext(
                 new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(CreateInMemoryDatabase()).Options);
 
-            Seed();
+            //Seed();
 
             _uut = new UserAdminController(_context);
             
@@ -40,7 +41,7 @@ namespace LaundryTime.Xunit.Test
 
         //=======================================================   Index() ============================================================================
         [Fact]
-        public void Index_AuthorizedUser_ExpectedTaskIActionResult()
+        public void Index_AuthorizedUser_ExpectedIActionResult()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -53,14 +54,14 @@ namespace LaundryTime.Xunit.Test
                 }
             };
 
-            var res = _uut.MyUsers("", "");
+            var res = _uut.Index();
 
             Assert.IsType<Task<IActionResult>>(res);
-            Dispose();
+            //Dispose();
         }
 
         [Fact]
-        public async Task Index_AuthorizedUser_Expected_ViewNameCorrect_ModelNotNull()
+        public void Index_AuthorizedUser_Expected_ViewNameCorrect_ModelNotNull()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -73,14 +74,14 @@ namespace LaundryTime.Xunit.Test
                 }
             };
 
-            var res = await _uut.MyUsers("", "") as ViewResult;
+            var res = _uut.Index() as ViewResult;
             var viewname = res.ViewName;
             var temp = res.Model;
 
             Assert.True(string.IsNullOrEmpty(viewname) || viewname == "Index");
             Assert.NotNull(temp);
 
-            Dispose();
+            //Dispose();
         }
 
         [Fact]
@@ -97,10 +98,10 @@ namespace LaundryTime.Xunit.Test
                 }
             };
 
-            var res = _uut.MyUsers("", "");
+            var res = _uut.Index();
 
-            Assert.IsType<UnauthorizedResult>(res.Result);
-            Dispose();
+            Assert.IsType<UnauthorizedResult>(res);
+            //Dispose();
         }
         //=======================================================   MyUsers() ============================================================================
         [Fact]
@@ -117,11 +118,11 @@ namespace LaundryTime.Xunit.Test
                 }
             };
 
-            var res = _uut.MyUsers("", "");
+            var res = _uut.MyUsers("","");
 
             Assert.IsType<Task<IActionResult>>(res);
             
-            Dispose();
+            //Dispose();
         }
 
         [Fact]
@@ -145,11 +146,55 @@ namespace LaundryTime.Xunit.Test
             Assert.True(string.IsNullOrEmpty(viewname) || viewname == "MyUsers");
             Assert.NotNull(temp);
 
-            Dispose();
+            //Dispose();
+        }
+
+        [Fact]
+        public void MyUsers_NotAuthorizedUser_Expected_Unauthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.MyUsers("", "");
+
+            Assert.IsType<UnauthorizedResult>(res.Result);
+            //Dispose();
+        }
+
+        //=======================================================   SortDate  ============================================================================
+
+        [Fact]
+        public void SortDate_AuthorizedUser_ExpectedRedirectToAction()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = _uut.SortDate() as RedirectToActionResult;
+
+            Assert.NotNull(res);
+            Assert.Equal("MyUsers",res.ActionName);
+            Assert.Equal("sort",res.RouteValues.Values.First());
+            //Dispose();
         }
 
         #region Setup Methods
-            static DbConnection CreateInMemoryDatabase()
+        static DbConnection CreateInMemoryDatabase()
         {
             var connection = new SqliteConnection("Filename=:memory:");//Fake db
             connection.Open();
