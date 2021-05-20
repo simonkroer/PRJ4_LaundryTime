@@ -529,7 +529,6 @@ namespace LaundryTime.Xunit.Test
 
             Assert.True(string.IsNullOrEmpty(viewname) || viewname == "MyUsers");
 
-
             Dispose();
         }
 
