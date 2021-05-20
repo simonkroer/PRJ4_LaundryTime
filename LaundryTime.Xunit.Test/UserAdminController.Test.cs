@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -486,7 +487,7 @@ namespace LaundryTime.Xunit.Test
 
         #region UpdateUser
         [Fact]
-        public void UpdateUsers_AuthorizedUser_ExpectedTaskIActionResult()
+        public void UpdateUsers_AuthorizedUser_ExpectedRedirectToActionResult()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -555,6 +556,77 @@ namespace LaundryTime.Xunit.Test
 
         #endregion
 
+        #region ToggleBlockUser
+        [Fact]
+        public void ToggleBlockUser_AuthorizedUser_ExpectedRedirectToActionResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+            _uut._userAdminViewModel.CurrentLaundryUser = _context.LaundryUsers.SingleOrDefault(d => d.UserName == "testusername1");
+            _uut.TempData = new TempDataDictionary(new DefaultHttpContext(), Substitute.For<ITempDataProvider>());
+
+            var res = _uut.ToggleBlockUser(_uut._userAdminViewModel);
+
+            Assert.NotNull(res);
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+            Assert.IsType<RedirectToActionResult>(res);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void ToggleBlockUser_AuthorizedUser_ExpectedViewNameCorrect()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+            _uut._userAdminViewModel.CurrentLaundryUser = _context.LaundryUsers.SingleOrDefault(d => d.UserName == "testusername1");
+            _uut.TempData = new TempDataDictionary(new DefaultHttpContext(), Substitute.For<ITempDataProvider>());
+
+            var res = _uut.ToggleBlockUser(_uut._userAdminViewModel) as RedirectToActionResult;
+            var viewname = res.ActionName;
+
+            Assert.True(string.IsNullOrEmpty(viewname) || viewname == "EditUser");
+
+            Dispose();
+        }
+        [Fact]
+        public void ToggleBlockUser_NotAuthorizedUser_Expected_Unauthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+            _uut._userAdminViewModel.CurrentLaundryUser = _context.LaundryUsers.SingleOrDefault(d => d.UserName == "testusername1");
+            _uut.TempData = new TempDataDictionary(new DefaultHttpContext(), Substitute.For<ITempDataProvider>());
+
+            var res = _uut.ToggleBlockUser(_uut._userAdminViewModel);
+
+            Assert.IsType<UnauthorizedResult>(res);
+            Dispose();
+        }
+        #endregion
 
         #region Setup Methods
         static DbConnection CreateInMemoryDatabase()
