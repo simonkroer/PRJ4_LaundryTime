@@ -397,8 +397,92 @@ namespace LaundryTime.Xunit.Test
         #endregion
 
         #region EditUser
+        [Fact]
+        public void EditUser_AuthorizedUser_ExpectedResponse_OK()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
 
-        
+            var res = _uut.EditUser("test1@user.dk");
+
+            Assert.NotNull(res);
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void EditUser_AuthorizedUser_Expected_ViewNameCorrect_ModelNotNull()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = _uut.EditUser("testusername1") as ViewResult;
+            var viewname = res.ViewName;
+            var tempmodel = res.Model;
+
+            Assert.True(string.IsNullOrEmpty(viewname) || viewname == "EditUser");
+            Assert.NotNull(tempmodel);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void EditUser_NotAuthorizedUser_Expected_Unauthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.EditUser("testusername1");
+
+            Assert.IsType<UnauthorizedResult>(res);
+            Dispose();
+        }
+
+        [Fact]
+        public void EditUser_AuthorizedUser_Expected_Notfound()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = _uut.EditUser("testusername300");
+
+            Assert.IsAssignableFrom<NotFoundResult>(res);
+            Dispose();
+        }
+
 
         #endregion
 
@@ -422,7 +506,8 @@ namespace LaundryTime.Xunit.Test
                 ActiveUser = true,
                 FinancialBalance = 1200,
                 PaymentDueDate = new DateTime(2021 - 10 - 08),
-                UserName = "testusername1"
+                UserName = "testusername1",
+                Email = "test1@user.dk"
             };
             var user2 = new LaundryUser()
             {
@@ -432,7 +517,8 @@ namespace LaundryTime.Xunit.Test
                 ActiveUser = true,
                 FinancialBalance = 1200,
                 PaymentDueDate = new DateTime(2021 - 10 - 08),
-                UserName = "testusername2"
+                UserName = "testusername2",
+                Email = "test2@user.dk"
             };
 
             var machine1 = new Machine()
