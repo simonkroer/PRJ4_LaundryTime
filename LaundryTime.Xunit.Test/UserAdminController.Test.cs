@@ -60,7 +60,7 @@ namespace LaundryTime.Xunit.Test
         }
 
         [Fact]
-        public async Task Index_AuthorizedUser_ExpectedViewNameCorrect()
+        public async Task Index_AuthorizedUser_Expected_ViewNameCorrect_ModelNotNull()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -75,8 +75,11 @@ namespace LaundryTime.Xunit.Test
 
             var res = await _uut.MyUsers("", "") as ViewResult;
             var viewname = res.ViewName;
+            var temp = res.Model;
 
             Assert.True(string.IsNullOrEmpty(viewname) || viewname == "Index");
+            Assert.NotNull(temp);
+
             Dispose();
         }
 
@@ -122,7 +125,7 @@ namespace LaundryTime.Xunit.Test
         }
 
         [Fact]
-        public async Task MyUsers_AuthorizedUser_ExpectedViewNameCorrect()
+        public async Task MyUsers_AuthorizedUser_ExpectedViewNameCorrect_ModelNotNull()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -137,8 +140,11 @@ namespace LaundryTime.Xunit.Test
 
             var res = await _uut.MyUsers("", "") as ViewResult;
             var viewname = res.ViewName;
-            
+            var temp = res.Model;
+
             Assert.True(string.IsNullOrEmpty(viewname) || viewname == "MyUsers");
+            Assert.NotNull(temp);
+
             Dispose();
         }
 
