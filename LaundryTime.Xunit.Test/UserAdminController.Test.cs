@@ -35,10 +35,12 @@ namespace LaundryTime.Xunit.Test
             _uut = new UserAdminController(_context);
             
             _uut._userAdminViewModel = Substitute.For<UserAdminViewModel>();
+            
         }
+
         //=======================================================   Index() ============================================================================
         [Fact]
-        public void Index_ExpectedTaskIActionResult()
+        public void Index_AuthorizedUser_ExpectedTaskIActionResult()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -58,7 +60,7 @@ namespace LaundryTime.Xunit.Test
         }
 
         [Fact]
-        public async Task Index_ExpectedViewNameCorrect()
+        public async Task Index_AuthorizedUser_ExpectedViewNameCorrect()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -77,9 +79,29 @@ namespace LaundryTime.Xunit.Test
             Assert.True(string.IsNullOrEmpty(viewname) || viewname == "Index");
             Dispose();
         }
+
+        [Fact]
+        public void Index_NotAuthorizedUser_Expected_Unauthorized()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.MyUsers("", "");
+
+            Assert.IsType<UnauthorizedResult>(res.Result);
+            Dispose();
+        }
         //=======================================================   MyUsers() ============================================================================
         [Fact]
-        public void MyUsers_ExpectedTaskIActionResult()
+        public void MyUsers_AuthorizedUser_ExpectedTaskIActionResult()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -100,7 +122,7 @@ namespace LaundryTime.Xunit.Test
         }
 
         [Fact]
-        public async Task MyUsers_ExpectedViewNameCorrect()
+        public async Task MyUsers_AuthorizedUser_ExpectedViewNameCorrect()
         {
             _uut.ControllerContext = new ControllerContext
             {
