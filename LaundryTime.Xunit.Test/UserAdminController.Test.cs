@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LaundryTime.Controllers;
@@ -39,7 +40,7 @@ namespace LaundryTime.Xunit.Test
             
         }
 
-        //=======================================================   Index() ============================================================================
+        #region Index
         [Fact]
         public void Index_AuthorizedUser_ExpectedIActionResult()
         {
@@ -103,7 +104,11 @@ namespace LaundryTime.Xunit.Test
             Assert.IsType<UnauthorizedResult>(res);
             Dispose();
         }
-        //=======================================================   MyUsers() ============================================================================
+
+
+        #endregion
+
+        #region MyUsers
         [Fact]
         public void MyUsers_AuthorizedUser_ExpectedTaskIActionResult()
         {
@@ -118,10 +123,11 @@ namespace LaundryTime.Xunit.Test
                 }
             };
 
-            var res = _uut.MyUsers("","");
+            var res = _uut.MyUsers("", "");
 
             Assert.IsType<Task<IActionResult>>(res);
-            
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
             Dispose();
         }
 
@@ -169,8 +175,10 @@ namespace LaundryTime.Xunit.Test
             Dispose();
         }
 
-        //=======================================================   SortDate  ============================================================================
 
+        #endregion
+
+        #region SortDate
         [Fact]
         public void SortDate_AuthorizedUser_ExpectedRedirectToAction()
         {
@@ -188,10 +196,132 @@ namespace LaundryTime.Xunit.Test
             var res = _uut.SortDate() as RedirectToActionResult;
 
             Assert.NotNull(res);
-            Assert.Equal("MyUsers",res.ActionName);
-            Assert.Equal("sort",res.RouteValues.Values.First());
+            Assert.Equal("MyUsers", res.ActionName);
+            Assert.Equal("sort", res.RouteValues.Values.First());
             Dispose();
         }
+
+
+        #endregion
+
+        #region SortName
+        [Fact]
+        public void SortName_AuthorizedUser_ExpectedRedirectToAction()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = _uut.SortName() as RedirectToActionResult;
+
+            Assert.NotNull(res);
+            Assert.Equal("MyUsers", res.ActionName);
+            Assert.Equal("", res.RouteValues.Values.First());
+            Dispose();
+        }
+        #endregion
+
+        #region SearchUser
+        [Fact]
+        public void SearchUser_AuthorizedUser_ExpectedRedirectToAction()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = _uut.SearchUser("user") as RedirectToActionResult;
+
+            Assert.NotNull(res);
+            Assert.Equal("MyUsers", res.ActionName);
+            Assert.Equal("user", res.RouteValues.Values.First());
+            Assert.Equal("", res.RouteValues.Values.ElementAt(1));
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region GenerateMyUsersReport
+        [Fact]
+        public async Task GenerateMyUsersReport_AuthorizedUser_ExpectedFilestreamResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = await _uut.GenerateMyUsersReport();
+
+            Assert.IsType<FileStreamResult>(res);
+            Assert.Equal((int) HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
+            Dispose();
+        }
+
+        [Fact]
+        public async Task GenerateMyUsersReport_AuthorizedUser_ExpectedFileContentNotNull()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+
+            var res = await _uut.GenerateMyUsersReport();
+
+            Assert.IsType<FileStreamResult>(res);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void GenerateMyUsersReport_NotAuthorizedUser_ExpectedDownloadFile()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.GenerateMyUsersReport();
+
+            Assert.IsType<UnauthorizedResult>(res.Result);
+
+            Dispose();
+        }
+
+
+        #endregion
 
         #region Setup Methods
         static DbConnection CreateInMemoryDatabase()
