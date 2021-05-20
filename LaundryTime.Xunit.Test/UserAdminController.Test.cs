@@ -482,9 +482,80 @@ namespace LaundryTime.Xunit.Test
             Assert.IsAssignableFrom<NotFoundResult>(res);
             Dispose();
         }
+        #endregion
+
+        #region UpdateUser
+        [Fact]
+        public void UpdateUsers_AuthorizedUser_ExpectedTaskIActionResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+            _uut._userAdminViewModel.CurrentLaundryUser = _context.LaundryUsers.SingleOrDefault(d=>d.UserName == "testusername1");
+
+            var res = _uut.UpdateUser(_uut._userAdminViewModel);
+            
+            Assert.NotNull(res);
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+            Assert.IsType<RedirectToActionResult>(res);
+
+            Dispose();
+        }
+
+        [Fact]
+        public void UpdateUsers_AuthorizedUser_ExpectedViewNameCorrect()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+            _uut._userAdminViewModel.CurrentLaundryUser = _context.LaundryUsers.SingleOrDefault(d => d.UserName == "testusername1");
+
+            var res = _uut.UpdateUser(_uut._userAdminViewModel) as RedirectToActionResult;
+            var viewname = res.ActionName;
+
+            Assert.True(string.IsNullOrEmpty(viewname) || viewname == "MyUsers");
+
+
+            Dispose();
+        }
+
+        //[Fact]
+        //public void UpdateUsers_NotAuthorizedUser_Expected_Unauthorized()
+        //{
+        //    _uut.ControllerContext = new ControllerContext
+        //    {
+        //        HttpContext = new DefaultHttpContext
+        //        {
+        //            User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        //            {
+        //                new Claim("LaundryUser", "IsLaundryUser")
+        //            }))
+        //        }
+        //    };
+
+        //    var res = _uut.MyUsers("", "");
+
+        //    Assert.IsType<UnauthorizedResult>(res.Result);
+        //    Dispose();
+        //}
 
 
         #endregion
+
 
         #region Setup Methods
         static DbConnection CreateInMemoryDatabase()
