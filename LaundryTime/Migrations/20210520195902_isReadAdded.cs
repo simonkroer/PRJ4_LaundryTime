@@ -2,13 +2,13 @@
 
 namespace LaundryTime.Migrations
 {
-    public partial class AddedOccupiedToMachine : Migration
+    public partial class isReadAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "Occupied",
-                table: "Machines",
+                name: "isRead",
+                table: "MessageList",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
@@ -17,8 +17,8 @@ namespace LaundryTime.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Occupied",
-                table: "Machines");
+                name: "isRead",
+                table: "MessageList");
         }
     }
 }

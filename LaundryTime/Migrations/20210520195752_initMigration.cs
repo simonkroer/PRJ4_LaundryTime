@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LaundryTime.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class initMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -263,7 +263,8 @@ namespace LaundryTime.Migrations
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModelNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserAdminId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    InstallationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    InstallationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Occupied = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -271,6 +272,27 @@ namespace LaundryTime.Migrations
                     table.ForeignKey(
                         name: "FK_Machines_AspNetUsers_UserAdminId",
                         column: x => x.UserAdminId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MessageList",
+                columns: table => new
+                {
+                    MessageId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SendDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MessageInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LaundryUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageList", x => x.MessageId);
+                    table.ForeignKey(
+                        name: "FK_MessageList_AspNetUsers_LaundryUserId",
+                        column: x => x.LaundryUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -425,6 +447,11 @@ namespace LaundryTime.Migrations
                 column: "UserAdminId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MessageList_LaundryUserId",
+                table: "MessageList",
+                column: "LaundryUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ReservedListModels_DateModelId",
                 table: "ReservedListModels",
                 column: "DateModelId");
@@ -457,6 +484,9 @@ namespace LaundryTime.Migrations
 
             migrationBuilder.DropTable(
                 name: "LaundryLogs");
+
+            migrationBuilder.DropTable(
+                name: "MessageList");
 
             migrationBuilder.DropTable(
                 name: "ReservedListModels");

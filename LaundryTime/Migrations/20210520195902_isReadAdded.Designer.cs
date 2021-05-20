@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaundryTime.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210517193152_AddedOccupiedToMachine")]
-    partial class AddedOccupiedToMachine
+    [Migration("20210520195902_isReadAdded")]
+    partial class isReadAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -173,6 +173,32 @@ namespace LaundryTime.Migrations
                     b.HasIndex("UserAdminId");
 
                     b.ToTable("Machines");
+                });
+
+            modelBuilder.Entity("LaundryTime.Data.Models.MessageToUserAdmin", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LaundryUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MessageInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SendDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isRead")
+                        .HasColumnType("bit");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("LaundryUserId");
+
+                    b.ToTable("MessageList");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -527,6 +553,15 @@ namespace LaundryTime.Migrations
                         .HasForeignKey("UserAdminId");
 
                     b.Navigation("UserAdmin");
+                });
+
+            modelBuilder.Entity("LaundryTime.Data.Models.MessageToUserAdmin", b =>
+                {
+                    b.HasOne("LaundryTime.Data.Models.LaundryUser", "LaundryUser")
+                        .WithMany()
+                        .HasForeignKey("LaundryUserId");
+
+                    b.Navigation("LaundryUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

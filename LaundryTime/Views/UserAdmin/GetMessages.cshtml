@@ -1,0 +1,40 @@
+﻿@model UserAdminViewModel
+@{ ViewBag.Title = "UserAdminMyUsers";
+    Layout = "_Layout";
+}
+
+<div>
+    <img class="rounded float-right imghoover" style="max-width: 120px;" src="~/Images/logo.png" />
+    <h1>All Messages</h1>
+    <table class="table table-striped">
+        <thead class="headColor">
+            <tr>
+                <th>
+                    Date:
+                </th>
+                <th>
+                    Sender:
+                </th>
+                <th>
+                    Read:
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MyMessages)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(msgItem => item.SendDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(msgItem => item.LaundryUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(msgItem => item.isRead)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
