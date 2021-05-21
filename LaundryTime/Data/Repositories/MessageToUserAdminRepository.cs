@@ -32,5 +32,23 @@ namespace LaundryTime.Data.Repositories
         {
             context.MessageList.Add(message);
         }
+
+        public void DeleteMessage(int id)
+        {
+            var msgToDelete = context.MessageList.SingleOrDefault(i => i.MessageId == id);
+            if(msgToDelete != null)
+            {
+                context.MessageList.Remove(msgToDelete);
+            }
+        }
+
+        public void UpdateMessageStatus(int id)
+        {
+            var msgToUpdate = context.MessageList.SingleOrDefault(i => i.MessageId == id);
+            if(msgToUpdate != null)
+            {
+                msgToUpdate.isRead = true;
+            }
+        }
     }
 }
