@@ -194,33 +194,34 @@ namespace LaundryTime.Xunit.Test
             Dispose();
         }
 
-        //[Fact]
-        //public async Task Book_AuthorizedUser_ExpectedDatabaseResult()
-        //{
-        //    _uut.ControllerContext = new ControllerContext
-        //    {
-        //        HttpContext = new DefaultHttpContext
-        //        {
-        //            User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-        //            {
-        //                new Claim("LaundryUser", "LaundryUser")
-        //            }))
-        //        }
-        //    };
+        [Fact]
+        public async Task Book_AuthorizedUser_ExpectedDatabaseResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "LaundryUser")
+                    }))
+                }
+            };
+            BookingSeeder bs = new BookingSeeder();
+            bs.CreateNewBookList(_context,bs.CreateDateModel(_context, "2021-05-21"));
+            int Id = 1; // første object i bookingList
+            var booking = await _context.BookingListModels.Include(b => b.Machine).FirstOrDefaultAsync(b => b.Id == Id);
+            await _uut.Book(Id);
+            var reserved = await _context.ReservedListModels.Include(b => b.Machine)
+                .FirstOrDefaultAsync(r => r.OldId == Id);
+            
+            Assert.Equal(reserved.OldId, Id);
+            Assert.Equal(booking.MachineId, reserved.MachineId);
+            Assert.Equal(booking.Time, reserved.Time);
 
-        //    long Id = 1; // første object i bookingList
-        //    var booking = await _context.BookingListModels.Include(b => b.Machine).FirstOrDefaultAsync(b => b.Id == Id);
-        //    await _uut.Book(Id);
-        //    var reserved = await _context.ReservedListModels.Include(b => b.Machine)
-        //        .FirstOrDefaultAsync(r => r.Id == Id);
 
-        //    Assert.Equal(booking.Date,reserved.Date);
-        //    //Assert.Equal(booking.MachineId, reserved.MachineId);
-        //    //Assert.Equal(booking.Time, reserved.Time);
-
-
-        //    Dispose();
-        //}
+            Dispose();
+        }
 
 
         #endregion
