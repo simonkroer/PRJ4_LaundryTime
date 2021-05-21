@@ -11,5 +11,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
         List<MessageToUserAdmin> GetAllMessages();
         MessageToUserAdmin GetSingleMessage(int id);
         void SendMessage(MessageToUserAdmin message);
+        void DeleteMessage(int id);
+        void UpdateMessageStatus(int id);
     }
 }
