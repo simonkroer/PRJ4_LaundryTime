@@ -183,6 +183,8 @@ namespace LaundryTime.Xunit.Test
                     }))
                 }
             };
+            BookingSeeder bs = new BookingSeeder();
+            bs.CreateNewBookList(_context, bs.CreateDateModel(_context, "2021-05-21"));
 
             long Id = 1; // første object i bookingList
             var booking = await _context.BookingListModels.Include(b => b.Machine).FirstOrDefaultAsync(b => b.Id == Id);
@@ -226,7 +228,119 @@ namespace LaundryTime.Xunit.Test
 
         #endregion
 
+        #region Unbook
 
+        [Fact]
+        public async Task UnBook_AuthorizedUser_ExpectedHTTPdResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "LaundryUser")
+                    }))
+                }
+            };
+
+            long Id = 1; // første object i bookingList
+            BookingSeeder bs = new BookingSeeder();
+            bs.CreateNewBookList(_context, bs.CreateDateModel(_context, "2021-05-21"));
+            var booking = await _context.BookingListModels.Include(b => b.Machine).FirstOrDefaultAsync(b => b.Id == Id);
+
+            var res = await _uut.Book(Id);
+
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
+            Dispose();
+        }
+
+        [Fact]
+        public async Task UnBook_AuthorizedUser_ExpectedDatabaseResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "LaundryUser")
+                    }))
+                }
+            };
+            BookingSeeder bs = new BookingSeeder();
+            bs.CreateNewBookList(_context, bs.CreateDateModel(_context, "2021-05-21"));
+            int Id = 1; // første object i bookingList
+            int Id2 = 2;
+            var booking = await _context.BookingListModels.Include(b => b.Machine).FirstOrDefaultAsync(b => b.Id == Id);
+            var booking2 = await _context.BookingListModels.Include(b => b.Machine).FirstOrDefaultAsync(b => b.Id == Id2);
+            await _uut.Book(Id);
+            await _uut.Book(Id2);
+            await _uut.Unbook(Id);
+            var reserved = await _context.ReservedListModels.Include(b => b.Machine)
+                .FirstOrDefaultAsync(r => r.OldId == Id);
+
+            Assert.Null(reserved);
+
+
+
+            Dispose();
+        }
+
+        #endregion
+
+
+        #region UsersBookings
+        [Fact]
+        public void UsersBookings_Expected_View()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            
+            var res = _uut.UsersBookings();
+
+            Assert.IsType<Task<IActionResult>>(res);
+            Dispose();
+        }
+
+        [Fact]
+        public async Task UsersBookings_AuthorizedUser_ExpectedResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var taskRes = await _uut.UsersBookings();
+
+            var res = taskRes as ViewResult;
+            var modelData = res.Model;
+
+            Assert.IsType<List<BookingListViewModel>>(modelData);
+
+
+            Dispose();
+
+        }
+
+
+        #endregion
 
         #region Setup Methods
         static DbConnection CreateInMemoryDatabase()
