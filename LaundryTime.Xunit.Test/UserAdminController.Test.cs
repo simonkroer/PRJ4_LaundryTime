@@ -44,7 +44,6 @@ namespace LaundryTime.Xunit.Test
             _uut._userAdminViewModel = Substitute.For<UserAdminViewModel>();
         }
 
-
         #region Index
         //[Fact]
         //public void Index_AuthorizedUser_ExpectedIActionResult()
