@@ -15,7 +15,7 @@
     </IncludeFilters>
     <ExcludeFilters>
       <FilterEntry>
-        <ModuleMask>xunit.framework</ModuleMask>
+        <ModuleMask>xunit</ModuleMask>
         <ClassMask>*</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
