@@ -116,7 +116,6 @@ namespace LaundryTime.Xunit.Test
 
         #endregion
 
-
         #region AvailableBookings
 
         [Fact]
@@ -396,6 +395,54 @@ namespace LaundryTime.Xunit.Test
 
             Dispose();
 
+        }
+
+
+        #endregion
+
+        #region SendMessageToUserAdmin
+        [Fact]
+        public void SendMessageToUserAdmin_MessageNull_Expected_View()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            string message = null;
+
+            var res = _uut.SendMessageToUserAdmin(message);
+
+            Assert.IsType<ViewResult>(res);
+            Dispose();
+        }
+
+        [Fact]
+        public void SendMessageToUserAdmin_MessageNotNull_Expected_View()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            string message = "Test Message";
+
+            var res = _uut.SendMessageToUserAdmin(message);
+
+            Assert.IsType<RedirectToActionResult>(res);
+            Dispose();
         }
 
 
