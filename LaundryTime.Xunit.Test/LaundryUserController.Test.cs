@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.ObjectModel;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Twilio.TwiML.Voice;
@@ -42,6 +43,8 @@ namespace LaundryTime.Xunit.Test
 
         }
 
+
+        #region Index
         [Fact]
         public void Index_User_ExpectedIActionResult()
         {
@@ -108,6 +111,63 @@ namespace LaundryTime.Xunit.Test
 
             Dispose();
         }
+        #endregion
+
+
+        #region AvailableBookings
+
+        [Fact]
+        public void AvailableBookings_Expected_View()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+            var temp = Substitute.For<DateViewModel>();
+            temp.Datedata = DateTime.Now;
+            var res = _uut.AvailableBookings(temp);
+
+            Assert.IsType<Task<IActionResult>>(res);
+            Dispose();
+
+            
+
+        }
+        [Fact]
+        public async Task AvailableBookings_Something()
+        {
+            
+
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
+            var temp = Substitute.For<DateViewModel>();
+            temp.Datedata = DateTime.Now;
+            var res = await _uut.AvailableBookings(temp);
+            
+            Assert.IsType<ViewResult>(res);
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
+            Dispose();
+
+        }
+
+
+
+        #endregion
 
 
         #region Setup Methods
