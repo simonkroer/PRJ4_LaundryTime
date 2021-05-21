@@ -375,9 +375,35 @@ namespace LaundryTime.Controllers
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
                 _userAdminViewModel.MyMessages = _dataAccess.MessageList.GetAllMessages();
+                _userAdminViewModel.MyMessages.Sort((res1, res2) => res1.SendDate.CompareTo(res2.SendDate));
+                _userAdminViewModel.MyMessages.Reverse();
+
                 return View(_userAdminViewModel);
             }
             return Unauthorized();
+        }
+
+        public IActionResult DeleteMessage(int msgId)
+        {
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                if (!ModelState.IsValid)
+                {
+                    return NotFound();
+                }
+                _dataAccess.MessageList.DeleteMessage(msgId);
+                _dataAccess.Complete();
+
+                return RedirectToAction(nameof(GetMessages));
+            }
+            return Unauthorized();
+        }
+
+        [HttpPost("UpdateStats")]
+        public void UpdateReadStatus(int msgId)
+        {
+            _dataAccess.MessageList.UpdateMessageStatus(msgId);
+            _dataAccess.Complete();
         }
 
     }

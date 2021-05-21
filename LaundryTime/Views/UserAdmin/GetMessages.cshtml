@@ -1,6 +1,18 @@
-﻿@model UserAdminViewModel
+﻿@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> User
+@inject ApplicationDbContext context
+@model UserAdminViewModel
 @{ ViewBag.Title = "UserAdminMyUsers";
     Layout = "_Layout";
+}
+@functions{
+    public async Task<object> readMessage(int msg)
+    {
+        var msgToUpdate = context.MessageList.SingleOrDefault(i => i.MessageId == msg);
+        Console.WriteLine(msgToUpdate);
+        msgToUpdate.isRead = true;
+        await context.SaveChangesAsync();
+        return this;
+    }
 }
 
 <div>
@@ -16,25 +28,57 @@
                     Sender:
                 </th>
                 <th>
-                    Read:
+                    Opened:
+                </th>
+                <th>
+                    Actions:
                 </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.MyMessages)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(msgItem => item.SendDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(msgItem => item.LaundryUser.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(msgItem => item.isRead)
-                </td>
-            </tr>
+                <tr id="@item.SendDate.ToString()">
+                    <td>
+                        @Html.DisplayFor(msgItem => item.SendDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(msgItem => item.LaundryUser.Name)
+                    </td>
+                    <td id="@item.SendDate">
+                        @if (item.isRead == false)
+                        {
+                            <p>Not Opened</p>
+                        }
+                        else
+                        {
+                            <p>Opened</p>
+                        }
+                    </td>
+                    <td>
+                        <input type="button" value="Read" class="btn btnColor raise" onclick="$('#@item.MessageId').collapse('toggle'); changeRead('@item.SendDate')"/>
+                        <input type="button" value="Delete" class="btn btnColor raise" onclick="location.href = '@Url.Action("DeleteMessage", "UserAdmin", new {msgId = item.MessageId })'" />
+                        @*@Html.DisplayFor(msgItem => item.MessageInfo)*@
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div class="collapse testAlignText" id="@item.MessageId">
+                            @Html.DisplayFor(msgItem => item.MessageInfo)
+                        </div>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 </div>
+
+<script>
+    function changeRead(n) {
+        let rows = document.getElementById(n);
+        let cells = rows.getElementsByTagName('td');
+        let cell = cells[2];
+        cell.innerHTML = "Opened";
+    }
+</script>
+
