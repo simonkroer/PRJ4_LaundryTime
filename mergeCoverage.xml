@@ -2,7 +2,9 @@
 <MergeParams>
  <Source>
   <string>coverage_report.dcvr</string>
-  <string>coverage_report2.dcvr</string>
  </Source>
+<Source>
+  <string>coverage_report2.dcvr</string>
+</Source>
  <Output>output_merged.html</Output>
 </MergeParams>
