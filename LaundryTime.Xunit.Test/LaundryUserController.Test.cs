@@ -57,13 +57,13 @@ namespace LaundryTime.Xunit.Test
             };
 
             var res = _uut.Index();
-
+           
             Assert.IsType<ViewResult>(res);
             Dispose();
         }
 
         [Fact]
-        public void Index_User_Correct_Expected_ViewModelData()
+        public void Index_User_Correct_Expected_ViewModel()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -81,6 +81,30 @@ namespace LaundryTime.Xunit.Test
 
             Assert.IsType<DateViewModel>(modelData);
 
+
+            Dispose();
+        }
+
+        [Fact]
+        public void Index_AuthorizedUser_Expected_ViewNameCorrect_ModelNotNull()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            var res = _uut.Index() as ViewResult;
+            var viewname = res.ViewName;
+            var temp = res.Model;
+
+            Assert.True(string.IsNullOrEmpty(viewname) || viewname == "Index");
+            Assert.NotNull(temp);
 
             Dispose();
         }
