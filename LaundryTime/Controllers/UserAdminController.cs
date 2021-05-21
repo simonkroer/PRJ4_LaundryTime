@@ -1,29 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using LaundryTime.Data;
+﻿using LaundryTime.Data;
 using LaundryTime.Data.Models;
 using LaundryTime.Utilities;
-using LaundryTime.Utilities.SignalRHubs;
 using LaundryTime.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using JsonConverter = System.Text.Json.Serialization.JsonConverter;
-using JsonSerializer = Newtonsoft.Json.JsonSerializer;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LaundryTime.Controllers
 {
@@ -399,12 +382,12 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
-        [HttpPost("UpdateStats")]
-        public void UpdateReadStatus(int msgId)
-        {
-            _dataAccess.MessageList.UpdateMessageStatus(msgId);
-            _dataAccess.Complete();
-        }
+        //[HttpPost("UpdateStats")]
+        //public void UpdateReadStatus(int Id)
+        //{
+        //    _dataAccess.MessageList.UpdateMessageStatus(Id);
+        //    _dataAccess.Complete();
+        //}
 
     }
 }
