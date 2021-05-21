@@ -633,25 +633,25 @@ namespace LaundryTime.Xunit.Test
         #endregion
 
         #region IndexMachines
-        [Fact]
-        public void IndexMachines_AuthorizedUser_ExpectedIActionResult()
-        {
-            _uut.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext
-                {
-                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("UserAdmin", "IsUserAdmin")
-                    }))
-                }
-            };
+        //[Fact]
+        //public void IndexMachines_AuthorizedUser_ExpectedIActionResult()
+        //{
+        //    _uut.ControllerContext = new ControllerContext
+        //    {
+        //        HttpContext = new DefaultHttpContext
+        //        {
+        //            User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        //            {
+        //                new Claim("UserAdmin", "IsUserAdmin")
+        //            }))
+        //        }
+        //    };
 
-            var res = _uut.IndexMachines();
+        //    var res = _uut.IndexMachines();
 
-            Assert.IsType<ViewResult>(res);
-            Dispose();
-        }
+        //    Assert.IsType<ViewResult>(res);
+        //    Dispose();
+        //}
 
         [Fact]
         public void IndexMachines_AuthorizedUser_Expected_ViewNameCorrect_ModelNotNull()
