@@ -101,7 +101,7 @@ namespace LaundryTime.Xunit.Test
                     }))
                 }
             };
-
+            
             var res = _uut.Index() as ViewResult;
             var viewname = res.ViewName;
             var temp = res.Model;
@@ -111,6 +111,9 @@ namespace LaundryTime.Xunit.Test
 
             Dispose();
         }
+
+
+
         #endregion
 
 
@@ -140,7 +143,7 @@ namespace LaundryTime.Xunit.Test
 
         }
         [Fact]
-        public async Task AvailableBookings_Something()
+        public async Task AvailableBookings_AuthorizedUser_ExpectedResult()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -148,7 +151,7 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserAdmin", "IsUserAdmin")
+                        new Claim("LaundryUser", "IsLaundryUser")
                     }))
                 }
             };
@@ -164,8 +167,64 @@ namespace LaundryTime.Xunit.Test
         }
 
 
+        #endregion
+
+        #region Book
+        [Fact]
+        public async Task Book_AuthorizedUser_ExpectedHTTPdResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "LaundryUser")
+                    }))
+                }
+            };
+
+            long Id = 1; // første object i bookingList
+            var booking = await _context.BookingListModels.Include(b => b.Machine).FirstOrDefaultAsync(b => b.Id == Id);
+            
+            var res = await _uut.Book(Id);
+
+            Assert.Equal((int)HttpStatusCode.OK, _uut.ControllerContext.HttpContext.Response.StatusCode);
+
+            Dispose();
+        }
+
+        //[Fact]
+        //public async Task Book_AuthorizedUser_ExpectedDatabaseResult()
+        //{
+        //    _uut.ControllerContext = new ControllerContext
+        //    {
+        //        HttpContext = new DefaultHttpContext
+        //        {
+        //            User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        //            {
+        //                new Claim("LaundryUser", "LaundryUser")
+        //            }))
+        //        }
+        //    };
+
+        //    long Id = 1; // første object i bookingList
+        //    var booking = await _context.BookingListModels.Include(b => b.Machine).FirstOrDefaultAsync(b => b.Id == Id);
+        //    await _uut.Book(Id);
+        //    var reserved = await _context.ReservedListModels.Include(b => b.Machine)
+        //        .FirstOrDefaultAsync(r => r.Id == Id);
+
+        //    Assert.Equal(booking.Date,reserved.Date);
+        //    //Assert.Equal(booking.MachineId, reserved.MachineId);
+        //    //Assert.Equal(booking.Time, reserved.Time);
+
+
+        //    Dispose();
+        //}
+
 
         #endregion
+
 
 
         #region Setup Methods
