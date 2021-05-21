@@ -1,4 +1,5 @@
-<?xml version=”1.0” encoding=”utf-8“?>
+<?xml version="1.0" encoding="utf-8"?>
+<AnalyseParams>
 <MergeParams>
  <Source>
   <string>dotCoverCoverageConfigCore.xml</string>
@@ -6,3 +7,4 @@
  </Source>
  <Output>output_merged.xml</Output>
 </MergeParams>
+</AnalyseParams>
