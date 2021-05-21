@@ -4,16 +4,6 @@
 @{ ViewBag.Title = "UserAdminMyUsers";
     Layout = "_Layout";
 }
-@functions{
-    public async Task<object> readMessage(int msg)
-    {
-        var msgToUpdate = context.MessageList.SingleOrDefault(i => i.MessageId == msg);
-        Console.WriteLine(msgToUpdate);
-        msgToUpdate.isRead = true;
-        await context.SaveChangesAsync();
-        return this;
-    }
-}
 
 <div>
     <img class="rounded float-right imghoover" style="max-width: 120px;" src="~/Images/logo.png" />
@@ -28,7 +18,7 @@
                     Sender:
                 </th>
                 <th>
-                    Opened:
+                    
                 </th>
                 <th>
                     Actions:
@@ -45,20 +35,10 @@
                     <td>
                         @Html.DisplayFor(msgItem => item.LaundryUser.Name)
                     </td>
-                    <td id="@item.SendDate">
-                        @if (item.isRead == false)
-                        {
-                            <p>Not Opened</p>
-                        }
-                        else
-                        {
-                            <p>Opened</p>
-                        }
-                    </td>
+                    <td></td>
                     <td>
-                        <input type="button" value="Read" class="btn btnColor raise" onclick="$('#@item.MessageId').collapse('toggle'); changeRead('@item.SendDate')"/>
-                        <input type="button" value="Delete" class="btn btnColor raise" onclick="location.href = '@Url.Action("DeleteMessage", "UserAdmin", new {msgId = item.MessageId })'" />
-                        @*@Html.DisplayFor(msgItem => item.MessageInfo)*@
+                        <input type="button" id="@item.SendDate.ToString()" value="Read" class="btn btnColor raise readBtn" style="width: 100px;" onclick="$('#@item.MessageId').collapse('toggle'); changeValue(this); changeRead('@item.SendDate');"/>
+                        <input type="button" value="Delete" class="btn btnColor raise" style="width: 100px"; onclick="location.href = '@Url.Action("DeleteMessage", "UserAdmin", new {msgId = item.MessageId})'"/>
                     </td>
                 </tr>
                 <tr>
@@ -74,6 +54,16 @@
 </div>
 
 <script>
+    function changeValue(button)
+    {
+        // Changes the value of the button
+        if (button.value == "Read")
+            button.value = "Opened";
+        else {
+            button.value = "Read";
+        }
+    }
+
     function changeRead(n) {
         let rows = document.getElementById(n);
         let cells = rows.getElementsByTagName('td');
@@ -81,4 +71,3 @@
         cell.innerHTML = "Opened";
     }
 </script>
-

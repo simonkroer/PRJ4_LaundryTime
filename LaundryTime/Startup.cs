@@ -49,10 +49,6 @@ namespace LaundryTime
                 options.UseSqlServer(connectionString.MyConnection));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            var notificationMetadata =
-                Configuration.GetSection("NotificationMetadata").
-                    Get<NotificationMetadata>();
-            services.AddSingleton(notificationMetadata);
             services.AddControllers();
 
             services

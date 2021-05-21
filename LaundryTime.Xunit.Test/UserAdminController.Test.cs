@@ -45,25 +45,25 @@ namespace LaundryTime.Xunit.Test
         }
 
         #region Index
-        //[Fact]
-        //public void Index_AuthorizedUser_ExpectedIActionResult()
-        //{
-        //    _uut.ControllerContext = new ControllerContext
-        //    {
-        //        HttpContext = new DefaultHttpContext
-        //        {
-        //            User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-        //            {
-        //                new Claim("UserAdmin", "IsUserAdmin")
-        //            }))
-        //        }
-        //    };
+        [Fact]
+        public void Index_AuthorizedUser_ExpectedIActionResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserAdmin", "IsUserAdmin")
+                    }))
+                }
+            };
 
-        //    var res = _uut.Index();
+            var res = _uut.Index();
 
-        //    Assert.IsType<Task<IActionResult>>(res);
-        //    Dispose();
-        //}
+            Assert.IsType<Task<IActionResult>>(res);
+            Dispose();
+        }
 
         [Fact]
         public void Index_AuthorizedUser_Expected_ViewNameCorrect_ModelNotNull()
