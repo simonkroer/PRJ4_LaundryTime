@@ -4,5 +4,5 @@
   <string>dotCoverCoverageConfigCore.xml</string>
   <string>dotCoverCoverageConfigCore2.xml</string>
  </Source>
- <Output>output_merged.xml</Output>
+ <Output>output_merged.html</Output>
 </MergeParams>
