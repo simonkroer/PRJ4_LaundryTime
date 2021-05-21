@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MergeParams>
  <Source>
-  <string>coverage_report.xml</string>
+  <string>coverage_report.html</string>
  </Source>
 <Source>
-  <string>coverage_report2.xml</string>
+  <string>coverage_report2.html</string>
 </Source>
  <Output>output_merged.html</Output>
 </MergeParams>
