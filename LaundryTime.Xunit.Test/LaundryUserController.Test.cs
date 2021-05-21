@@ -142,8 +142,6 @@ namespace LaundryTime.Xunit.Test
         [Fact]
         public async Task AvailableBookings_Something()
         {
-            
-
             _uut.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext
