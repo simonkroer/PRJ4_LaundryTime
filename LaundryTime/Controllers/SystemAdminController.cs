@@ -128,6 +128,11 @@ namespace LaundryTime.Controllers
             return View(userAdmin);
         }
 
+        public async Task<IActionResult> DeleteUserAdmin()
+        {
+            return View();
+        }
+
 
 
     }
