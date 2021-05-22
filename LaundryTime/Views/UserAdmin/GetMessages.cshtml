@@ -1,0 +1,73 @@
+﻿@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> User
+@inject ApplicationDbContext context
+@model UserAdminViewModel
+@{ ViewBag.Title = "UserAdminMyUsers";
+    Layout = "_Layout";
+}
+
+<div>
+    <img class="rounded float-right imghoover" style="max-width: 120px;" src="~/Images/logo.png" />
+    <h1>All Messages</h1>
+    <table class="table table-striped">
+        <thead class="headColor">
+            <tr>
+                <th>
+                    Date:
+                </th>
+                <th>
+                    Sender:
+                </th>
+                <th>
+                    
+                </th>
+                <th>
+                    Actions:
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MyMessages)
+            {
+                <tr id="@item.SendDate.ToString()">
+                    <td>
+                        @Html.DisplayFor(msgItem => item.SendDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(msgItem => item.LaundryUser.Name)
+                    </td>
+                    <td></td>
+                    <td>
+                        <input type="button" id="@item.SendDate.ToString()" value="Read" class="btn btnColor raise readBtn" style="width: 100px;" onclick="$('#@item.MessageId').collapse('toggle'); changeValue(this); changeRead('@item.SendDate');"/>
+                        <input type="button" value="Delete" class="btn btnColor raise" style="width: 100px"; onclick="location.href = '@Url.Action("DeleteMessage", "UserAdmin", new {msgId = item.MessageId})'"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div class="collapse testAlignText" id="@item.MessageId">
+                            @Html.DisplayFor(msgItem => item.MessageInfo)
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function changeValue(button)
+    {
+        // Changes the value of the button
+        if (button.value == "Read")
+            button.value = "Opened";
+        else {
+            button.value = "Read";
+        }
+    }
+
+    function changeRead(n) {
+        let rows = document.getElementById(n);
+        let cells = rows.getElementsByTagName('td');
+        let cell = cells[2];
+        cell.innerHTML = "Opened";
+    }
+</script>

@@ -25,6 +25,7 @@ namespace LaundryTime.Data
         public DbSet<ReservedListModel> ReservedListModels { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<LaundryLog> LaundryLogs { get; set; }
+        public DbSet<MessageToUserAdmin> MessageList { get; set; }
 
         
     }

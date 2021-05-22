@@ -1,0 +1,33 @@
+﻿
+@model LaundryTime.Data.Models.MessageToUserAdmin
+@{ ViewBag.Title = "SendMessage";
+    Layout = "_Layout";
+}
+<div>
+    <form>
+        <img class="rounded float-right imghoover" style="max-width: 120px;" src="~/Images/logo.png" />
+
+        <table class="table">
+            <tr>
+                <td>
+                    <h2>Message to User Admin</h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @using (Html.BeginForm("SendMessageToUserAdmin", "LaundryUser"))
+                    {
+                        <textarea class="textareaMessage" name="message" placeholder="Enter your message here"></textarea>
+                        <br />
+                        <input class="raise btn btnColor contentWidth" type="submit" value="Send message" />
+
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

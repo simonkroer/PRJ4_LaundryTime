@@ -61,5 +61,17 @@ namespace LaundryTime.Data.Repositories
         {
             return context.Machines.Any(i => i.ModelNumber == number);
         }
+
+        public void StartMachine(int id)
+        {
+            var machine = context.Machines.SingleOrDefault(m => m.MachineId == id);
+            machine.Occupied = true;
+        }
+
+        public void StopMachine(int id)
+        {
+            var machine = context.Machines.SingleOrDefault(m => m.MachineId == id);
+            machine.Occupied = false;
+        }
     }
 }

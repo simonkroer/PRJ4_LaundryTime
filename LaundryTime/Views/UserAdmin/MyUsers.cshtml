@@ -1,44 +1,72 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Http
+@using Microsoft.CodeAnalysis
 @using Microsoft.CodeAnalysis.CSharp
+@using Org.BouncyCastle.Asn1.Ocsp
+@using Request = Twilio.Http.Request
 @model UserAdminViewModel
 @{ ViewBag.Title = "UserAdminMyUsers";
-    Layout = "_Layout"; }
+    Layout = "_Layout";
+}
+@functions{
+    public void sortIt()
+    {
+        Model.MyUsers.Sort((res1, res2) => res1.PaymentDueDate.CompareTo(res2.PaymentDueDate));
+    }
+}
 
-<div>
-    <br />
-    <h4> All my users:</h4>
-    <br />
-
-    <div >
-        <a class="btn btn-primary" type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
-    </div>
-    <br /><br />
+<div class="table-responsive">
     <div>
-        <table class="mytable">
-            <thead>
-            <tr>
-                <td>
+        <img class="rounded float-right imghoover" style="max-width: 120px;" src="~/Images/logo.png"/>
+        <h1> All my users:</h1>
+    </div>
+    <br/>
+
+    <div>
+        <a class="btn btnColor raise " type="button" asp-area="Identity" asp-page="/Account/Register">Add user</a>
+        <a class="btn btnColor raise text-white" type="button" onclick="location.href = '@Url.Action("GenerateMyUsersReport", "UserAdmin")'">Save complete report</a>
+        <br/><br/>
+
+        <div >
+            <label>Find by name:</label>
+            @using (Html.BeginForm("SearchUser", "UserAdmin"))
+            {
+                <input type="text" name="nameinput"/>
+                <input type="submit" class="btn btnColor raise "/>
+            }
+        </div>
+        <br />
+    </div>
+        <p class="noShow">Hover over "Name" or "Payment due date" for sorting </p>
+
+    <div>
+        <table class="mytable table-striped" id="sortingID">
+            <thead class="headColor">
+            <tr >
+                <th onclick="location.href = '@Url.Action("SortName", "UserAdmin")'" data-toggle="tooltip" data-placement="top" title="Press for name sorting, A-Z">
                     Name
-                </td>
-                <td>
+                </th>
+                <th >
                     Phone
-                </td>
-                <td>
+                </th>
+                <th >
                     Email
-                </td>
-                <td>
+                </th>
+                <th >
                     Address
-                </td>
-                <td>
+                </th>
+                <th >
                     Paymentmethod
-                </td>
-                <td>
+                </th>
+                <th onclick="location.href = '@Url.Action("SortDate", "UserAdmin")'" data-toggle="tooltip" data-placement="top" title="Press for date sorting">
                     Payment due date
-                </td>
-                <td>
-                    @Html.Display("Actions")
-                </td>
+                </th>
+                <th >
+                   Active
+                </th>
+                <th>
+                    Actions
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -64,35 +92,42 @@
                         @Html.DisplayFor(modelItem => item.PaymentDueDate)
                     </td>
                     <td>
-                        <input type="button" id="InputButtonUserAdmin" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'"/> |
-                        <input type="button" id="InputButtonUserAdmin" value="Delete" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin", new {username = item.Email})'"/> |
-                        <input type="button" id="InputButtonUserAdmin" value="History" class="btn-primary"/>
+                        @Html.DisplayFor(modelItem => item.ActiveUser)
+                    </td>
+                    <td>
+                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="Edit" onclick="location.href = '@Url.Action("EditUser", "UserAdmin", new {email = item.Email})'"/> |
+                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="History" class="btn-primary" onclick="$('#@item.Id').collapse('toggle')"/> |
+                        <input type="button" id="InputButtonUserAdmin" style="background-color: lightgray" value="Delete" onclick="location.href = '@Url.Action("DeleteUser", "UserAdmin", new {username = item.Email})'"/>
                     </td>
                 </tr>
                 <tr id="">
                     <td colspan="6">
-                        <div class="collapse testAlignText">
-                            @foreach (var logEntry in item.LaundryHistory)
+                        <div class="collapse testAlignText" id="@item.Id">
+                            @if (item.LaundryHistory.Count == 0)
                             {
-                                <label style="padding-right: 8px">Date: </label>
-                                @Html.DisplayFor(modelItem => logEntry.LogDate)
-                                <label style="padding-left: 20px">Info: </label>
-                                @Html.DisplayFor(modelItem => logEntry.LogInfo)
-                                <br/>
+                                <p>There is no laundry history</p>
+                            }
+                            else
+                            {
+                                foreach (var logEntry in item.LaundryHistory)
+                                {
+                                    <label style="padding-right: 8px">Date: </label>
+                                    @Html.DisplayFor(modelItem => logEntry.LogDate)
+                                    <label style="padding-left: 20px">Info: </label>
+                                    @Html.DisplayFor(modelItem => logEntry.LogInfo)
+                                    <br/>
+                                }
                             }
                         </div>
                     </td>
-                </tr>}
+                </tr>
+            }
             </tbody>
         </table>
     </div>
 </div>
 
 <script>
-    $(document).ready(function () {
-        $(".btn-primary").click(function () {
-            $(".collapse").collapse('toggle');
-        });
-    });
+    
 </script>
 

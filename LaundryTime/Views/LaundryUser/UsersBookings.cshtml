@@ -1,0 +1,65 @@
+﻿@using System.Linq
+@model IEnumerable<LaundryTime.ViewModels.BookingListViewModel>
+
+
+@{
+    ViewData["Title"] = "Users Bookings";
+}
+<head >
+    @* Calender date picker *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div style="width:70%; margin-left:15%">
+        <img class="rounded float-right imghoover" style="max-width: 120px;" src="~/Images/logo.png" />
+        <h1>@ViewData["Title"]</h1>
+
+        @* Remove style for final version *@
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Time:</th>
+                    <th>Type:</th>
+                    <th>Number:</th>
+                    <th>Date:</th>
+                    <th>Unbook:</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Time)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MachineType)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MachineName)
+                        </td>
+                        <div class="col-md-10">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                        </div>
+
+
+                        <td>
+                            <a asp-action="Unbook" class="raise btn btnColor" asp-route-id="@item.BookingID">Unbook</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="UserAdminEditUser">
+            <a asp-controller="LaundryUser" asp-action="Index">Back to booking site</a>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,402 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: left;
+    word-break: break-all;
+    color: white;
+    font-size: 14px;
+}
+
+.navbar-light {
+    color: white;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: white;
+}
+
+.UserAdminEditUser a {
+    color: #1861ac;
+    background-color: white;
+}
+
+.nav-link {
+    color: white;
+}
+
+.navbar-nav li {
+    padding-right: 1em;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #203647;
+    border-color: #1861ac;
+}
+
+.raise:hover,
+.raise:focus {
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+    transform: translateY(-0.25em);
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.collapsible {
+    cursor: pointer;
+    outline: none;
+    color: #1b6ec2;
+    border: none;
+    background-color: white;
+}
+
+    .active, .collapsible:hover {
+        background-color: #ccc;
+    }
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.bg-opacity-blue {
+    background: rgba(9, 36, 128, 0.9);
+}
+
+.logContent {
+    padding: 0 18px;
+    max-height: 0;
+    display: none;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+    width: 100%;
+    text-align: center;
+}
+
+    .logContent.active {
+        display: inline-block;
+    }
+
+main {
+    /* Margin bottom by footer height */
+    margin-top: 150px;
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    text-align: center;
+    background: rgba(9, 36, 128, 0.9);
+}
+
+.mytable {
+    border-style: none;
+    font-family: Arial, sans-serif;
+}
+/* Force table to not be like tables anymore */
+table, thead, tbody, th, td, tr {
+    display: block;
+}
+
+    .mytable, input {
+        text-align: center;
+        height: auto;
+        font-size: small;
+        padding: 1em;
+    }
+
+
+thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+tr {
+    border: 1px solid #ccc;
+}
+
+td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 0;
+}
+
+    td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    /*
+	Label the data
+	*/
+  
+
+#InputButtonUserAdmin {
+    color: #1b6ec2;
+    border: none;
+    background-color: white;
+}
+
+#UserEditUpdateUserAdmin {
+    color: #1b6ec2;
+    border: none;
+    background-color: white;
+}
+
+li {
+    padding-left: 1em;
+}
+
+.addMachineTable {
+    text-align: right;
+}
+
+.content {
+    text-align: center;
+    padding-top: 2em;
+}
+
+
+/* carousel */
+
+.carousel-item {
+    background: white;
+}
+
+.carousel-control-next,
+.carousel-control-prev, .carousel-indicators {
+    filter: invert(100%);
+}
+
+.carouseltext {
+    color: black;
+    padding-top: 1em;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: -50px;
+}
+
+    .carousel-indicators li {
+        width: 10px;
+        height: 10px;
+    }
+
+
+#UserLog {
+    display: none;
+}
+
+.delButton {
+    background-image: url('/Images/redx.jpg');
+}
+
+.testAlignText {
+    text-align: left;
+}
+
+
+/*Add machine - User admin*/
+
+.entryform {
+    width: 280px;
+}
+
+.addmachineContent {
+    width: 70%;
+    padding-left: 0;
+}
+
+/*Macine index - User admin*/
+.btnAlignment {
+    padding-left: 20px;
+}
+.mmContent {
+    margin-left: 5%;
+    width: 90%;
+}
+
+.mmsideMargin {
+    margin-left: 0;
+}
+
+.mmAddbtnSide {
+    padding-left: 0;
+}
+
+
+
+
+/*Edit user - User admin*/
+.contentMargin {
+    padding-left: 0;
+}
+
+.inputwidthMyUser {
+    min-width: 270px;
+}
+
+/*Register - UserAdmin*/
+.rContent {
+    margin-left: 25%;
+}
+
+/*My users - User admin*/
+.headColor {
+    background-color: #203647;
+    color: white;
+}
+
+.textareaMessage {
+    align-content: center;
+    min-width: 250px;
+    min-height: 200px;
+}
+
+
+.noShow {
+    visibility: hidden !important;
+}
+
+.btnColor {
+    background-color: #203647;
+    color: white;
+}
+
+
+.machinestatus {
+    max-height: 50px;
+    max-width: 50px;
+    animation: blink 1.3s steps(1, end) infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    12% {
+        opacity: 0.75;
+    }
+
+    25% {
+        opacity: 0.5;
+    }
+
+    37% {
+        opacity: 0.25;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    62% {
+        opacity: 0.25;
+    }
+
+    75% {
+        opacity: 0.5;
+    }
+
+    87% {
+        opacity: 0.75;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/*Index - LaundryUser*/
+.LaundryUserContent {
+    width: 100%;
+    margin-left: 0;
+}
+
+.LaundryUsersize {
+    min-width: 60%;
+    padding-top: 0;
+    margin-left: 9%;
+}
+
+.fontForDateData {
+    font-size: 20px;
+}
+
+.generelPadding {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.contentWidth {
+    min-width: 205px;
+}
+
+/*Available booking - Laundryuser*/
+.abContent {
+    margin-left: 25%
+}
+
+/*Register*/
+#marginRegister {
+    margin-left: 0;
+}
+
+.col-md-4 {
+    margin-left: 0;
+}

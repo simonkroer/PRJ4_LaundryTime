@@ -15,5 +15,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
         int GetNumberOfMachines();
         public string GetTypeOfMachine(int id);
         public bool MachineExist(string number);
+        public void StartMachine(int id);
+        public void StopMachine(int id);
     }
 }

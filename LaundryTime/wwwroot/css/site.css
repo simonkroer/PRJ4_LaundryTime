@@ -3,7 +3,7 @@ for details on configuring this project to bundle and minify static web assets. 
 
 a.navbar-brand {
   white-space: normal;
-  text-align: center;
+  text-align: left;
   word-break: break-all;
   color: white;
 }
@@ -31,15 +31,21 @@ a {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #203647;
+    border-color: #1861ac;
+}
+
+.raise:hover,
+.raise:focus {
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+    transform: translateY(-0.25em);
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 html {
@@ -91,7 +97,7 @@ header {
 }
 
 .bg-opacity-blue {
-    background: rgba(9, 36, 128, 0.7);
+    background: rgba(9, 36, 128, 0.9);
 }
 
 .logContent {
@@ -120,7 +126,7 @@ main {
     white-space: nowrap;
     line-height: 60px;
     text-align: center;
-    background: rgba(9, 36, 128, 0.7);
+    background: rgba(9, 36, 128, 0.9);
 }
 
 .mytable {
@@ -135,6 +141,9 @@ main {
         padding: 1em;
 }
 
+.myUserContent{
+    width: 90%;
+}
 #InputButtonUserAdmin {
     color: #1b6ec2;
     border: none;
@@ -199,3 +208,169 @@ li {
     text-align: left;
 }
 
+
+/*Add machine - User admin*/
+
+.entryform {
+    width: 300px;
+}
+.addmachineContent {
+    width: 70%;
+    padding-left: 35%;
+}
+
+/*Macine index - User admin*/
+.mmContent {
+    margin-left: 25%;
+    width: 70%
+}
+
+.mmsideMargin {
+    margin-left: 15%;
+}
+
+.mmAddbtnSide{
+    padding-left: 100px;
+}
+
+
+
+/*Edit user - User admin*/
+.contentMargin {
+    padding-left: 35%;
+}
+
+.inputwidthMyUser {
+    min-width: 300px;
+}
+
+/*Register - UserAdmin*/
+.rContent {
+    margin-left:25%;
+}
+
+/*My users - User admin*/
+.headColor {
+    background-color: #203647;
+    color: white;
+    width: 90%;
+}
+
+.textareaMessage {
+    align-content:center;
+    min-width: 400px;
+    min-height: 200px;
+}
+
+.noShow{
+
+}
+
+.btnColor {
+    background-color: #203647;
+    color: white;
+}
+
+.btnRead {
+    width: 100px;
+}
+
+.searchfield {
+    max-width: 20%;
+}
+
+
+.machinestatus {
+    max-height: 50px;
+    max-width: 50px;
+    animation: blink 1.3s steps(1, end) infinite;
+}
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    12% {
+        opacity: 0.75;
+    }
+    25% {
+        opacity: 0.5;
+    }
+    37% {
+        opacity: 0.25;
+    }
+    50% {
+        opacity: 0;
+    }
+    62% {
+        opacity: 0.25;
+    }
+    75% {
+        opacity: 0.5;
+    }
+    87% {
+        opacity: 0.75;
+    }
+    100% {
+        opacity: 1;
+    }
+    
+}
+
+.imghoover {
+    box-shadow: 15px 15px 15px 5px rgba(78, 72, 77, 0.219);
+    transform: translateY(-3px);
+    width: 300px;
+    border-top: 5px solid #0e3750;
+    border-radius: 0%;
+    margin-right: 10px;
+    animation: bounce 1.5s infinite;
+    border: none;
+    transition: all 0.5s ease 0s;
+}
+
+@keyframes bounce {
+    0% {
+        tranform: translate(0, 4px);
+    }
+
+    50% {
+        transform: translate(0, 8px);
+    }
+}
+
+/*Index - LaundryUser*/
+.LaundryUserContent {
+    width: 60%;
+    margin-left: 25%;
+}
+
+.LaundryUsersize{
+    min-width: 60%;
+    padding-top: 50px;
+    margin-left:20%;
+}
+.fontForDateData{
+    font-size: 20px;
+}
+.generelPadding{
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.contentWidth{
+    min-width: 300px;
+}
+
+/*Available booking - Laundryuser*/
+.abContent{
+    margin-left: 25%
+}
+
+/*Register*/
+#marginRegister{
+    margin-left: 35%;
+}
+
+.col-md-4{
+    margin-left: 0%;
+}
