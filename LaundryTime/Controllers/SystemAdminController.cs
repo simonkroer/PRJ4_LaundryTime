@@ -113,14 +113,14 @@ namespace LaundryTime.Controllers
         }
 
         //Get UserAdminDetails=================================================================
-        public async Task<IActionResult> UserAdminDetails(string username)
+        public async Task<IActionResult> UserAdminDetails(string email)
         {
-            if(username == null)
+            if(email == null)
             {
                 return NotFound();
             }
 
-            var userAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(username);
+            var userAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(email);
             if (userAdmin == null)
             {
                 return NotFound();
