@@ -149,8 +149,8 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                             $"\nPassword: {Input.Password}\n\n" +
                             $"Please remember to confirm your account by clicking the link in the mail sent to {user.Email}";
 
-                          SendMail(message);
-                          SendSMS(user.PhoneNumber, smsMsg);
+                          //SendMail(message);
+                          //SendSMS(user.PhoneNumber, smsMsg);
 
                         if (User.Identity != null)
                         {
@@ -190,35 +190,38 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 	                if (result.Succeeded)
 	                {
 		                _logger.LogInformation("UserAdmin is created! ");
-	                }
 
+                        if (User.Identity != null)
+                        {
+                            var systemadmin = _dataAccess.SystemAdmins.GetSingleSystemAdmin(User.Identity.Name);
+                            systemadmin.UserAdmins.Add(user);
+                            _dataAccess.Complete();
+                        }
+
+                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        {
+                            return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        }
+                        else
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                     //=====================================================Hvad sker der her?==================================================================
 
-	                if (User.Identity != null)
-	                {
-		                var useradmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
-		                useradmin.Users.Add(user);
-		                _dataAccess.Complete();
-	                }
 
-	                if (_userManager.Options.SignIn.RequireConfirmedAccount)
-	                {
-		                return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-	                }
-	                else
-	                {
-		                await _signInManager.SignInAsync(user, isPersistent: false);
-		                return LocalRedirect(returnUrl);
-	                }
                 }
-                //foreach (var error in result.Errors)
-                //{
-                //	ModelState.AddModelError(string.Empty, error.Description);
-                //}
+
                 //============================================================Hvad sker der her?===================================================================
 
-            
-            else
+
+                else
                 {
                     var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                     var result = await _userManager.CreateAsync(user, Input.Password);

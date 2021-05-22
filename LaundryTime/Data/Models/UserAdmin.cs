@@ -28,6 +28,5 @@ namespace LaundryTime.Data.Models
         public decimal FinancialBalance { get; set; }
 
         public DateTime PaymentDueDate { get; set; }
-
     }
 }
