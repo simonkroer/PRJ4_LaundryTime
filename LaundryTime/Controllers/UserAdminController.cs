@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace LaundryTime.Controllers
 {
@@ -25,7 +26,6 @@ namespace LaundryTime.Controllers
             _reportGenerator = new ReportGenerator();
         }
 
-        [RequireHttps]
         public IActionResult Index()
         {
             if (User.HasClaim("UserAdmin", "IsUserAdmin"))
@@ -40,7 +40,7 @@ namespace LaundryTime.Controllers
             return Unauthorized();
             
         }
-        [RequireHttps]
+
         [HttpGet]
         public async Task<IActionResult> MyUsers(string sortDate, string nameinput)
         {
@@ -70,25 +70,21 @@ namespace LaundryTime.Controllers
             
         }
 
-        [RequireHttps]
         public IActionResult SortDate()
         {
             return RedirectToAction(nameof(MyUsers), new { sortDate = "sort" });
         }
 
-        [RequireHttps]
         public IActionResult SortName()
         {
             return RedirectToAction(nameof(MyUsers), new { sortDate = "" });
         }
 
-        [RequireHttps]
         public IActionResult SearchUser(string nameinput)
         {
             return RedirectToAction(nameof(MyUsers), new{nameinput = nameinput, sortDate=""});
         }
 
-        [RequireHttps]
         [HttpGet("MyUsersReport")]
         public  async Task<IActionResult> GenerateMyUsersReport()
         {
@@ -104,7 +100,6 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
-        [RequireHttps]
         [HttpGet("MyMachinesReport")]
         public async Task<IActionResult> GenerateMyMachinesReport()
         {
@@ -119,7 +114,6 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
-        [RequireHttps]
         public IActionResult DeleteUser(string username)
         {
             if (User.HasClaim("UserAdmin", "IsUserAdmin"))
@@ -147,8 +141,7 @@ namespace LaundryTime.Controllers
 
             return Unauthorized();
         }
-
-        [RequireHttps]
+        
         [HttpGet]
         public IActionResult EditUser(string email)
         {
@@ -174,7 +167,6 @@ namespace LaundryTime.Controllers
                 
         }
 
-        [RequireHttps]
         [HttpPost]
         public IActionResult UpdateUser(UserAdminViewModel viewModel)
         {
@@ -226,7 +218,7 @@ namespace LaundryTime.Controllers
 
         }
 
-        [RequireHttps]
+
         [HttpPost]
         public IActionResult ToggleBlockUser(UserAdminViewModel viewModel)
         {
@@ -271,7 +263,6 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
-        [RequireHttps]
         public IActionResult IndexMachines()
         {
             if (User.HasClaim("UserAdmin", "IsUserAdmin"))
@@ -292,7 +283,6 @@ namespace LaundryTime.Controllers
             
         }
 
-        [RequireHttps]
         [HttpGet]
         public IActionResult AddMachines()
         {
@@ -306,7 +296,6 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
-        [RequireHttps]
         [HttpPost]
         public IActionResult AddMachines(UserAdminViewModel viewModel)
         {
@@ -331,7 +320,6 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
-        [RequireHttps]
         [HttpPost]
         public IActionResult DeleteMachines(string MachineToDel)
         {
@@ -382,12 +370,40 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
-        //[HttpPost("UpdateStats")]
-        //public void UpdateReadStatus(int Id)
-        //{
-        //    _dataAccess.MessageList.UpdateMessageStatus(Id);
-        //    _dataAccess.Complete();
-        //}
+        [HttpPost]
+        public IActionResult StartMachine(int id)
+        {
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                if (!ModelState.IsValid)
+                {
+                    return NotFound();
+                }
+                _dataAccess.Machines.StartMachine(id);
+                _dataAccess.Complete();
 
+                return RedirectToAction(nameof(IndexMachines));
+            }
+
+            return Unauthorized();
+        }
+
+        [HttpPost]
+        public IActionResult StopMachine(int id)
+        {
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                if (!ModelState.IsValid)
+                {
+                    return NotFound();
+                }
+                _dataAccess.Machines.StopMachine(id);
+                _dataAccess.Complete();
+
+                return RedirectToAction(nameof(IndexMachines));
+            }
+
+            return Unauthorized();
+        }
     }
 }

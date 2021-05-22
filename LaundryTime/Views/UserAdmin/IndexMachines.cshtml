@@ -1,11 +1,13 @@
 ﻿@using Microsoft.Data.SqlClient.DataClassification
+@inject ApplicationDbContext _context
 @model UserAdminViewModel
 
 @{
     ViewData["Title"] = "Machine Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="mmContent">
+
+<div class="mmContent" style="margin-left: 0">
     <div class="mmsideMargin">
         <img class="rounded float-right imghoover" style="max-width: 120px;" src="~/Images/logo.png" />
         <h3>Current Machines - @DateTime.Today.ToString("D")</h3>
@@ -51,13 +53,23 @@
             <th>
                 <label>Occupied/Available</label>
             </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+                <label>Time Left</label>
+            </th>
         </tr>
         </thead>
         @foreach (var item in Model.MyMachines)
         {
             <tbody>
-            <tr>
-
+            <tr id="@item.MachineId.ToString()">
                 <td>
                     @Html.DisplayFor(modelItem => item.MachineId)
                 </td>
@@ -73,24 +85,125 @@
                 <td>
                     @if (item.Occupied)
                     {
-                        <input class="machinestatus" type="image" src="~/Images/redwasher.png" />
+                        <input id="@item.MachineId img" class="machinestatus" type="image" src="~/Images/redwasher.png"/>
                     }
                     else
                     {
-                        <input class="machinestatus" type="image" src="~/Images/greenwasher.png" />
+                        <input class="machinestatus" type="image" src="~/Images/greenwasher.png"/>
                     }
                 </td>
                 <td>
                     <form method="post">
                         <input type="image" src="~/Images/redx.jpg" formaction="/UserAdmin/DeleteMachines">
-                        <input type="hidden" name="MachineToDel" value="@item.MachineId" />
+                        <input type="hidden" name="MachineToDel" value="@item.MachineId"/>
                     </form>
+                </td>
+                <td>
+                    <form method="post">
+                        <button type="submit" formaction="/UserAdmin/StartMachine" class="btn btnColor raise" onclick="turnOn('http://laundrytimemachines.ddns.net:8080/api/laundry?machinenumber=' + '@item.MachineId' + '&value=on')">On</button>
+                        <input type="hidden" name="id" value="@item.MachineId"/>
+                    </form>
+                </td>
+                <td>
+                    <form method="post">
+                        <button type="submit" formaction="/UserAdmin/StopMachine" class="btn btnColor raise" onclick="turnOff('http://laundrytimemachines.ddns.net:8080/api/laundry?machinenumber=' + '@item.MachineId' + '&value=off')">Off</button>
+                        <input type="hidden" name="id" value="@item.MachineId"/>
+                    </form>
+                </td>
+                <td>
+                    <input type="button" class="btn btnColor raise" value="Status" data-onload="getStatus('http://laundrytimemachines.ddns.net:8080/api/laundry?id=' + '@item.MachineId', '@item.MachineId')"/>
+                </td>
+                <td>
+                    <label></label>
                 </td>
             </tr>
             </tbody>
         }
     </table>
-    
+
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/MachineStatus.js"></script>
+
+    <script type="text/javascript">
+        $('[data-onload]').each(function(){
+            eval($(this).data('onload'));
+        });
+
+        async function turnOn(url) {
+
+            await fetch(url,
+                {
+                    method: 'POST',
+                    body: '',
+                    mode: 'no-cors'
+                });
+        };
+
+        async function turnOff(url) {
+
+            await fetch(url,
+                {
+                    method: 'POST',
+                    body: '',
+                    mode: 'no-cors'
+                });
+        };
+
+        setTimeout(refreshPage, 10000);
+
+        function refreshPage() {
+            location.reload();
+        }
+
+        async function getStatus(url, element) {
+
+            let data = '';
+            let time = '';
+
+            await fetch(url,
+                {
+                    method: 'GET'
+                }).then(res => res.json()
+                .then(res => {
+                    data = res;
+                }));
+
+            if (data !== 0) {
+                setTimeout(this, 10000, url, element);
+            }
+
+            if (data > 300)
+                data = 0;
+
+            if (data === 0) {
+                document.getElementById(element+' img').src = "/Images/greenwasher.png";
+                time = 'Available';
+            }
+
+            if (data > 60) {
+                time = Math.floor((data / 60)) + 'Min.';
+            }
+
+            if ((data % 60) !== 0) {
+                time += + ' ' + data % 60 + 'Sec.';
+            }
+
+            if (data === 60) {
+                time = data + 'Sec.';
+            }
+
+            let rows = document.getElementById(element);
+            let cells = rows.getElementsByTagName('td');
+            let cell = cells[9];
+            cell.innerHTML = time;
+
+        };
+
+        $(document).ready (function () {
+            jQuery.each ($("[onload]"), function (index, item) {
+                $(item).prop ("onload").call (item);
+                return false;
+            });
+        });
+    </script>
 </div>

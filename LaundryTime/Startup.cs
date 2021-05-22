@@ -43,7 +43,7 @@ namespace LaundryTime
             services.Configure<ConnectionString>(Configuration.GetSection("ConnectionString"));
 
             var connectionString = new ConnectionString();
-            Configuration.GetSection("ConnectionString").Bind(connectionString, c => c.BindNonPublicProperties = true);
+            Configuration.GetSection("ConnectionStrings").Bind(connectionString, c => c.BindNonPublicProperties = true);
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString.MyConnection));
@@ -87,14 +87,13 @@ namespace LaundryTime
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }
-            //
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //    app.UseHsts();
-            //}
-            app.UseHttpsRedirection();
+
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -116,7 +115,7 @@ namespace LaundryTime
             {
                 CreateNewBookList(context, CreateDateModel(context, "23-04-2021"));
             }
-            
+
 
             app.UseAuthorization();
 
@@ -314,38 +313,6 @@ namespace LaundryTime
             {
                 var machine = new Machine();
                 machine.Type = "Washing";
-                machine.InstallationDate = DateTime.Today;
-                machine.ModelNumber = ModelNumber;
-                machine.Occupied = false;
-
-                //Adding machine to DB:
-                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
-                useradmin.Machines.Add(machine);
-                dataAcces.Complete();
-            }
-
-            ModelNumber = "SE-59-238W";
-
-            if (!dataAcces.Machines.MachineExist(ModelNumber))
-            {
-                var machine = new Machine();
-                machine.Type = "Washing";
-                machine.InstallationDate = DateTime.Today;
-                machine.ModelNumber = ModelNumber;
-                machine.Occupied = false;
-
-                //Adding machine to DB:
-                var useradmin = dataAcces.UserAdmins.GetSingleUserAdmin(userAdminEmail);
-                useradmin.Machines.Add(machine);
-                dataAcces.Complete();
-            }
-
-            ModelNumber = "SE-33-245D";
-
-            if (!dataAcces.Machines.MachineExist(ModelNumber))
-            {
-                var machine = new Machine();
-                machine.Type = "Drying";
                 machine.InstallationDate = DateTime.Today;
                 machine.ModelNumber = ModelNumber;
                 machine.Occupied = false;
