@@ -32,10 +32,8 @@ namespace LaundryTime.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;
-        private NotificationMetadata _notificationMetadata;
         private IOptions<SmsAccount> _smsAccount;
         private IOptions<EmailAccount> _emailAccount;
 
@@ -43,9 +41,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, 
             ApplicationDbContext context,
-            NotificationMetadata notificationMetadata,
             IOptions<SmsAccount> smsAccount,
             IOptions<EmailAccount> emailAccount)
             
@@ -53,10 +49,8 @@ namespace LaundryTime.Areas.Identity.Pages.Account
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
             _context = context;
             _dataAccess = new DataAccsessAction(context);
-            _notificationMetadata = notificationMetadata;
             _smsAccount = smsAccount;
             _emailAccount = emailAccount;
         }
@@ -214,9 +208,6 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {
                             return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
@@ -249,7 +240,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 Credentials = new NetworkCredential(_emailAccount.Value.Login, _emailAccount.Value.Password), // you must give a full email address for authentication 
                 TargetName = "STARTTLS/smtp-relay.sendinblue.com", // Set to avoid MustIssueStartTlsFirst exception
-                EnableSsl = true, // Set to avoid secure connection exception
+                EnableSsl = false, // Set to avoid secure connection exception
             })
                 smtpClient.Send(message);
         }

@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Text.Encodings.Web;
 using System.Text;
 using System.Threading.Tasks;
+using LaundryTime.Data;
 using LaundryTime.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
 
 namespace LaundryTime.Areas.Identity.Pages.Account
 {
@@ -20,12 +22,14 @@ namespace LaundryTime.Areas.Identity.Pages.Account
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _emailSender;
+        private IOptions<EmailAccount> _emailAccount;
+        private IOptions<SmsAccount> _smsAccount;
 
-        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IOptions<EmailAccount> emailAccount, IOptions<SmsAccount> smsAccount)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
+            _emailAccount = emailAccount;
+            _smsAccount = smsAccount;
         }
 
         [BindProperty]
@@ -83,13 +87,13 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 
             using (SmtpClient smtpClient = new SmtpClient()
             {
-                Host = "smtp.office365.com",
+                Host = "smtp-relay.sendinblue.com",
                 Port = 587,
                 UseDefaultCredentials = false, // This require to be before setting Credentials property
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential("laundrytimemaster@hotmail.com", "Sommer25!"), // you must give a full email address for authentication 
-                TargetName = "STARTTLS/smtp.office365.com", // Set to avoid MustIssueStartTlsFirst exception
-                EnableSsl = true, // Set to avoid secure connection exception
+                Credentials = new NetworkCredential(_emailAccount.Value.Login, _emailAccount.Value.Password), // you must give a full email address for authentication 
+                TargetName = "STARTTLS/smtp-relay.sendinblue.com", // Set to avoid MustIssueStartTlsFirst exception
+                EnableSsl = false, // Set to avoid secure connection exception
             })
                 smtpClient.Send(message);
         }

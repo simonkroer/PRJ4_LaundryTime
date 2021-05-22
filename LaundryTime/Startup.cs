@@ -40,9 +40,9 @@ namespace LaundryTime
         {
             services.Configure<SmsAccount>(Configuration.GetSection("SmsAccount"));
             services.Configure<EmailAccount>(Configuration.GetSection("EmailAccount"));
-            services.Configure<ConnectionString>(Configuration.GetSection("ConnectionString"));
+            services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
 
-            var connectionString = new ConnectionString();
+            var connectionString = new ConnectionStrings();
             Configuration.GetSection("ConnectionStrings").Bind(connectionString, c => c.BindNonPublicProperties = true);
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -106,7 +106,6 @@ namespace LaundryTime
 
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

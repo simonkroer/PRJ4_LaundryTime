@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LaundryTime.Data.Sensitive
 {
-    public class ConnectionString
+    public class ConnectionStrings
     {
         public string MyConnection { get; set; }
     }
