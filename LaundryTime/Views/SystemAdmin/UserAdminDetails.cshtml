@@ -1,43 +1,43 @@
 ﻿@model UserAdmin
 @{
-    ViewData["Title"] = "Details";
+	ViewData["Title"] = "Details";
 }
 <div>
-    <img class="rounded float-right imghoover" style="max-width: 120px; margin-left: 30px" src="~/Images/logo.png" />
-    <h1>@ViewData["Title"]</h1>
+	<img class="rounded float-right imghoover" style="max-width: 120px; margin-left: 30px" src="~/Images/logo.png" />
+	<h1>@ViewData["Title"]</h1>
 	
-    <dl class="row">
+	<dl class="row">
 		
-	    <dd class = "col-sm-10">
-		    @Model.Name
-	    </dd>
+		<dd class = "col-sm-10">
+			@Model.Name
+		</dd>
 
-	    <dd class = "col-sm-10">
-		    @Model.Email)
-	    </dd>
+		<dd class = "col-sm-10">
+			@Model.Email)
+		</dd>
 
-	    <dd class = "col-sm-10">
-		    @Model.WorkAddress)
-	    </dd>
+		<dd class = "col-sm-10">
+			@Model.WorkAddress)
+		</dd>
 
-	    <dd class = "col-sm-10">
-		    @Model.PaymentMethod
-	    </dd>
+		<dd class = "col-sm-10">
+			@Model.PaymentMethod
+		</dd>
 
-	    <dd class = "col-sm-10">
-		    @Model.Machines
-	    </dd>
+		<dd class = "col-sm-10">
+			@Model.Machines
+		</dd>
 	   
-    </dl>
+	</dl>
 </div>
 
 <div>
-    <a asp-action="Index">Back to control panel</a>
+	<a asp-action="Index">Back to control panel</a>
 </div>
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
 @*<div class="row">
