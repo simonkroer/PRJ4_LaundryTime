@@ -18,6 +18,8 @@ namespace LaundryTime.ViewModels
         [BindProperty]
         public List<UserAdmin> AllUserAdmins { get; set; }
 
+        public UserAdmin UserAdmin { get; set; }
+
         public List<LaundryUser> AllUsers { get; set; }
         [BindProperty]
         public InputModel Input { get; set; }
