@@ -62,9 +62,9 @@
                         @Html.DisplayFor(modelItem => item.WorkAddress)
                     </td>
                     <td>
-                        <a class="btn btnColor raise " asp-action="EditUserAdmin" asp-route-id="@item.UserName">Edit</a> |
-                        <a class="btn btnColor raise " asp-action="UserAdminDetails" asp-route-id="@item.UserName">Details</a> |
-                        <a class="btn btnColor raise " asp-action="DeleteUserAdmin" asp-route-id="@item.UserName">Delete</a>
+                        <a class="btn btnColor raise " asp-action="EditUserAdmin" asp-route-id="@item.Id">Edit</a> |
+                        <a class="btn btnColor raise " asp-action="UserAdminDetails" asp-route-id="@item.Id">Details</a> |
+                        <a class="btn btnColor raise " asp-action="DeleteUserAdmin" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
                 }
