@@ -113,7 +113,7 @@ namespace LaundryTime.Controllers
         }
 
         //Get UserAdminDetails=================================================================
-        public async Task<IActionResult> UserAdminDetails(string email)
+        public async  Task<IActionResult>  UserAdminDetails(string email)
         {
             if(email == null)
             {
