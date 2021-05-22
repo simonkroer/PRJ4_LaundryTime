@@ -1,7 +1,7 @@
 ﻿@model SystemAdminViewModel
 
 @{
-    ViewData["Title"] = "Machine Index";
+    ViewData["Title"] = "System Admin Control Panel";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
     <img height="300" src="Images/logo.png" />
 
     <div class="headerCSS">
-        <p style="font-size: 21px">All User Admins:</p>
+        <p style="font-size: 21px">@ViewData["Title"]</p>
         <a class="btn btnColor raise " type="button" asp-action="CreateUserAdmin">Add UserAdmin</a>
     </div>
 
@@ -19,22 +19,22 @@
             <thead class="thead-dark">
                 <tr class="table-info">
                     <th>
-                        @Html.DisplayNameFor(model => model.UserAdmin.)
+                        @Html.DisplayNameFor(model => model.UserAdmin.Name)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.CheckedIn)
+                        @Html.DisplayNameFor(model => model.UserAdmin.UserName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.GuestName)
+                        @Html.DisplayNameFor(model => model.UserAdmin.PhoneNumber)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.RoomNumber)
+                        @Html.DisplayNameFor(model => model.UserAdmin.PaymentMethod)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.NoOfChildren)
+                        @Html.DisplayNameFor(model => model.UserAdmin.PaymentDueDate)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.NoOfAdults)
+                        @Html.DisplayNameFor(model => model.UserAdmin.WorkAddress)
                     </th>
                     <th></th>
                 </tr>
@@ -42,42 +42,37 @@
             <tbody>
                 @foreach (UserAdmin item in Model.AllUserAdmins)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CheckedIn)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.GuestName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.RoomNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NoOfChildren)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NoOfAdults)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.BreakfastId">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.BreakfastId">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.BreakfastId">Delete</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentMethod)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentDueDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkAddress)
+                    </td>
+                    <td>
+                        <a class="btn btnColor raise " asp-action="EditUserAdmin" asp-route-id="@item.UserName">Edit</a> |
+                        <a class="btn btnColor raise " asp-action="UserAdminDetails" asp-route-id="@item.UserName">Details</a> |
+                        <a class="btn btnColor raise " asp-action="DeleteUserAdmin" asp-route-id="@item.UserName">Delete</a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
 
     </div>
 </div>
-
-
-    
-        
-<th style="font-size: 21px">Name:</th>
 
 
             
