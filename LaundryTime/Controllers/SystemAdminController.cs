@@ -149,33 +149,41 @@ namespace LaundryTime.Controllers
                 return NotFound();
             }
 
-            var userAdmin = await _dataAccess.UserAdmins.GetUserAdmin(id);
+            _systemAdminViewModel.UserAdmin = await _dataAccess.UserAdmins.GetUserAdmin(id);
 
-            if(userAdmin == null)
+            if(_systemAdminViewModel.UserAdmin == null)
             {
                 return NotFound();
             }
 
-            return View(userAdmin);
+            
+
+            return View(_systemAdminViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserAdmin(string id,UserAdmin userAdmin)
+        public async Task<IActionResult> EditUserAdmin(string id,SystemAdminViewModel vm)
         {
-            if (id != userAdmin.Id)
-            {
-                return NotFound();
-            }
+            var userAdmin = await _dataAccess.UserAdmins.GetUserAdmin(id);
 
+            userAdmin.Name = vm.UserAdmin.Name;
+            userAdmin.Email = vm.UserAdmin.Email;
+            userAdmin.UserName = vm.UserAdmin.Email;
+            userAdmin.WorkAddress.StreetAddress = vm.UserAdmin.WorkAddress.StreetAddress;
+            userAdmin.WorkAddress.Zipcode = vm.UserAdmin.WorkAddress.Zipcode;
+            userAdmin.PhoneNumber = vm.UserAdmin.PhoneNumber;
+            userAdmin.PaymentMethod = vm.UserAdmin.PaymentMethod;
+            userAdmin.PaymentDueDate = vm.UserAdmin.PaymentDueDate;
+            
             if (ModelState.IsValid)
             {
-                _dataAccess.UserAdmins.Update(userAdmin);
-                await _dataAccess.SaveChanges();
+                var result = await _userManager.UpdateAsync(userAdmin);
 
-                return RedirectToAction(nameof(Index));
+                if (result.Succeeded)
+                    return RedirectToAction(nameof(Index));
             }
-            return View(userAdmin);
+            return View(vm.UserAdmin);
         }
     }
 
