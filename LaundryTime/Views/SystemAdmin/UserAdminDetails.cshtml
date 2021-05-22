@@ -2,63 +2,33 @@
 @{
     ViewData["Title"] = "Details";
 }
-<div id="marginRegister">
+<div>
     <img class="rounded float-right imghoover" style="max-width: 120px; margin-left: 30px" src="~/Images/logo.png" />
     <h1>@ViewData["Title"]</h1>
+	
+    <dl class="row">
+		
+	    <dd class = "col-sm-10">
+		    @Model.CurrentUserAdmin.Name
+	    </dd>
 
-    <div class="row">
-        <div class="col-md-6">
-            <form asp-action="CreateUserAdmin">
-                <h4>User Admin</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
+	    <dd class = "col-sm-10">
+		    @Model.CurrentUserAdmin.Email)
+	    </dd>
 
-                <div class="form-group">
-                    <label asp-for="Input.Name"></label>
-                    <input asp-for="Input.Name" class="form-control" />
-                    <span asp-validation-for="Input.Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.StreetAddress"></label>
-                    <input asp-for="Input.StreetAddress" class="form-control" />
-                    <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Zipcode"></label>
-                    <input asp-for="Input.Zipcode" class="form-control" />
-                    <span asp-validation-for="Input.Zipcode" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Phonenumber"></label>
-                    <input asp-for="Input.Phonenumber" class="form-control" />
-                    <span asp-validation-for="Input.Phonenumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.PaymentMethod"></label>
-                    <input asp-for="Input.PaymentMethod" class="form-control" />
-                    <span asp-validation-for="Input.PaymentMethod" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.ConfirmPassword"></label>
-                    <input asp-for="Input.ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
-            </form>
-        </div>
-    </div>
+	    <dd class = "col-sm-10">
+		    @Model.CurrentUserAdmin.WorkAddress)
+	    </dd>
+
+	    <dd class = "col-sm-10">
+		    @Model.CurrentUserAdmin.PaymentMethod
+	    </dd>
+
+	    <dd class = "col-sm-10">
+		    @Model.CurrentUserAdmin.Machines
+	    </dd>
+	   
+    </dl>
 </div>
 
 <div>
@@ -69,3 +39,18 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+@*<div class="row">
+	<div class="col-md-6">
+		<form asp-action="UserAdminDetails">
+			<h4>User Admin</h4>
+			<hr />
+			<div asp-validation-summary="All" class="text-danger"></div>
+
+               
+			<div class="form-group">
+				<input type="submit" value="Create" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>*@
