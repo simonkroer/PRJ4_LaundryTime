@@ -1,4 +1,4 @@
-﻿@model UserAdminViewModel
+﻿@model UserAdmin
 @{
     ViewData["Title"] = "Details";
 }
@@ -9,23 +9,23 @@
     <dl class="row">
 		
 	    <dd class = "col-sm-10">
-		    @Model.CurrentUserAdmin.Name
+		    @Model.Name
 	    </dd>
 
 	    <dd class = "col-sm-10">
-		    @Model.CurrentUserAdmin.Email)
+		    @Model.Email)
 	    </dd>
 
 	    <dd class = "col-sm-10">
-		    @Model.CurrentUserAdmin.WorkAddress)
+		    @Model.WorkAddress)
 	    </dd>
 
 	    <dd class = "col-sm-10">
-		    @Model.CurrentUserAdmin.PaymentMethod
+		    @Model.PaymentMethod
 	    </dd>
 
 	    <dd class = "col-sm-10">
-		    @Model.CurrentUserAdmin.Machines
+		    @Model.Machines
 	    </dd>
 	   
     </dl>

@@ -112,6 +112,7 @@ namespace LaundryTime.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Get UserAdminDetails=================================================================
         public async Task<IActionResult> UserAdminDetails(string username)
         {
             if(username == null)
