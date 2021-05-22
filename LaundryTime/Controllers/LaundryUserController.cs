@@ -18,7 +18,7 @@ namespace LaundryTime.Controllers
     {
         private readonly ApplicationDbContext _context;
         private IDataAccessAction _dataAccess;
-        
+
         public LaundryUserController(ApplicationDbContext context)
         {
             _context = context;
@@ -43,7 +43,7 @@ namespace LaundryTime.Controllers
                 BookingSeeder bs = new BookingSeeder();
                 var datemodel = bs.CreateDateModel(_context, obj.Datedata.Date.ToString());
                 bs.CreateNewBookList(_context, datemodel);
-                
+
             }
             bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
 
@@ -113,7 +113,7 @@ namespace LaundryTime.Controllers
                     model.MachineName = booking.Machine.MachineId;
                     model.MachineType = booking.Machine.Type;
                     model.Time = booking.Time;
-                    
+
                     modelList.Add(model);
                 }
 
@@ -123,32 +123,34 @@ namespace LaundryTime.Controllers
             {
                 Datedata = bookingOrder.Date
             };
-            
+
             return RedirectToAction("AvailableBookings", dvm);
         }
         public async Task<IActionResult> Unbook(long? id)
         {
             var unBookOrder = await _dataAccess.ReservedList.GetUnBookOrder(id);
-            var bookingOrder = await _dataAccess.BookingList.GetBookingListOrder(unBookOrder.OldId);
-
-            if (bookingOrder == null || unBookOrder == null)
+            if (unBookOrder == null)
             {
                 return NotFound();
             }
-            else
-            {
-                bookingOrder.Status = true;
-                _dataAccess.ReservedList.RemoveBooking(unBookOrder);
-                /*Log Entry*/
-                var LUser = User.Identity.Name;
-                var tempUserUn = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
-                var laundryLogUn = new LaundryLog();
-                laundryLogUn.LaundryUser = tempUserUn;
-                laundryLogUn.LogDate = DateTime.Now;
-                laundryLogUn.LogInfo = ($"Unbooked machine {unBookOrder.Machine.MachineId} that was reserved at {unBookOrder.Date} at {unBookOrder.Time}");
-                _dataAccess.LaundryLogs.AddLaundryLog(laundryLogUn);
-                _dataAccess.Complete();
-            }
+            var bookingOrder = await _dataAccess.BookingList.GetBookingListOrder(unBookOrder.OldId);
+
+
+
+
+
+            bookingOrder.Status = true;
+            _dataAccess.ReservedList.RemoveBooking(unBookOrder);
+            /*Log Entry*/
+            var LUser = User.Identity.Name;
+            var tempUserUn = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
+            var laundryLogUn = new LaundryLog();
+            laundryLogUn.LaundryUser = tempUserUn;
+            laundryLogUn.LogDate = DateTime.Now;
+            laundryLogUn.LogInfo = ($"Unbooked machine {unBookOrder.Machine.MachineId} that was reserved at {unBookOrder.Date} at {unBookOrder.Time}");
+            _dataAccess.LaundryLogs.AddLaundryLog(laundryLogUn);
+            _dataAccess.Complete();
+
 
             var ReservedBookingList = await _dataAccess.ReservedList.GetReservedBookingList();
             List<BookingListViewModel> modelList = new List<BookingListViewModel>();
@@ -163,7 +165,7 @@ namespace LaundryTime.Controllers
                     model.MachineName = booking.Machine.MachineId;
                     model.MachineType = booking.Machine.Type;
                     model.Time = booking.Time;
-                    
+
                     modelList.Add(model);
                     _dataAccess.Complete();
                 }
@@ -193,7 +195,7 @@ namespace LaundryTime.Controllers
             modelList.Sort((res1, res2) => res1.Date.CompareTo(res2.Date));
             return View(modelList);
         }
-        
+
         public IActionResult SendMessageToUserAdmin(string message)
         {
             if (message == null)
@@ -209,6 +211,7 @@ namespace LaundryTime.Controllers
                 msg.SendDate = DateTime.Now;
                 msg.MessageInfo = message;
                 msg.isRead = false;
+                
                 if (!ModelState.IsValid)
                 {
                     return NotFound();

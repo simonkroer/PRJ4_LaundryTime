@@ -116,7 +116,6 @@ namespace LaundryTime.Xunit.Test
 
         #endregion
 
-
         #region AvailableBookings
 
         [Fact]
@@ -179,7 +178,7 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("LaundryUser", "LaundryUser")
+                        new Claim("LaundryUser", "IsLaundryUser")
                     }))
                 }
             };
@@ -205,7 +204,7 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("LaundryUser", "LaundryUser")
+                        new Claim("LaundryUser", "IsLaundryUser")
                     }))
                 }
             };
@@ -225,6 +224,36 @@ namespace LaundryTime.Xunit.Test
             Dispose();
         }
 
+        [Fact]
+        public async Task Book_AuthorizedUser_BookNotFound_ExpectedResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+            BookingSeeder bs = new BookingSeeder();
+            bs.CreateNewBookList(_context, bs.CreateDateModel(_context, "2021-05-21"));
+            var bookinglist = _context.BookingListModels.ToList();
+            
+            
+            int Id = bookinglist.Count +1; // Sikre at skaffe et id et større end antal bookings i databasen
+
+            var res = _uut.Book(Id); 
+            var tmp = res.Result;
+
+
+            Assert.IsType<NotFoundResult>(tmp);
+
+
+            Dispose();
+        }
+
 
         #endregion
 
@@ -239,7 +268,7 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("LaundryUser", "LaundryUser")
+                        new Claim("LaundryUser", "IsLaundryUser")
                     }))
                 }
             };
@@ -265,7 +294,7 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("LaundryUser", "LaundryUser")
+                        new Claim("LaundryUser", "IsLaundryUser")
                     }))
                 }
             };
@@ -282,7 +311,36 @@ namespace LaundryTime.Xunit.Test
                 .FirstOrDefaultAsync(r => r.OldId == Id);
 
             Assert.Null(reserved);
+            Dispose();
+        }
 
+        [Fact]
+        public async Task UnBook_AuthorizedUser_BookNotFound_ExpectedResult()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+            BookingSeeder bs = new BookingSeeder();
+            bs.CreateNewBookList(_context, bs.CreateDateModel(_context, "2021-05-21"));
+            int Id = 1; // første object i bookingList
+            int Id2 = 2;
+            long Id3 = 3;
+            var booking = await _context.BookingListModels.Include(b => b.Machine).FirstOrDefaultAsync(b => b.Id == Id);
+            var booking2 = await _context.BookingListModels.Include(b => b.Machine).FirstOrDefaultAsync(b => b.Id == Id2);
+            await _uut.Book(Id);
+            await _uut.Book(Id2);
+            var res = _uut.Unbook(Id3);
+            var tmp = res.Result;
+
+
+            Assert.IsType<NotFoundResult>(tmp);
 
 
             Dispose();
@@ -337,6 +395,54 @@ namespace LaundryTime.Xunit.Test
 
             Dispose();
 
+        }
+
+
+        #endregion
+
+        #region SendMessageToUserAdmin
+        [Fact]
+        public void SendMessageToUserAdmin_MessageNull_Expected_View()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            string message = null;
+
+            var res = _uut.SendMessageToUserAdmin(message);
+
+            Assert.IsType<ViewResult>(res);
+            Dispose();
+        }
+
+        [Fact]
+        public void SendMessageToUserAdmin_MessageNotNull_Expected_View()
+        {
+            _uut.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("LaundryUser", "IsLaundryUser")
+                    }))
+                }
+            };
+
+            string message = "Test Message";
+
+            var res = _uut.SendMessageToUserAdmin(message);
+
+            Assert.IsType<RedirectToActionResult>(res);
+            Dispose();
         }
 
 

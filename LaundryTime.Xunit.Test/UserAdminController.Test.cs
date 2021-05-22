@@ -61,7 +61,7 @@ namespace LaundryTime.Xunit.Test
 
             var res = _uut.Index();
 
-            Assert.IsType<Task<IActionResult>>(res);
+            Assert.IsType<ViewResult>(res);
             Dispose();
         }
 
