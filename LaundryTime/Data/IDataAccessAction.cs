@@ -18,5 +18,7 @@ namespace LaundryTime.Data
         public ILaundryLogRepository LaundryLogs { get; }
 
         int Complete();
+
+        Task SaveChanges();
     }
 }

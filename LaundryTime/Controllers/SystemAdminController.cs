@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using static LaundryTime.ViewModels.SystemAdminViewModel;
 using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace LaundryTime.Controllers
 {
@@ -84,14 +85,14 @@ namespace LaundryTime.Controllers
 
                     if (result.Succeeded)
                     {
+
+                        await _userManager.AddClaimAsync(user, new Claim("UserAdmin", "IsUserAdmin"));
+
                         _logger.LogInformation("UserAdmin is created! ");
 
-                        if (User.Identity != null)
-                        {
-                            var systemadmin = _dataAccess.SystemAdmins.GetSingleSystemAdmin(User.Identity.Name);
-                            systemadmin.UserAdmins.Add(user);
-                            _dataAccess.Complete();
-                        }
+                        var systemadmin = _dataAccess.SystemAdmins.GetSingleSystemAdmin(User.Identity.Name);
+                        systemadmin.UserAdmins.Add(user);
+                        _dataAccess.Complete();
 
                         //if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         //{
@@ -120,7 +121,7 @@ namespace LaundryTime.Controllers
                 return NotFound();
             }
 
-            var userAdmin = _dataAccess.UserAdmins.GetUserAdmin(id);
+            var userAdmin = await _dataAccess.UserAdmins.GetUserAdmin(id);
             if (userAdmin == null)
             {
                 return NotFound();
@@ -128,13 +129,54 @@ namespace LaundryTime.Controllers
             return View(userAdmin);
         }
 
-        public async Task<IActionResult> DeleteUserAdmin()
+        public async Task<IActionResult> DeleteUserAdmin(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var userAdmin = await _dataAccess.UserAdmins.GetUserAdmin(id);
+            _dataAccess.UserAdmins.DeleteUser(userAdmin);
+            _dataAccess.Complete();
+
+            return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> EditUserAdmin(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var userAdmin = await _dataAccess.UserAdmins.GetUserAdmin(id);
 
+            if(userAdmin == null)
+            {
+                return NotFound();
+            }
+
+            return View(userAdmin);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUserAdmin(string id,UserAdmin userAdmin)
+        {
+            if (id != userAdmin.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                _dataAccess.UserAdmins.Update(userAdmin);
+                await _dataAccess.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(userAdmin);
+        }
     }
 
 
