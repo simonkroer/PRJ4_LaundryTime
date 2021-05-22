@@ -112,27 +112,19 @@ namespace LaundryTime.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> UserAdminDetails(int? id)
+        public async Task<IActionResult> UserAdminDetails(string username)
         {
-
-            return View();
-        }
-
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            if(username == null)
             {
                 return NotFound();
             }
 
-            var breakfast = await _context.Breakfasts
-                .FirstOrDefaultAsync(m => m.BreakfastId == id);
-            if (breakfast == null)
+            var userAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(username);
+            if (userAdmin == null)
             {
                 return NotFound();
             }
-
-            return View(breakfast);
+            return View(userAdmin);
         }
 
     }
