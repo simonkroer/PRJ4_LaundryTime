@@ -13,6 +13,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
         List<UserAdmin> GetAllUserAdmins();
 
         UserAdmin GetSingleUserAdmin(string username);
+        Task<UserAdmin> GetSingleUserAdminAsync(string username);
         Task<UserAdmin> GetUserAdmin(string id);
         void AddUserAdmin(UserAdmin userAdmin);
 
