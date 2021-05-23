@@ -24,19 +24,18 @@ namespace LaundryTime.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
-            {
-                return RedirectToAction(nameof(Index), "LaundryUser");
-            }
-
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
-            {
-                return RedirectToAction(nameof(Index), "UserAdmin");
-            }
 
             if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 return RedirectToAction(nameof(Index), "SystemAdmin");
+            }
+            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            {
+                return RedirectToAction(nameof(Index), "UserAdmin");
+            }
+            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
+            {
+                return RedirectToAction(nameof(Index), "LaundryUser");
             }
 
             else

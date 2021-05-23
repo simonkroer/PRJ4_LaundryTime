@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace LaundryTime.Controllers
 {
     public class UserAdminController : Controller 
@@ -42,13 +43,21 @@ namespace LaundryTime.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MyUsers(string sortDate, string nameinput)
+        public async Task<IActionResult> MyUsers(string sortDate, string nameinput,string username)
         {
             if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
-                var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
+                if(User.HasClaim("SystemAdmin","IsSystemAdmin"))
+                {
 
-                _userAdminViewModel.MyUsers = currentuser.Users;
+                }
+                else
+                {
+                    var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
+
+                    _userAdminViewModel.MyUsers = currentuser.Users;
+                }
+
 
                 if (!string.IsNullOrEmpty(nameinput))
                 {

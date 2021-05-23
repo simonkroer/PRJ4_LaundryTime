@@ -28,7 +28,7 @@
                         </li>
 
                         @{
-                            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+                            if (User.HasClaim("UserAdmin", "IsUserAdmin") && !User.HasClaim("SystemAdmin","IsSystemAdmin"))
                             {
                                 <li>
                                     <a asp-area="" asp-controller="UserAdmin" asp-action="MyUsers"> My Users</a>

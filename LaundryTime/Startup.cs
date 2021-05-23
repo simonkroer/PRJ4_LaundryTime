@@ -276,6 +276,7 @@ namespace LaundryTime
                 if (result.Succeeded) //Add claim to user
                 {
                     userManager.AddClaimAsync(user1, new Claim("SystemAdmin", "IsSystemAdmin")).Wait();
+                    userManager.AddClaimAsync(user1, new Claim("UserAdmin", "IsUserAdmin")).Wait();
                 }
 
                 //Adding users to SystemAdmin:
