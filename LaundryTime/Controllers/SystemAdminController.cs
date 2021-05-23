@@ -90,7 +90,7 @@ namespace LaundryTime.Controllers
 
                         _logger.LogInformation("UserAdmin is created! ");
 
-                        var systemadmin = _dataAccess.SystemAdmins.GetSingleSystemAdmin(User.Identity.Name);
+                        var systemadmin = await _dataAccess.SystemAdmins.GetSingleSystemAdminAsync(User.Identity.Name);
                         systemadmin.UserAdmins.Add(user);
                         _dataAccess.Complete();
 

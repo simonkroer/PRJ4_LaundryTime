@@ -189,9 +189,6 @@ namespace LaundryTime.Migrations
                     b.Property<DateTime>("SendDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("isRead")
-                        .HasColumnType("bit");
-
                     b.HasKey("MessageId");
 
                     b.HasIndex("LaundryUserId");

@@ -11,7 +11,7 @@ namespace LaundryTime.Data.Repositories.RepositoryInterfaces
         public List<SystemAdmin> GetAllSystemAdmins();
 
         public SystemAdmin GetSingleSystemAdmin(string username);
-
+        Task<SystemAdmin> GetSingleSystemAdminAsync(string username);
         public void AddSystemAdmin(SystemAdmin systemAdmin);
 
         public bool UserExists(string email);
