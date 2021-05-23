@@ -57,6 +57,22 @@ namespace LaundryTime.Data.Repositories
                 .SingleOrDefaultAsync(i => i.UserName == email);
         }
 
+
+
+        public async Task<UserAdmin> GetUserAdmin(string id)
+        {
+
+            return await context.UserAdmins
+                .Include(m => m.Machines)
+                .Include(a => a.WorkAddress)
+                .Include(u => u.Users)
+                    .ThenInclude(s => s.Address)
+                .Include(o => o.Users)
+                    .ThenInclude(l => l.LaundryHistory)
+                .SingleOrDefaultAsync(i => i.Id == id);
+        }
+
+
         public void AddUserAdmin(UserAdmin userAdmin)
         {
             context.UserAdmins.Add(userAdmin);

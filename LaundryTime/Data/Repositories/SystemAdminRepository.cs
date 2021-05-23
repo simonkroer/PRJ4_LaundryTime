@@ -32,12 +32,24 @@ namespace LaundryTime.Data.Repositories
         {
             return context.SystemAdmins
                 .Include(p => p.UserAdmins)
-                .ThenInclude(d => d.Machines)
+                    .ThenInclude(d => d.Machines)
                 .Include(p => p.UserAdmins)
-                .ThenInclude(d => d.Users)
+                    .ThenInclude(d => d.Users)
                 .Include(l => l.LaundryUsers)
-                .ThenInclude(a => a.LaundryHistory)
+                    .ThenInclude(a => a.LaundryHistory)
                 .SingleOrDefault(p => p.UserName == username);
+        }
+
+        public async Task<SystemAdmin> GetSingleSystemAdminAsync(string email)
+        {
+            return await context.SystemAdmins
+                .Include(p => p.UserAdmins)
+                    .ThenInclude(d => d.Machines)
+                .Include(p => p.UserAdmins)
+                    .ThenInclude(d => d.Users)
+                .Include(l => l.LaundryUsers)
+                    .ThenInclude(a => a.LaundryHistory)
+                .SingleOrDefaultAsync(p => p.UserName == email);
         }
 
         public void AddSystemAdmin(SystemAdmin systemAdmin)

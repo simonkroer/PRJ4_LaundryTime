@@ -119,6 +119,11 @@ namespace LaundryTime
 
             app.UseEndpoints(endpoints =>
             {
+	            endpoints.MapControllerRoute(
+		            name: "areas",
+		            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+	            );
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -250,7 +255,7 @@ namespace LaundryTime
             }
 
 
-            //==================== Creating System Admin user =======================
+            //==================== Creating System Admin user ============================================
 
             const string systemAdminEmail = "SystemAdmin@LaundryTime.com";
             const string systemAdminPassword = "Sommer25!";

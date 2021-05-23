@@ -43,6 +43,10 @@ namespace LaundryTime.Data
         {
             return _context.SaveChanges();
         }
+        public async Task SaveChanges()
+        {
+            await _context.SaveChangesAsync();
+        }
 
         public void Dispose()
         {
