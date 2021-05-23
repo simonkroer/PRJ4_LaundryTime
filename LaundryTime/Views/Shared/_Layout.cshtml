@@ -23,7 +23,7 @@
                     <ul class="navbar-nav flex-grow-1 navbar-dark">
                         <li>
                             <a asp-area="" asp-controller="Home" asp-action="Index">
-                                <img width="30" src="~/Images/home.png"/>
+                                <img width="30" src="~/Images/home.png" />
                             </a>
                         </li>
 
@@ -32,7 +32,7 @@
                             {
                                 <li>
                                     <a asp-area="" asp-controller="UserAdmin" asp-action="MyUsers"> My Users</a>
-                                    <br/>
+                                    <br />
                                 </li>
                                 <li>
                                     <a asp-area="" asp-controller="UserAdmin" asp-action="IndexMachines">My Machines</a>
@@ -52,6 +52,17 @@
                                     <a asp-area="" asp-controller="LaundryUser" asp-action="SendMessageToUserAdmin">Send Message</a>
                                 </li>
                                 <br />
+                            }
+                        }
+                        @{
+                            if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
+                            {
+                                <li>
+                                    <a asp-area="" asp-controller="SystemAdmin" asp-action="Index">Control Panel</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="SystemAdmin" asp-action="CreateUserAdmin">Create User Admin</a>
+                                </li>
                             }
                         }
 

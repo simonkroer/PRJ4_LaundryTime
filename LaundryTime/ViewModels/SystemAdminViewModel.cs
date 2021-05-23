@@ -25,5 +25,7 @@ namespace LaundryTime.ViewModels
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
+
+        public Machine Machine { get; set; }
     }
 }
