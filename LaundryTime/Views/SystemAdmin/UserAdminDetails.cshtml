@@ -12,14 +12,18 @@
     <br />
     <table>
         <tr>
+	        <td>
+				<a class="btn btn-primary" asp-controller="UserAdmin" asp-action="IndexMachines" asp-route-username="@Model.UserAdmin.Machines">
+					<i class="fas fa-eye"></i>&nbsp;Show Machines
+				</a>
+	        </td>
+	        <td>
+		        <a class="btn btn-primary" asp-controller="UserAdmin" asp-action="MyUsers" asp-route-username="@Model.UserAdmin.UserName">
+			        <i class="fas fa-users"></i>&nbsp; Show Users</a>
+	        </td>
             <td>
-                <a class="btn btnColor raise" value="Show Machines" asp-controller="UserAdmin" asp-action="IndexMachines" asp-route-username="@Model.UserAdmin.UserName">Show Machines</a>
-            </td>
-            <td>
-                <a class="btn btnColor raise" value="Show Users" asp-controller="UserAdmin" asp-action="MyUsers" asp-route-username="@Model.UserAdmin.UserName">Show Users</a>
-            </td>
-            <td>
-                <a class="btn btnColor raise" type="button" asp-action="Index">Back</a>
+	            <a class="btn btn-primary" asp-action="Index">
+		            <i class="fas fa-backspace"></i>&nbsp;Back</a>
                 </td>
 </tr>
     </table>
