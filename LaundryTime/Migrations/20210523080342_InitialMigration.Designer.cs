@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaundryTime.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210520195752_initMigration")]
-    partial class initMigration
+    [Migration("20210523080342_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -190,6 +190,9 @@ namespace LaundryTime.Migrations
 
                     b.Property<DateTime>("SendDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("isRead")
+                        .HasColumnType("bit");
 
                     b.HasKey("MessageId");
 

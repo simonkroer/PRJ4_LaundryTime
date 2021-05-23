@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LaundryTime.Migrations
 {
-    public partial class initMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -285,7 +285,8 @@ namespace LaundryTime.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SendDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MessageInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LaundryUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    LaundryUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    isRead = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
