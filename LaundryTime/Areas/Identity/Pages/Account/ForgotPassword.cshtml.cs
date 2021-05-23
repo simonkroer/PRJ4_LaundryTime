@@ -84,16 +84,15 @@ namespace LaundryTime.Areas.Identity.Pages.Account
 
         private void SendMail(MailMessage message)
         {
-
             using (SmtpClient smtpClient = new SmtpClient()
             {
                 Host = "smtp-relay.sendinblue.com",
                 Port = 587,
-                UseDefaultCredentials = false, // This require to be before setting Credentials property
+                UseDefaultCredentials = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(_emailAccount.Value.Login, _emailAccount.Value.Password), // you must give a full email address for authentication 
-                TargetName = "STARTTLS/smtp-relay.sendinblue.com", // Set to avoid MustIssueStartTlsFirst exception
-                EnableSsl = false, // Set to avoid secure connection exception
+                Credentials = new NetworkCredential(_emailAccount.Value.Login, _emailAccount.Value.Password),
+                TargetName = "STARTTLS/smtp-relay.sendinblue.com",
+                EnableSsl = false,
             })
                 smtpClient.Send(message);
         }

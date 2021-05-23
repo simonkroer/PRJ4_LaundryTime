@@ -7,18 +7,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="mmContent" style="margin-left: 0">
-    <div class="mmsideMargin">
+<div class="mmContentMachines">
+    <div>
         <img class="rounded float-right imghoover" style="max-width: 120px;" src="~/Images/logo.png" />
-        <h3>Current Machines - @DateTime.Today.ToString("D")</h3>
+        <h2>Current Machines - @DateTime.Today.ToString("D")</h2>
     </div>
     <br />
     <table>
         <tr>
-            <td class="mmAddbtnSide">
+            <td>
                 <input type="button" class="btn btnColor raise" value="Add New Machine" onclick="location.href = '@Url.Action("AddMachines", "UserAdmin")'" />
             </td>
-            <td class="mmAddbtnSide">
+            <td>
                 <input type="button" class="btn btnColor raise" value="Save complete report" onclick="location.href = '@Url.Action("GenerateMyMachinesReport", "UserAdmin")'" />
             </td>
         </tr>
@@ -36,7 +36,7 @@
     <br />
 
     <table class="mytable table-striped">
-        <thead>
+        <thead class="headColor">
         <tr>
             <th>
                 <label>ID</label>

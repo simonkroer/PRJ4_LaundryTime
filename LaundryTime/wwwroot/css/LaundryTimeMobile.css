@@ -97,10 +97,11 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 1;
 }
 
 .bg-opacity-blue {
-    background: rgba(9, 36, 128, 0.9);
+    background: #1b4d89;
 }
 
 .logContent {
@@ -130,7 +131,7 @@ main {
     white-space: nowrap;
     line-height: 60px;
     text-align: center;
-    background: rgba(9, 36, 128, 0.9);
+    background: #1b4d89;
 }
 
 .mytable {
@@ -268,6 +269,11 @@ li {
 .mmContent {
     margin-left: 5%;
     width: 90%;
+}
+
+.mmContentMachines {
+    margin-left: 0;
+    width: 90%
 }
 
 .mmsideMargin {
