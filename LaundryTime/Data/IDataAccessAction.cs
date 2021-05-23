@@ -21,5 +21,7 @@ namespace LaundryTime.Data
         public IMessageToUserAdminRepository MessageList { get; }
 
         int Complete();
+
+        Task SaveChanges();
     }
 }
