@@ -667,7 +667,7 @@ namespace LaundryTime.Xunit.Test
                 }
             };
 
-            var res = _uut.IndexMachines() as ViewResult;
+            var res = _uut.IndexMachines().Result as ViewResult;
             var viewname = res.ViewName;
             var temp = res.Model;
 

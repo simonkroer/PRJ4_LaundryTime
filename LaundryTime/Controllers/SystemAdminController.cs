@@ -122,11 +122,19 @@ namespace LaundryTime.Controllers
                 return NotFound();
             }
 
+            
             _systemAdminViewModel.UserAdmin = await _dataAccess.UserAdmins.GetUserAdmin(id);
+
             if (_systemAdminViewModel.UserAdmin == null)
             {
                 return NotFound();
             }
+            _systemAdminViewModel.CurrentSystemAdmin = await _dataAccess.SystemAdmins.GetSingleSystemAdminAsync(User.Identity.Name);
+            //add currentUserAdminName to persistence
+            _systemAdminViewModel.CurrentSystemAdmin.CurrentUserAdminName = _systemAdminViewModel.UserAdmin.UserName;
+            _dataAccess.SystemAdmins.Update(_systemAdminViewModel.CurrentSystemAdmin);
+            _dataAccess.Complete();
+
             return View(_systemAdminViewModel);
         }
 

@@ -40,7 +40,6 @@ namespace LaundryTime.Xunit.Test
             Seed();
 
             _uut = new LaundryUserController(_context);
-
         }
 
 
