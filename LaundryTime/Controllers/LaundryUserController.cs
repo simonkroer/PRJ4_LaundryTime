@@ -27,200 +27,238 @@ namespace LaundryTime.Controllers
 
         public IActionResult Index()
         {
-            DateViewModel dp = new DateViewModel()
+            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
             {
-                Datedata = DateTime.Now.Date
-            };
-            return View(dp);
+                DateViewModel dp = new DateViewModel()
+                {
+                    Datedata = DateTime.Now.Date
+                };
+                return View(dp);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
         }
 
         public async Task<IActionResult> AvailableBookings(DateViewModel obj)
         {
-            //obj.Datedata = DateTime.Parse("22-04-2021");
-            var bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
-            if (bookingList.Count == 0)
+            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
             {
-                BookingSeeder bs = new BookingSeeder();
-                var datemodel = bs.CreateDateModel(_context, obj.Datedata.Date.ToString());
-                bs.CreateNewBookList(_context, datemodel);
 
-            }
-            bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
 
-            List<BookingListViewModel> modelList = new List<BookingListViewModel>();
-
-            foreach (var booking in bookingList)
-            {
-                if (booking.Status)
+                //obj.Datedata = DateTime.Parse("22-04-2021");
+                var bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
+                if (bookingList.Count == 0)
                 {
-                    BookingListViewModel model = new BookingListViewModel();
-                    model.BookingID = booking.Id;
-                    model.Date = booking.Date;
-                    model.MachineName = booking.Machine.MachineId;
-                    model.MachineType = booking.Machine.Type;
-                    model.Time = booking.Time;
+                    BookingSeeder bs = new BookingSeeder();
+                    var datemodel = bs.CreateDateModel(_context, obj.Datedata.Date.ToString());
+                    bs.CreateNewBookList(_context, datemodel);
 
-                    modelList.Add(model);
                 }
+                bookingList = await _dataAccess.BookingList.GetAllAvalableBookings(obj.Datedata);
 
+                List<BookingListViewModel> modelList = new List<BookingListViewModel>();
+
+                foreach (var booking in bookingList)
+                {
+                    if (booking.Status)
+                    {
+                        BookingListViewModel model = new BookingListViewModel();
+                        model.BookingID = booking.Id;
+                        model.Date = booking.Date;
+                        model.MachineName = booking.Machine.MachineId;
+                        model.MachineType = booking.Machine.Type;
+                        model.Time = booking.Time;
+
+                        modelList.Add(model);
+                    }
+
+                }
+                modelList.Sort((res1, res2) => res1.MachineName.CompareTo(res2.MachineName));
+                return View(modelList);
             }
-            modelList.Sort((res1, res2) => res1.MachineName.CompareTo(res2.MachineName));
-            return View(modelList);
+
+            return Unauthorized();
         }
 
         public async Task<IActionResult> Book(long? id)
         {
-            var bookingOrder = await _dataAccess.BookingList.SingleBook(id);
-            if (bookingOrder == null)
+            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
             {
-                return NotFound();
-            }
-            else
-            {
-                var reservedBookings = new ReservedListModel()
+                var bookingOrder = await _dataAccess.BookingList.SingleBook(id);
+                if (bookingOrder == null)
                 {
-                    Date = bookingOrder.Date,
-                    Machine = bookingOrder.Machine,
-                    Time = bookingOrder.Time,
-                    OldId = bookingOrder.Id,
-                    Name = User.Identity.Name
-                };
-                //_context.ReservedListModels.Add(reservedBookings);
-                _dataAccess.ReservedList.AddSingleReservation(reservedBookings);
-                bookingOrder.Status = false;
-                var LUser = User.Identity.Name;
-                var tempUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
-                var laundryLog = new LaundryLog()
+                    return NotFound();
+                }
+                else
                 {
-                    LaundryUser = tempUser,
-                    LogDate = DateTime.Now,
-                    LogInfo = $"Booked machine {reservedBookings.Machine.MachineId} of the type {reservedBookings.Machine.Type} for {reservedBookings.Date} at {reservedBookings.Time}"
-                };
-                _dataAccess.LaundryLogs.AddLaundryLog(laundryLog);
-                _dataAccess.Complete();
-            }
-
-            var BookingList = await _dataAccess.BookingList.GetBookingList();
-            List<BookingListViewModel> modelList = new List<BookingListViewModel>();
-
-            foreach (var booking in BookingList)
-            {
-                if (booking.Status == true)
-                {
-                    BookingListViewModel model = new BookingListViewModel();
-                    model.BookingID = booking.Id;
-                    model.Date = booking.Date;
-                    model.MachineName = booking.Machine.MachineId;
-                    model.MachineType = booking.Machine.Type;
-                    model.Time = booking.Time;
-
-                    modelList.Add(model);
+                    var reservedBookings = new ReservedListModel()
+                    {
+                        Date = bookingOrder.Date,
+                        Machine = bookingOrder.Machine,
+                        Time = bookingOrder.Time,
+                        OldId = bookingOrder.Id,
+                        Name = User.Identity.Name
+                    };
+                    //_context.ReservedListModels.Add(reservedBookings);
+                    _dataAccess.ReservedList.AddSingleReservation(reservedBookings);
+                    bookingOrder.Status = false;
+                    var LUser = User.Identity.Name;
+                    var tempUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
+                    var laundryLog = new LaundryLog()
+                    {
+                        LaundryUser = tempUser,
+                        LogDate = DateTime.Now,
+                        LogInfo = $"Booked machine {reservedBookings.Machine.MachineId} of the type {reservedBookings.Machine.Type} for {reservedBookings.Date} at {reservedBookings.Time}"
+                    };
+                    _dataAccess.LaundryLogs.AddLaundryLog(laundryLog);
+                    _dataAccess.Complete();
                 }
 
+                var BookingList = await _dataAccess.BookingList.GetBookingList();
+                List<BookingListViewModel> modelList = new List<BookingListViewModel>();
+
+                foreach (var booking in BookingList)
+                {
+                    if (booking.Status == true)
+                    {
+                        BookingListViewModel model = new BookingListViewModel();
+                        model.BookingID = booking.Id;
+                        model.Date = booking.Date;
+                        model.MachineName = booking.Machine.MachineId;
+                        model.MachineType = booking.Machine.Type;
+                        model.Time = booking.Time;
+
+                        modelList.Add(model);
+                    }
+
+                }
+
+                DateViewModel dvm = new DateViewModel()
+                {
+                    Datedata = bookingOrder.Date
+                };
+
+                return RedirectToAction("AvailableBookings", dvm);
             }
 
-            DateViewModel dvm = new DateViewModel()
-            {
-                Datedata = bookingOrder.Date
-            };
+            return Unauthorized();
 
-            return RedirectToAction("AvailableBookings", dvm);
         }
         public async Task<IActionResult> Unbook(long? id)
         {
-            var unBookOrder = await _dataAccess.ReservedList.GetUnBookOrder(id);
-            if (unBookOrder == null)
+            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
             {
-                return NotFound();
-            }
-            var bookingOrder = await _dataAccess.BookingList.GetBookingListOrder(unBookOrder.OldId);
-
-
-
-
-
-            bookingOrder.Status = true;
-            _dataAccess.ReservedList.RemoveBooking(unBookOrder);
-            /*Log Entry*/
-            var LUser = User.Identity.Name;
-            var tempUserUn = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
-            var laundryLogUn = new LaundryLog();
-            laundryLogUn.LaundryUser = tempUserUn;
-            laundryLogUn.LogDate = DateTime.Now;
-            laundryLogUn.LogInfo = ($"Unbooked machine {unBookOrder.Machine.MachineId} that was reserved at {unBookOrder.Date} at {unBookOrder.Time}");
-            _dataAccess.LaundryLogs.AddLaundryLog(laundryLogUn);
-            _dataAccess.Complete();
-
-
-            var ReservedBookingList = await _dataAccess.ReservedList.GetReservedBookingList();
-            List<BookingListViewModel> modelList = new List<BookingListViewModel>();
-
-            foreach (var booking in ReservedBookingList)
-            {
-                if (booking.Name == User.Identity.Name)
+                var unBookOrder = await _dataAccess.ReservedList.GetUnBookOrder(id);
+                if (unBookOrder == null)
                 {
-                    BookingListViewModel model = new BookingListViewModel();
-                    model.BookingID = booking.Id;
-                    model.Date = booking.Date;
-                    model.MachineName = booking.Machine.MachineId;
-                    model.MachineType = booking.Machine.Type;
-                    model.Time = booking.Time;
-
-                    modelList.Add(model);
-                    _dataAccess.Complete();
+                    return NotFound();
                 }
+                var bookingOrder = await _dataAccess.BookingList.GetBookingListOrder(unBookOrder.OldId);
+
+
+
+
+
+                bookingOrder.Status = true;
+                _dataAccess.ReservedList.RemoveBooking(unBookOrder);
+                /*Log Entry*/
+                var LUser = User.Identity.Name;
+                var tempUserUn = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
+                var laundryLogUn = new LaundryLog();
+                laundryLogUn.LaundryUser = tempUserUn;
+                laundryLogUn.LogDate = DateTime.Now;
+                laundryLogUn.LogInfo = ($"Unbooked machine {unBookOrder.Machine.MachineId} that was reserved at {unBookOrder.Date} at {unBookOrder.Time}");
+                _dataAccess.LaundryLogs.AddLaundryLog(laundryLogUn);
+                _dataAccess.Complete();
+
+
+                var ReservedBookingList = await _dataAccess.ReservedList.GetReservedBookingList();
+                List<BookingListViewModel> modelList = new List<BookingListViewModel>();
+
+                foreach (var booking in ReservedBookingList)
+                {
+                    if (booking.Name == User.Identity.Name)
+                    {
+                        BookingListViewModel model = new BookingListViewModel();
+                        model.BookingID = booking.Id;
+                        model.Date = booking.Date;
+                        model.MachineName = booking.Machine.MachineId;
+                        model.MachineType = booking.Machine.Type;
+                        model.Time = booking.Time;
+
+                        modelList.Add(model);
+                        _dataAccess.Complete();
+                    }
+                }
+
+                return View("UsersBookings", modelList);
             }
 
-            return View("UsersBookings", modelList);
+            return Unauthorized();
+
         }
         public async Task<IActionResult> UsersBookings()
         {
-            var BookingList = await _dataAccess.ReservedList.GetReservedBookingList();
-            List<BookingListViewModel> modelList = new List<BookingListViewModel>();
-
-            foreach (var booking in BookingList)
+            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
             {
-                if (booking.Name == User.Identity.Name)
-                {
-                    BookingListViewModel model = new BookingListViewModel();
-                    model.BookingID = booking.Id;
-                    model.Date = booking.Date;
-                    model.MachineName = booking.Machine.MachineId;
-                    model.MachineType = booking.Machine.Type;
-                    model.Time = booking.Time;
+                var BookingList = await _dataAccess.ReservedList.GetReservedBookingList();
+                List<BookingListViewModel> modelList = new List<BookingListViewModel>();
 
-                    modelList.Add(model);
+                foreach (var booking in BookingList)
+                {
+                    if (booking.Name == User.Identity.Name)
+                    {
+                        BookingListViewModel model = new BookingListViewModel();
+                        model.BookingID = booking.Id;
+                        model.Date = booking.Date;
+                        model.MachineName = booking.Machine.MachineId;
+                        model.MachineType = booking.Machine.Type;
+                        model.Time = booking.Time;
+
+                        modelList.Add(model);
+                    }
                 }
+                modelList.Sort((res1, res2) => res1.Date.CompareTo(res2.Date));
+                return View(modelList);
             }
-            modelList.Sort((res1, res2) => res1.Date.CompareTo(res2.Date));
-            return View(modelList);
+
+            return Unauthorized();
         }
 
         public IActionResult SendMessageToUserAdmin(string message)
         {
-            if (message == null)
+            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
             {
-                return View();
-            }
-            else
-            {
-                var msg = new MessageToUserAdmin();
-                var LUser = User.Identity.Name;
-                var tempUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
-                msg.LaundryUser = tempUser;
-                msg.SendDate = DateTime.Now;
-                msg.MessageInfo = message;
-                msg.isRead = false;
-                
-                if (!ModelState.IsValid)
+                if (message == null)
                 {
-                    return NotFound();
+                    return View();
                 }
-                _dataAccess.MessageList.SendMessage(msg);
-                _dataAccess.Complete();
+                else
+                {
+                    var msg = new MessageToUserAdmin();
+                    var LUser = User.Identity.Name;
+                    var tempUser = _dataAccess.LaundryUsers.GetSingleLaundryUser(LUser);
+                    msg.LaundryUser = tempUser;
+                    msg.SendDate = DateTime.Now;
+                    msg.MessageInfo = message;
+                    msg.isRead = false;
 
-                return RedirectToAction(nameof(Index));
+                    if (!ModelState.IsValid)
+                    {
+                        return NotFound();
+                    }
+                    _dataAccess.MessageList.SendMessage(msg);
+                    _dataAccess.Complete();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                
             }
+
+            return Unauthorized();
         }
     }
 }
