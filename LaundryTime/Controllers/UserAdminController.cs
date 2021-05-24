@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace LaundryTime.Controllers
 {
     public class UserAdminController : Controller 
@@ -38,17 +39,26 @@ namespace LaundryTime.Controllers
             }
             
             return Unauthorized();
-            
         }
 
         [HttpGet]
         public async Task<IActionResult> MyUsers(string sortDate, string nameinput)
         {
-            if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.Identity != null && (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin")))
             {
-                var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
+                if(User.HasClaim("SystemAdmin","IsSystemAdmin"))
+                {
+                    //var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(username);
 
-                _userAdminViewModel.MyUsers = currentuser.Users;
+                    //_userAdminViewModel.MyUsers = currentuser.Users;
+                }
+                else
+                {
+                    var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
+
+                    _userAdminViewModel.MyUsers = currentuser.Users;
+                }
+
 
                 if (!string.IsNullOrEmpty(nameinput))
                 {
@@ -116,7 +126,7 @@ namespace LaundryTime.Controllers
 
         public IActionResult DeleteUser(string username)
         {
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 if (username == null)
                 {
@@ -145,7 +155,7 @@ namespace LaundryTime.Controllers
         [HttpGet]
         public IActionResult EditUser(string email)
         {
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 if (email == null)
                 {
@@ -170,7 +180,7 @@ namespace LaundryTime.Controllers
         [HttpPost]
         public IActionResult UpdateUser(UserAdminViewModel viewModel)
         {
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 if (ModelState.IsValid)
                 {
@@ -222,7 +232,7 @@ namespace LaundryTime.Controllers
         [HttpPost]
         public IActionResult ToggleBlockUser(UserAdminViewModel viewModel)
         {
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 if (ModelState.IsValid)
                 {
@@ -265,13 +275,21 @@ namespace LaundryTime.Controllers
 
         public IActionResult IndexMachines()
         {
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 var userAdminViewModel = new UserAdminViewModel();
-
+                UserAdmin currentUser = new UserAdmin();
+ 
                 if (User.Identity != null)
                 {
-                    var currentUser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+                    if(User.HasClaim("SystemAdmin","IsSystemAdmin"))
+                    {
+                        //currentUser = _dataAccess.UserAdmins.GetSingleUserAdmin(username);
+                    }
+                    else
+                    {
+                        currentUser = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+                    }
 
                     userAdminViewModel.MyMachines = currentUser.Machines;
                 }
@@ -286,10 +304,9 @@ namespace LaundryTime.Controllers
         [HttpGet]
         public IActionResult AddMachines()
         {
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 _userAdminViewModel.CurrentMachine = new Machine();
-
                 return View(_userAdminViewModel);
             }
 
@@ -299,15 +316,17 @@ namespace LaundryTime.Controllers
         [HttpPost]
         public IActionResult AddMachines(UserAdminViewModel viewModel)
         {
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 if (!ModelState.IsValid)
                 {
                     return NotFound();
                 }
 
-                if (User.Identity != null)
+                if (User.HasClaim("UserAdmin", "IsUserAdmin"))
                     viewModel.CurrentMachine.UserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
+                else
+                    viewModel.CurrentMachine.UserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(viewModel.CurrentUserAdminUserName);
 
                 _dataAccess.Machines.AddMachine(viewModel.CurrentMachine);
                 _dataAccess.Complete();
@@ -323,7 +342,7 @@ namespace LaundryTime.Controllers
         [HttpPost]
         public IActionResult DeleteMachines(string MachineToDel)
         {
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 if (!ModelState.IsValid)
                 {
@@ -373,7 +392,7 @@ namespace LaundryTime.Controllers
         [HttpPost]
         public IActionResult StartMachine(int id)
         {
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 if (!ModelState.IsValid)
                 {
@@ -391,7 +410,7 @@ namespace LaundryTime.Controllers
         [HttpPost]
         public IActionResult StopMachine(int id)
         {
-            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
                 if (!ModelState.IsValid)
                 {

@@ -6,75 +6,94 @@
     <title>@ViewData["Title"] - LaundryTime</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <link rel="stylesheet" href="~/css/LaundryTimeMobile.css" media="only screen and (max-width: 480px)"/>
     <script src="~/js/Sorting.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-opacity-blue navbar-light border-bottom box-shadow mb-3">
-            <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between text-white">
-                    <ul class="navbar-nav flex-grow-1 navbar-dark">
-                        <li>
-                            <a asp-area="" asp-controller="Home" asp-action="Index">
-                                <img width="30" src="~/Images/home.png"/>
-                            </a>
-                        </li>
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-opacity-blue navbar-light border-bottom box-shadow mb-3">
+			<div class="container">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between text-white">
+					<ul class="navbar-nav flex-grow-1 navbar-dark">
+						<li>
+							<a asp-area="" asp-controller="Home" asp-action="Index">
+								<img width="30" src="~/Images/home.png" />
+							</a>
+						</li>
 
-                        @{
-                            if (User.HasClaim("UserAdmin", "IsUserAdmin"))
-                            {
-                                <li>
-                                    <a asp-area="" asp-controller="UserAdmin" asp-action="MyUsers"> My Users</a>
-                                    <br/>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="UserAdmin" asp-action="IndexMachines">My Machines</a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="UserAdmin" asp-action="GetMessages">My Messages</a>
-                                </li>
-                            }
-                        }
-                        @{
-                            if (User.HasClaim("LaundryUser", "IsLaundryUser"))
-                            {
-                                <li>
-                                    <a asp-area="" asp-controller="LaundryUser" asp-action="UsersBookings"> My Bookings</a>
-                                </li>
-                                <li>
-                                    <a asp-area="" asp-controller="LaundryUser" asp-action="SendMessageToUserAdmin">Send Message</a>
-                                </li>
-                                <br />
-                            }
-                        }
+						@{
+							if (User.HasClaim("UserAdmin", "IsUserAdmin") && !User.HasClaim("SystemAdmin", "IsSystemAdmin"))
+							{
+								<li>
+									<a asp-area="" asp-controller="UserAdmin" asp-action="MyUsers"> My Users</a>
+									<br />
+								</li>
+								<li>
+									<a asp-area="" asp-controller="UserAdmin" asp-action="IndexMachines">My Machines</a>
+								</li>
+								<li>
+									<a asp-area="" asp-controller="UserAdmin" asp-action="GetMessages">My Messages</a>
+								</li>
+							}
+						}
+						@{
+							if (User.HasClaim("LaundryUser", "IsLaundryUser"))
+							{
+								<li>
+									<a asp-area="" asp-controller="LaundryUser" asp-action="UsersBookings"> My Bookings</a>
+								</li>
+								<li>
+									<a asp-area="" asp-controller="LaundryUser" asp-action="SendMessageToUserAdmin">Send Message</a>
+								</li>
+								<br />
+							}
+						}
+						@{
+							if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
+							{
+								<li>
+									<a asp-area="" asp-controller="SystemAdmin" asp-action="Index">Control Panel</a>
+								</li>
+								<li>
+									<a asp-area="" asp-controller="SystemAdmin" asp-action="CreateUserAdmin">Create User Admin</a>
+								</li>
+							}
+						}
 
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
+					</ul>
+					<partial name="_LoginPartial" />
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
 
-<footer class="border-top footer text-muted table-responsive">
-    <div class="container text-white">
-        &copy; 2021 - LaundryTime Aps - All rights reserved - <a type="button" class="raise" onclick="location.href='@Url.Action("ContactUs", "ContactUs")'">Contact us today</a>
-    </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+	<footer class="border-top footer text-muted table-responsive">
+		<div class="container text-white">
+			&copy; 2021 - LaundryTime Aps - All rights reserved - <a type="button" class="raise" onclick="location.href='@Url.Action("ContactUs", "ContactUs")'">Contact us today</a>
+		</div>
+	</footer>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/7e4495bb37.js" crossorigin="anonymous"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -51,8 +51,9 @@ namespace LaundryTime.Controllers
 
 		public IActionResult Index()
 		{
-				_systemAdminViewModel.AllUserAdmins = _dataAccess.UserAdmins.GetAllUserAdmins();
-				return View(_systemAdminViewModel);
+ 		    _systemAdminViewModel.AllUserAdmins = _dataAccess.UserAdmins.GetAllUserAdmins();
+            _systemAdminViewModel.AllUsers = _dataAccess.LaundryUsers.GetAllLaundryUsers();
+            return View(_systemAdminViewModel);
 		}
 
         public IActionResult CreateUserAdmin()
@@ -121,12 +122,12 @@ namespace LaundryTime.Controllers
                 return NotFound();
             }
 
-            var userAdmin = await _dataAccess.UserAdmins.GetUserAdmin(id);
-            if (userAdmin == null)
+            _systemAdminViewModel.UserAdmin = await _dataAccess.UserAdmins.GetUserAdmin(id);
+            if (_systemAdminViewModel.UserAdmin == null)
             {
                 return NotFound();
             }
-            return View(userAdmin);
+            return View(_systemAdminViewModel);
         }
 
         public async Task<IActionResult> DeleteUserAdmin(string id)
@@ -156,10 +157,16 @@ namespace LaundryTime.Controllers
                 return NotFound();
             }
 
-            
-
             return View(_systemAdminViewModel);
         }
+
+        public IActionResult ViewUsers()
+        {
+            _systemAdminViewModel.AllUsers = _dataAccess.LaundryUsers.GetAllLaundryUsers();
+            return View(_systemAdminViewModel);
+        }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

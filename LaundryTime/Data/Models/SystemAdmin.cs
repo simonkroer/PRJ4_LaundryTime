@@ -18,5 +18,7 @@ namespace LaundryTime.Data.Models
 
         [ForeignKey("Id")]
         public List<LaundryUser> LaundryUsers { get; set; }
+
+        public string CurrentUserAdminName { get; set; }
     }
 }

@@ -13,10 +13,15 @@ namespace LaundryTime.Data.Models
     public class UserAdmin: ApplicationUser
     {
         [Required]
+
+        [Display(Name = "Full Name")]
         public string Name { get; set; }
 
+
+        [Display(Name = "Payment Method")]
         public string PaymentMethod { get; set; }
 
+        [Display(Name = "Work Address")]
         [ForeignKey("AddressId")]
         public Address WorkAddress { get; set; }
 
@@ -25,8 +30,10 @@ namespace LaundryTime.Data.Models
 
         public List<Machine> Machines { get; set; }
 
+        [Display(Name = "Financial Balance")]
         public decimal FinancialBalance { get; set; }
 
+        [Display(Name = "Payment Due Date")]
         public DateTime PaymentDueDate { get; set; }
     }
 }

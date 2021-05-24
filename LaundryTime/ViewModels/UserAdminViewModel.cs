@@ -13,6 +13,8 @@ namespace LaundryTime.ViewModels
         [BindProperty]
         public UserAdmin CurrentUserAdmin { get; set; }
 
+        public string CurrentUserAdminUserName { get; set; }
+
         [BindProperty]
         public List<LaundryUser> MyUsers { get; set; }
 
