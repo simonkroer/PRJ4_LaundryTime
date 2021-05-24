@@ -6,6 +6,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
+using LaundryTime.Areas.Identity.Pages.Account;
 using LaundryTime.Controllers;
 using LaundryTime.Data;
 using LaundryTime.Data.Models;
@@ -13,13 +14,16 @@ using LaundryTime.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+using NUnit.Framework.Internal;
 using Twilio.TwiML.Voice;
 using Xunit;
 using Task = System.Threading.Tasks.Task;
@@ -30,7 +34,7 @@ namespace LaundryTime.Xunit.Test
     public class SystemAdminControllerTest
     {
         protected ApplicationDbContext _context { get; set; }
-        protected UserAdminController _uut;
+        protected SystemAdminController _uut;
 
         public SystemAdminControllerTest()
         {
@@ -39,9 +43,10 @@ namespace LaundryTime.Xunit.Test
 
             Seed();
 
-            _uut = new UserAdminController(_context);
-            
-            _uut._userAdminViewModel = Substitute.For<UserAdminViewModel>();
+            _uut = new SystemAdminController()
+
+
+            _uut._systemAdminViewModel = Substitute.For<SystemAdminViewModel>();
         }
 
         #region Index
@@ -54,7 +59,7 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserAdmin", "IsUserAdmin")
+                        new Claim("SystemAdmin", "IsSystemAdmin")
                     }))
                 }
             };
@@ -98,7 +103,7 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("LaundryUser", "IsLaundryUser")
+                        new Claim("SystemAdmin", "IsSystemAdmin")
                     }))
                 }
             };
@@ -122,7 +127,7 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserAdmin", "IsUserAdmin")
+                        new Claim("SystemAdmin", "IsSystemAdmin")
                     }))
                 }
             };
@@ -136,7 +141,7 @@ namespace LaundryTime.Xunit.Test
         }
 
         [Fact]
-        public async Task MyUsers_AuthorizedUser_ExpectedViewNameCorrect_ModelNotNull()
+        public async Task MyAdminUsers_AuthorizedUser_ExpectedViewNameCorrect_ModelNotNull()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -144,23 +149,23 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserAdmin", "IsUserAdmin")
+                        new Claim("SystemAdmin", "IsSystemAdmin")
                     }))
                 }
             };
 
-            //var res = await _uut.MyUsers("", "") as ViewResult;
-            //var viewname = res.ViewName;
-            //var temp = res.Model;
+			var res = await _uut.MyAdminUsers("", "") as ViewResult;
+			var viewname = res.ViewName;
+			var temp = res.Model;
 
-            //Assert.True(string.IsNullOrEmpty(viewname) || viewname == "MyUsers");
-            //Assert.NotNull(temp);
+			Assert.True(string.IsNullOrEmpty(viewname) || viewname == "MyUsers");
+			Assert.NotNull(temp);
 
-            Dispose();
+			Dispose();
         }
 
         [Fact]
-        public void MyUsers_NotAuthorizedUser_Expected_Unauthorized()
+        public void MySystemAdminUsers_NotAuthorizedUser_Expected_Unauthorized()
         {
             _uut.ControllerContext = new ControllerContext
             {
@@ -168,7 +173,7 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("LaundryUser", "IsLaundryUser")
+                        new Claim("SystemAdmin", "IsSystemAdmin")
                     }))
                 }
             };
@@ -180,60 +185,60 @@ namespace LaundryTime.Xunit.Test
         }
 
 
-        #endregion
+		#endregion
 
-        #region SortDate
-        [Fact]
-        public void SortDate_AuthorizedUser_ExpectedRedirectToAction()
-        {
-            _uut.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext
-                {
-                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("UserAdmin", "IsUserAdmin")
-                    }))
-                }
-            };
+		#region SortDate (Bliver ikke brugt af SystemAdmin)
+		[Fact]
+		public void SortDate_AuthorizedUser_ExpectedRedirectToAction()
+		{
+			_uut.ControllerContext = new ControllerContext
+			{
+				HttpContext = new DefaultHttpContext
+				{
+					User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+					{
+						new Claim("UserAdmin", "IsUserAdmin")
+					}))
+				}
+			};
 
-            var res = _uut.SortDate() as RedirectToActionResult;
+			var res = _uut.SortDate() as RedirectToActionResult;
 
-            Assert.NotNull(res);
-            Assert.Equal("MyUsers", res.ActionName);
-            Assert.Equal("sort", res.RouteValues.Values.First());
-            Dispose();
-        }
+			Assert.NotNull(res);
+			Assert.Equal("MyUsers", res.ActionName);
+			Assert.Equal("sort", res.RouteValues.Values.First());
+			Dispose();
+		}
 
 
-        #endregion
+	#endregion
 
-        #region SortName
-        [Fact]
-        public void SortName_AuthorizedUser_ExpectedRedirectToAction()
-        {
-            _uut.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext
-                {
-                    User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("UserAdmin", "IsUserAdmin")
-                    }))
-                }
-            };
+	#region SortName (Bliver ikke brugt af SystemAdmin)
+	[Fact]
+	public void SortName_AuthorizedUser_ExpectedRedirectToAction()
+	{
+		_uut.ControllerContext = new ControllerContext
+		{
+			HttpContext = new DefaultHttpContext
+			{
+				User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+				{
+					new Claim("UserAdmin", "IsUserAdmin")
+				}))
+			}
+		};
 
-            var res = _uut.SortName() as RedirectToActionResult;
+		var res = _uut.SortName() as RedirectToActionResult;
 
-            Assert.NotNull(res);
-            Assert.Equal("MyUsers", res.ActionName);
-            Assert.Equal("", res.RouteValues.Values.First());
-            Dispose();
-        }
-        #endregion
+		Assert.NotNull(res);
+		Assert.Equal("MyUsers", res.ActionName);
+		Assert.Equal("", res.RouteValues.Values.First());
+		Dispose();
+	}
+	#endregion
 
-        #region SearchUser
-        [Fact]
+	#region SearchUser
+	[Fact]
         public void SearchUser_AuthorizedUser_ExpectedRedirectToAction()
         {
             _uut.ControllerContext = new ControllerContext
@@ -353,7 +358,7 @@ namespace LaundryTime.Xunit.Test
 
         #endregion
 
-        #region DeleteUser
+        #region DeleteUserAdmin
         [Fact]
         public void DeleteUser_AuthorizedUser_ExpectedRedirectToAction()
         {
@@ -363,7 +368,7 @@ namespace LaundryTime.Xunit.Test
                 {
                     User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserAdmin", "IsUserAdmin")
+                        new Claim("SystemAdmin", "ISystemAdmin")
                     }))
                 }
             };
