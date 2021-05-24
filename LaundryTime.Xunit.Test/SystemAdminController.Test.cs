@@ -43,7 +43,7 @@ namespace LaundryTime.Xunit.Test
 
             Seed();
 
-            _uut = new SystemAdminController()
+            _uut = new SystemAdminController(_context);
 
 
             _uut._systemAdminViewModel = Substitute.For<SystemAdminViewModel>();
