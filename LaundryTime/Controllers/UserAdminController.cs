@@ -31,7 +31,6 @@ namespace LaundryTime.Controllers
         {
             if (User.HasClaim("UserAdmin", "IsUserAdmin"))
             {
-
                 if (User.Identity != null)
                     _userAdminViewModel.CurrentUserAdmin = _dataAccess.UserAdmins.GetSingleUserAdmin(User.Identity.Name);
 
