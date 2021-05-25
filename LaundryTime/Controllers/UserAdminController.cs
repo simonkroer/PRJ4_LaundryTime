@@ -47,9 +47,9 @@ namespace LaundryTime.Controllers
             {
                 if(User.HasClaim("SystemAdmin","IsSystemAdmin"))
                 {
-                    //var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(username);
+                    var currentuser = await _dataAccess.SystemAdmins.GetCurrentUserAdmin(User.Identity.Name);
 
-                    //_userAdminViewModel.MyUsers = currentuser.Users;
+                    _userAdminViewModel.MyUsers = currentuser.Users;
                 }
                 else
                 {
@@ -97,14 +97,22 @@ namespace LaundryTime.Controllers
         [HttpGet("MyUsersReport")]
         public  async Task<IActionResult> GenerateMyUsersReport()
         {
-            if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.Identity != null && (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin")))
             {
-                var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
+                UserAdmin currentuser = new UserAdmin();
+
+                if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
+                {
+                    currentuser = await _dataAccess.SystemAdmins.GetCurrentUserAdmin(User.Identity.Name);
+                }
+                else
+                {
+                    currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
+                }
 
                 var report = _reportGenerator.GenerateReport(currentuser.Users);
 
                 return File(report.Content, report.Format, report.FileName);
-                
             }
             return Unauthorized();
         }
@@ -112,9 +120,19 @@ namespace LaundryTime.Controllers
         [HttpGet("MyMachinesReport")]
         public async Task<IActionResult> GenerateMyMachinesReport()
         {
-            if (User.Identity != null && User.HasClaim("UserAdmin", "IsUserAdmin"))
+            if (User.Identity != null && (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin")))
             {
-                var currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
+                UserAdmin currentuser = new UserAdmin();
+
+                if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
+                {
+                    currentuser = await _dataAccess.SystemAdmins.GetCurrentUserAdmin(User.Identity.Name);
+                }
+                else
+                {
+                    currentuser = await _dataAccess.UserAdmins.GetSingleUserAdminAsync(User.Identity.Name);
+                }
+
 
                 var report = _reportGenerator.GenerateReport(currentuser.Machines);
 
@@ -272,7 +290,7 @@ namespace LaundryTime.Controllers
             return Unauthorized();
         }
 
-        public IActionResult IndexMachines()
+        public async Task<IActionResult> IndexMachines()
         {
             if (User.HasClaim("UserAdmin", "IsUserAdmin") || User.HasClaim("SystemAdmin", "IsSystemAdmin"))
             {
@@ -281,9 +299,12 @@ namespace LaundryTime.Controllers
  
                 if (User.Identity != null)
                 {
-                    if(User.HasClaim("SystemAdmin","IsSystemAdmin"))
+                    if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
                     {
-                        //currentUser = _dataAccess.UserAdmins.GetSingleUserAdmin(username);
+                        currentUser = await _dataAccess.SystemAdmins.GetCurrentUserAdmin(User.Identity.Name);
+
+                        _userAdminViewModel.MyUsers = currentUser.Users;
+                        _userAdminViewModel.CurrentUserAdminUserName = currentUser.UserName;
                     }
                     else
                     {
