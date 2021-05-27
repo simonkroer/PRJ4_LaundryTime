@@ -190,11 +190,14 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 //Til systemadmin til at oprette de forskellige typer brugere
                 if (User.HasClaim("SystemAdmin", "IsSystemAdmin"))
                 {
-
-                }
-                else
-                {
-                    var user = new UserAdmin() { UserName = Input.Email, Name = Input.Name, Email = Input.Email };
+                    var user = new UserAdmin
+                    {
+                        UserName = Input.Email,
+                        Email = Input.Email,
+                        Name = Input.Name,
+                        PhoneNumber = Input.Phonenumber,
+                        PaymentMethod = Input.PaymentMethod
+                    };
                     var result = await _userManager.CreateAsync(user, Input.Password);
                     if (result.Succeeded)
                     {
@@ -242,6 +245,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                             return LocalRedirect(returnUrl);
                         }
                     }
+
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
@@ -274,7 +278,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
             TwilioClient.Init(_smsAccount.Value.AccountSid, _smsAccount.Value.AuthToken);
 
             var message = MessageResource.Create(
-                from: new Twilio.Types.PhoneNumber(_smsAccount.Value.PhoneNumber),
+                from: new Twilio.Types.PhoneNumber("+17602011068"),
                 body: msg,
                 to: new Twilio.Types.PhoneNumber(number)
             );
