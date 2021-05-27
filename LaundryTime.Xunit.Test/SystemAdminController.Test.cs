@@ -28,7 +28,7 @@ using Twilio.TwiML.Voice;
 using Xunit;
 using Task = System.Threading.Tasks.Task;
 
-
+/*
 namespace LaundryTime.Xunit.Test
 {
     public class SystemAdminControllerTest
@@ -43,11 +43,10 @@ namespace LaundryTime.Xunit.Test
 
             Seed();
 
-            _uut = new SystemAdminController()
-
-
             _uut._systemAdminViewModel = Substitute.For<SystemAdminViewModel>();
         }
+
+
 
         #region Index
         [Fact]
@@ -1036,3 +1035,4 @@ namespace LaundryTime.Xunit.Test
     }
 
 }
+/*
