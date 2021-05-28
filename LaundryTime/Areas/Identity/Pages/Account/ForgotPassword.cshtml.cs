@@ -90,7 +90,7 @@ namespace LaundryTime.Areas.Identity.Pages.Account
                 Port = 587,
                 UseDefaultCredentials = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(_emailAccount.Value.Login, _emailAccount.Value.Password),
+                Credentials = new NetworkCredential("thomasmdaugaard@gmail.com", "1PL4mjN2nIMczVTp"),
                 TargetName = "STARTTLS/smtp-relay.sendinblue.com",
                 EnableSsl = false,
             })

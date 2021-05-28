@@ -45,11 +45,10 @@ namespace LaundryTime.Controllers
             _context = context;
             _dataAccess = new DataAccsessAction(context);
 			_systemAdminViewModel = new SystemAdminViewModel();
-		}
+        }
 
 
-
-		public IActionResult Index()
+        public IActionResult Index()
 		{
  		    _systemAdminViewModel.AllUserAdmins = _dataAccess.UserAdmins.GetAllUserAdmins();
             _systemAdminViewModel.AllUsers = _dataAccess.LaundryUsers.GetAllLaundryUsers();
@@ -72,15 +71,16 @@ namespace LaundryTime.Controllers
             {
 
                 //Til systemadmin til at oprette de forskellige typer brugere
-                    var user = new UserAdmin()
-                    {
-                        UserName = vm.Input.Email,
-                        Email = vm.Input.Email,
-                        Name = vm.Input.Name,
-                        WorkAddress = new Address() { StreetAddress = vm.Input.StreetAddress, Zipcode = vm.Input.Zipcode },
-                        PhoneNumber = vm.Input.Phonenumber,
-                        PaymentMethod = vm.Input.PaymentMethod
-                    };
+                var user = new UserAdmin()
+                {
+                    UserName = vm.Input.Email,
+                    Email = vm.Input.Email,
+                    Name = vm.Input.Name,
+                    WorkAddress = new Address() { StreetAddress = vm.Input.StreetAddress, Zipcode = vm.Input.Zipcode },
+                    PhoneNumber = vm.Input.Phonenumber,
+                    PaymentMethod = vm.Input.PaymentMethod,
+                    EmailConfirmed = true
+                };
 
                     var result = await _userManager.CreateAsync(user, vm.Input.Password);
 
@@ -173,8 +173,6 @@ namespace LaundryTime.Controllers
             _systemAdminViewModel.AllUsers = _dataAccess.LaundryUsers.GetAllLaundryUsers();
             return View(_systemAdminViewModel);
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
