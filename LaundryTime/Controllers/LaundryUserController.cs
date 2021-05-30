@@ -116,7 +116,7 @@ namespace LaundryTime.Controllers
                     _dataAccess.LaundryLogs.AddLaundryLog(laundryLog);
                     _dataAccess.Complete();
                 }
-
+                //Dette bliver ikke brugt. Hvad er dettes formål?
                 var BookingList = await _dataAccess.BookingList.GetBookingList();
                 List<BookingListViewModel> modelList = new List<BookingListViewModel>();
 
