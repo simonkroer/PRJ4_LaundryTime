@@ -692,8 +692,9 @@ namespace LaundryTime.Xunit.Test
             };
 
             var res = _uut.IndexMachines();
+            var result = res.Result;
 
-            Assert.IsType<UnauthorizedResult>(res);
+            Assert.IsType<UnauthorizedResult>(result);
             Dispose();
         }
 
