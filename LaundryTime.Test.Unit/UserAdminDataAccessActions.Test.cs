@@ -31,7 +31,6 @@ namespace LaundryTime.Test.Unit
         [Test]
         public void UserExists_Expected_true()
         {
-
             var temp = _uut.UserAdmins.UserExists("test@test.dk");
 
             Assert.True(temp);
